@@ -1,4 +1,4 @@
-package com.example.delve.upcoming;
+package com.example.delve.nowplaying;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,10 +28,10 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 "overview",
 "release_date"
 })
-public class Result {
+public class NowPlayingResult {
 
 @JsonProperty("popularity")
-private Float popularity;
+private Double popularity;
 @JsonProperty("vote_count")
 private Integer voteCount;
 @JsonProperty("video")
@@ -53,7 +53,7 @@ private List<Integer> genreIds = null;
 @JsonProperty("title")
 private String title;
 @JsonProperty("vote_average")
-private Integer voteAverage;
+private Double voteAverage;
 @JsonProperty("overview")
 private String overview;
 @JsonProperty("release_date")
@@ -62,12 +62,12 @@ private String releaseDate;
 private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
 @JsonProperty("popularity")
-public Float getPopularity() {
+public Double getPopularity() {
 return popularity;
 }
 
 @JsonProperty("popularity")
-public void setPopularity(Float popularity) {
+public void setPopularity(Double popularity) {
 this.popularity = popularity;
 }
 
@@ -172,12 +172,12 @@ this.title = title;
 }
 
 @JsonProperty("vote_average")
-public Integer getVoteAverage() {
+public Double getVoteAverage() {
 return voteAverage;
 }
 
 @JsonProperty("vote_average")
-public void setVoteAverage(Integer voteAverage) {
+public void setVoteAverage(Double voteAverage) {
 this.voteAverage = voteAverage;
 }
 

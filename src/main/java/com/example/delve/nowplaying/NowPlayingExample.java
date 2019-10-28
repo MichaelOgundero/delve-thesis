@@ -1,4 +1,4 @@
-package com.example.delve.upcoming;
+package com.example.delve.nowplaying;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,28 +19,28 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 "dates",
 "total_pages"
 })
-public class UpcomingExample {
+public class NowPlayingExample {
 
 @JsonProperty("results")
-private List<Result> results = null;
+private List<NowPlayingResult> results = null;
 @JsonProperty("page")
 private Integer page;
 @JsonProperty("total_results")
 private Integer totalResults;
 @JsonProperty("dates")
-private Dates dates;
+private NowPlayingDates dates;
 @JsonProperty("total_pages")
 private Integer totalPages;
 @JsonIgnore
 private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
 @JsonProperty("results")
-public List<Result> getResults() {
+public List<NowPlayingResult> getResults() {
 return results;
 }
 
 @JsonProperty("results")
-public void setResults(List<Result> results) {
+public void setResults(List<NowPlayingResult> results) {
 this.results = results;
 }
 
@@ -65,12 +65,12 @@ this.totalResults = totalResults;
 }
 
 @JsonProperty("dates")
-public Dates getDates() {
+public NowPlayingDates getDates() {
 return dates;
 }
 
 @JsonProperty("dates")
-public void setDates(Dates dates) {
+public void setDates(NowPlayingDates dates) {
 this.dates = dates;
 }
 

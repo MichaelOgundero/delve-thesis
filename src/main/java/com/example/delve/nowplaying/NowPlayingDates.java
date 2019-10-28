@@ -1,4 +1,4 @@
-package com.example.delve.upcoming;
+package com.example.delve.nowplaying;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +15,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 "maximum",
 "minimum"
 })
-public class Dates {
+public class NowPlayingDates {
 
 @JsonProperty("maximum")
 private String maximum;

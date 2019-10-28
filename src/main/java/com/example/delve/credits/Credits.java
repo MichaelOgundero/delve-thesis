@@ -1,6 +1,7 @@
-package com.example.delve.upcoming;
+package com.example.delve.credits;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -12,36 +13,49 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-"maximum",
-"minimum"
+"id",
+"cast",
+"crew"
 })
-public class Dates {
+public class Credits {
 
-@JsonProperty("maximum")
-private String maximum;
-@JsonProperty("minimum")
-private String minimum;
+@JsonProperty("id")
+private Integer id;
+@JsonProperty("cast")
+private List<Cast> cast = null;
+@JsonProperty("crew")
+private List<Crew> crew = null;
 @JsonIgnore
 private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-@JsonProperty("maximum")
-public String getMaximum() {
-return maximum;
+@JsonProperty("id")
+public Integer getId() {
+return id;
 }
 
-@JsonProperty("maximum")
-public void setMaximum(String maximum) {
-this.maximum = maximum;
+@JsonProperty("id")
+public void setId(Integer id) {
+this.id = id;
 }
 
-@JsonProperty("minimum")
-public String getMinimum() {
-return minimum;
+@JsonProperty("cast")
+public List<Cast> getCast() {
+return cast;
 }
 
-@JsonProperty("minimum")
-public void setMinimum(String minimum) {
-this.minimum = minimum;
+@JsonProperty("cast")
+public void setCast(List<Cast> cast) {
+this.cast = cast;
+}
+
+@JsonProperty("crew")
+public List<Crew> getCrew() {
+return crew;
+}
+
+@JsonProperty("crew")
+public void setCrew(List<Crew> crew) {
+this.crew = crew;
 }
 
 @JsonAnyGetter
@@ -56,7 +70,7 @@ this.additionalProperties.put(name, value);
 
 @Override
 public String toString() {
-return new ToStringBuilder(this).append("maximum", maximum).append("minimum", minimum).append("additionalProperties", additionalProperties).toString();
+return new ToStringBuilder(this).append("id", id).append("cast", cast).append("crew", crew).append("additionalProperties", additionalProperties).toString();
 }
 
 }

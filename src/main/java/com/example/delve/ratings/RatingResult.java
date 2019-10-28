@@ -1,47 +1,50 @@
-package com.example.delve.upcoming;
+package com.example.delve.ratings;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-"maximum",
-"minimum"
+"iso_3166_1",
+"release_dates"
 })
-public class Dates {
+public class RatingResult {
 
-@JsonProperty("maximum")
-private String maximum;
-@JsonProperty("minimum")
-private String minimum;
+@JsonProperty("iso_3166_1")
+private String iso31661;
+@JsonProperty("release_dates")
+private List<ReleaseDate> releaseDates = null;
 @JsonIgnore
 private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-@JsonProperty("maximum")
-public String getMaximum() {
-return maximum;
+@JsonProperty("iso_3166_1")
+public String getIso31661() {
+return iso31661;
 }
 
-@JsonProperty("maximum")
-public void setMaximum(String maximum) {
-this.maximum = maximum;
+@JsonProperty("iso_3166_1")
+public void setIso31661(String iso31661) {
+this.iso31661 = iso31661;
 }
 
-@JsonProperty("minimum")
-public String getMinimum() {
-return minimum;
+@JsonProperty("release_dates")
+public List<ReleaseDate> getReleaseDates() {
+return releaseDates;
 }
 
-@JsonProperty("minimum")
-public void setMinimum(String minimum) {
-this.minimum = minimum;
+@JsonProperty("release_dates")
+public void setReleaseDates(List<ReleaseDate> releaseDates) {
+this.releaseDates = releaseDates;
 }
 
 @JsonAnyGetter
@@ -56,7 +59,7 @@ this.additionalProperties.put(name, value);
 
 @Override
 public String toString() {
-return new ToStringBuilder(this).append("maximum", maximum).append("minimum", minimum).append("additionalProperties", additionalProperties).toString();
+return new ToStringBuilder(this).append("iso31661", iso31661).append("releaseDates", releaseDates).append("additionalProperties", additionalProperties).toString();
 }
 
 }

@@ -1,48 +1,37 @@
-package com.example.delve.upcoming;
+package com.example.delve.trending;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-"results",
 "page",
-"total_results",
-"dates",
-"total_pages"
+"results",
+"total_pages",
+"total_results"
 })
-public class UpcomingExample {
+public class TrendingExample {
 
-@JsonProperty("results")
-private List<Result> results = null;
 @JsonProperty("page")
 private Integer page;
-@JsonProperty("total_results")
-private Integer totalResults;
-@JsonProperty("dates")
-private Dates dates;
+@JsonProperty("results")
+private List<TrendingResults> results = null;
 @JsonProperty("total_pages")
 private Integer totalPages;
+@JsonProperty("total_results")
+private Integer totalResults;
 @JsonIgnore
 private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
-@JsonProperty("results")
-public List<Result> getResults() {
-return results;
-}
-
-@JsonProperty("results")
-public void setResults(List<Result> results) {
-this.results = results;
-}
 
 @JsonProperty("page")
 public Integer getPage() {
@@ -54,24 +43,14 @@ public void setPage(Integer page) {
 this.page = page;
 }
 
-@JsonProperty("total_results")
-public Integer getTotalResults() {
-return totalResults;
+@JsonProperty("results")
+public List<TrendingResults> getResults() {
+return results;
 }
 
-@JsonProperty("total_results")
-public void setTotalResults(Integer totalResults) {
-this.totalResults = totalResults;
-}
-
-@JsonProperty("dates")
-public Dates getDates() {
-return dates;
-}
-
-@JsonProperty("dates")
-public void setDates(Dates dates) {
-this.dates = dates;
+@JsonProperty("results")
+public void setResults(List<TrendingResults> results) {
+this.results = results;
 }
 
 @JsonProperty("total_pages")
@@ -82,6 +61,16 @@ return totalPages;
 @JsonProperty("total_pages")
 public void setTotalPages(Integer totalPages) {
 this.totalPages = totalPages;
+}
+
+@JsonProperty("total_results")
+public Integer getTotalResults() {
+return totalResults;
+}
+
+@JsonProperty("total_results")
+public void setTotalResults(Integer totalResults) {
+this.totalResults = totalResults;
 }
 
 @JsonAnyGetter
@@ -96,7 +85,7 @@ this.additionalProperties.put(name, value);
 
 @Override
 public String toString() {
-return new ToStringBuilder(this).append("results", results).append("page", page).append("totalResults", totalResults).append("dates", dates).append("totalPages", totalPages).append("additionalProperties", additionalProperties).toString();
+return new ToStringBuilder(this).append("page", page).append("results", results).append("totalPages", totalPages).append("totalResults", totalResults).append("additionalProperties", additionalProperties).toString();
 }
 
 }

@@ -1,47 +1,51 @@
-package com.example.delve.upcoming;
+package com.example.delve.trailer;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-"maximum",
-"minimum"
+"id",
+"results"
 })
-public class Dates {
+public class Trailer {
 
-@JsonProperty("maximum")
-private String maximum;
-@JsonProperty("minimum")
-private String minimum;
+@JsonProperty("id")
+private Integer id;
+@JsonProperty("results")
+private List<TrailerResults> results = null;
 @JsonIgnore
 private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-@JsonProperty("maximum")
-public String getMaximum() {
-return maximum;
+@JsonProperty("id")
+public Integer getId() {
+return id;
 }
 
-@JsonProperty("maximum")
-public void setMaximum(String maximum) {
-this.maximum = maximum;
+@JsonProperty("id")
+public void setId(Integer id) {
+this.id = id;
 }
 
-@JsonProperty("minimum")
-public String getMinimum() {
-return minimum;
+@JsonProperty("results")
+public List<TrailerResults> getResults() {
+return results;
 }
 
-@JsonProperty("minimum")
-public void setMinimum(String minimum) {
-this.minimum = minimum;
+@JsonProperty("results")
+public void setResults(List<TrailerResults> results) {
+this.results = results;
 }
 
 @JsonAnyGetter
@@ -56,7 +60,7 @@ this.additionalProperties.put(name, value);
 
 @Override
 public String toString() {
-return new ToStringBuilder(this).append("maximum", maximum).append("minimum", minimum).append("additionalProperties", additionalProperties).toString();
+return new ToStringBuilder(this).append("id", id).append("results", results).append("additionalProperties", additionalProperties).toString();
 }
 
 }
