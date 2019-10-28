@@ -1,0 +1,100 @@
+
+.rowElements{
+    margin: auto;
+    text-align: center;
+ }
+
+ .borderUpcoming{
+    border-top: 3px solid black;
+    border-bottom: 1px solid yellow;
+    border-left: 3px solid black;
+    border-right: 3px solid black;
+    background-color:#1c1b1b;
+ }
+
+ .borderBottom{
+
+    max-width: 100%;
+    border-bottom: 1px solid yellow;
+    margin:auto;
+    text-align: center;
+ 
+ 
+ }
+ 
+ .imagesUpcoming{
+   background-color: #1c1b1b;
+   max-width: 750px ;
+   margin: auto;
+   padding-left: 45px;
+ }
+ 
+ .UpcomingText{
+    padding-left: 45px;
+    font-weight: bold;
+    font-size: 32pt;
+    text-transform: uppercase;
+    position: relative;
+    top: 20px;
+    color: #fec106;
+ }
+ 
+ .imagesDiv {
+    left: auto;
+ }
+ 
+ .paddingImages {
+    padding-top: 10px;
+    padding-bottom: 20px;
+ 
+ }
+ 
+ .containerDiv {
+    
+   /*border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;*/
+    max-width: 780px;
+    margin: auto;
+    padding-top: 10px;
+ }
+ 
+ .paddingFirst{
+    padding-left: 47px;
+ }
+
+ .paddingCardbody{
+   padding: 0 !important;
+   margin:0 !important;
+
+}
+
+.loader {
+   border: 4px solid #000000; /* Light grey */
+   border-top: 4px solid #fec106; /* yellow */
+   border-radius: 50%;
+   width: 20px;
+   height: 20px;
+   animation: spin 2s linear infinite;
+ }
+ 
+ @keyframes spin {
+   0% { transform: rotate(0deg); }
+   100% { transform: rotate(360deg); }
+ }
+
+ .backgroundUpcoming{
+   max-width: 780px;
+   margin: auto;
+   background: #1c1b1b;
+   border: #1c1b1b;
+ }
+
+ .wrapper {
+   
+}
+
+
+
+
+ 
