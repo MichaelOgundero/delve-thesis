@@ -28,9 +28,9 @@ public class MovieController{
     
 
     Random random = new Random();
-     int page = random.nextInt((500 - 1) + 1) + 1;
-     int result = random.nextInt((19-0)+1) + 0;
-    MovieDTO movieDTO = new MovieDTO(page, result);
+     /*int page = random.nextInt((500 - 1) + 1) + 1;
+     int result = random.nextInt((19-0)+1) + 0;*/
+    MovieDTO movieDTO = null;
 
 
     TodaysFiftyDTO genreSection = new TodaysFiftyDTO();
@@ -119,7 +119,7 @@ public class MovieController{
        List <MovieDTO> movieOfDayDTO = new ArrayList<MovieDTO>();
         Thread.sleep(1000);
         
-        if(!this.today().equals(current)){
+        if(!this.today().equals(current) || movieDTO == null){
             current = this.today();
             Random random = new Random();
             int page = random.nextInt((500 - 1) + 1) + 1;

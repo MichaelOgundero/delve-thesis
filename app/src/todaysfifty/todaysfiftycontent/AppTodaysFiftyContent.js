@@ -181,7 +181,7 @@ class AppTodaysFiftyContent extends Component{
             src={poster} alt="Card image cap" style={{border:"4px solid black", height:"278px", width:"185px",maxHeight:"278px", maxWidth:"185px",}} />
             <CardBody className="paddingCardbody">
                 <CardTitle className="paddingCardbody" style={{color:"#fec106", textTransform:"capitalize", fontSize:"13px"}} title={movie.title}>{movieName}</CardTitle>
-                <CardText className="paddingCardbody" style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}} title={movie.director}>{movie.director}</CardText>
+                <CardText  style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}} title={movie.director}>{movie.director}</CardText>
                   <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
                   <Button  onClick={ ()=>{this.sectionOneOnclick(index)}}  style={{color:"black", position:"absolute", right:"0px"}} color="warning" size="sm"><span> <img max-width="10px" max-height="10px" style={{paddingBottom:"3.5px", paddingRight:"2px"}} src={add} alt=""></img></span>Add</Button>{' '} 
 
@@ -214,8 +214,7 @@ class AppTodaysFiftyContent extends Component{
           src={poster} alt="Card image cap" style={{border:"4px solid black", height:"278px", width:"185px",maxHeight:"278px", maxWidth:"185px",}} />
           <CardBody className="paddingCardbody">
               <CardTitle className="paddingCardbody" style={{color:"#fec106", textTransform:"capitalize", fontSize:"13px"}} title={movie.title}>{movieName}</CardTitle>
-              <CardText className="paddingCardbody" style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}} title={movie.director}>{movie.director}</CardText>
-              <CardText  style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}}>{movie.releaseDate}</CardText>
+              <CardText style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}} title={movie.director}>{movie.director}</CardText>
               <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
               <Button onClick={()=>{this.sectionTwoOnclick(index)}} style={{color:"black", position:"absolute", right:"0px"}} color="warning" size="sm"><span> <img max-width="10px" max-height="10px" style={{paddingBottom:"3.5px", paddingRight:"2px"}} src={add} alt=""></img></span>Add</Button>{' '}           </CardBody>
         </Card>
@@ -246,8 +245,7 @@ class AppTodaysFiftyContent extends Component{
           src={poster} alt="Card image cap" style={{border:"4px solid black", height:"278px", width:"185px",maxHeight:"278px", maxWidth:"185px",}} />
           <CardBody className="paddingCardbody">
               <CardTitle className="paddingCardbody" style={{color:"#fec106", textTransform:"capitalize", fontSize:"13px"}} title={movie.title}>{movieName}</CardTitle>
-              <CardText className="paddingCardbody" style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}} title={movie.director}>{movie.director}</CardText>
-              <CardText  style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}}>{movie.releaseDate}</CardText>
+              <CardText  style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}} title={movie.director}>{movie.director}</CardText>
               <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
               <Button onClick={()=>{this.sectionThreeOnclick(index)}} style={{color:"black", position:"absolute", right:"0px"}} color="warning" size="sm"><span> <img max-width="10px" max-height="10px" style={{paddingBottom:"3.5px", paddingRight:"2px"}} src={add} alt=""></img></span>Add</Button>{' '}           </CardBody>
         </Card>
@@ -279,8 +277,7 @@ class AppTodaysFiftyContent extends Component{
         src={poster} alt="Card image cap" style={{border:"4px solid black", height:"278px", width:"185px",maxHeight:"278px", maxWidth:"185px",}} />
         <CardBody className="paddingCardbody">
             <CardTitle className="paddingCardbody" style={{color:"#fec106", textTransform:"capitalize", fontSize:"13px"}} title={movie.title}>{movieName}</CardTitle>
-            <CardText className="paddingCardbody" style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}} title={movie.director}>{movie.director}</CardText>
-            <CardText  style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}}>{movie.releaseDate}</CardText>
+            <CardText  style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}} title={movie.director}>{movie.director}</CardText>
             <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
             <Button onClick={()=>{this.sectionFourOnclick(index)}} style={{color:"black", position:"absolute", right:"0px"}} color="warning" size="sm"><span> <img max-width="10px" max-height="10px" style={{paddingBottom:"3.5px", paddingRight:"2px"}} src={add} alt=""></img></span>Add</Button>{' '}         </CardBody>
       </Card>
@@ -312,8 +309,7 @@ class AppTodaysFiftyContent extends Component{
         src={poster} alt="Card image cap" style={{border:"4px solid black", height:"278px", width:"185px",maxHeight:"278px", maxWidth:"185px",}} />
         <CardBody className="paddingCardbody">
             <CardTitle className="paddingCardbody" style={{color:"#fec106", textTransform:"capitalize", fontSize:"13px"}} title={movie.title}>{movieName}</CardTitle>
-            <CardText className="paddingCardbody" style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}} title={movie.director}>{movie.director}</CardText>
-            <CardText  style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}}>{movie.releaseDate}</CardText>
+            <CardText style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}} title={movie.director}>{movie.director}</CardText>
             <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
             <Button onClick={()=>{this.sectionFiveOnclick(index)}} style={{color:"black", position:"absolute", right:"0px"}} color="warning" size="sm"><span> <img max-width="10px" max-height="10px" style={{paddingBottom:"3.5px", paddingRight:"2px"}} src={add} alt=""></img></span>Add</Button>{' '}         </CardBody>
       </Card>
