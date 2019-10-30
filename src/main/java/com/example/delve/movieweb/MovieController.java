@@ -11,11 +11,14 @@ import com.example.delve.movie.MovieDTO;
 import com.example.delve.movie.NowPlayingDTO;
 import com.example.delve.movie.NowPlayingSectionDTO;
 import com.example.delve.movie.ReviewsDTO;
+import com.example.delve.movie.SearchDTO;
 import com.example.delve.movie.TodaysFiftyDTO;
 import com.example.delve.movie.TrendingDTO;
 import com.example.delve.movie.UpcomingMovieDTO;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -81,6 +84,22 @@ public class MovieController{
             NowPlayingSectionDTO nowPlayingDTO = new NowPlayingSectionDTO(i);
             movies.add(nowPlayingDTO);
         }
+
+        return movies;
+    }
+
+    @GetMapping("/search/{movie}")
+    public List<Object> getSearch(@PathVariable String movie){
+        List<Object> movies = new ArrayList<Object>();
+
+        for(int i = 0;i<20;i++){
+            SearchDTO searchDTO = new SearchDTO(movie, i);
+            if(searchDTO.getTitle() != null){
+                movies.add(searchDTO);
+            }
+               
+        }
+
 
         return movies;
     }

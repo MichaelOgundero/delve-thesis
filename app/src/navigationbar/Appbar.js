@@ -25,17 +25,41 @@ import {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      value: ''
     };
+
+    this.handleChange = this.handleChange.bind(this);
+    //this.handleSubmit = this.handleSubmit.bind(this);
+    
   }
+
+  handleChange(event){
+    this.setState({
+      value: event.target.value.toUpperCase()
+    });
+  }
+
+
+  handleSubmit(event){
+    if(event.key === 'Enter'){
+      return(
+        <div>Hii</div>
+      )
+    }
+    //event.preventDefault();
+  }
+
+
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
     });
   }
   render() {
+    console.log(this.state.value)
     return (
-     
+      
         <div>
          <div style={{height:"85px", maxHeight:"100px", background: "black"}} className="topNavbarDiv">
           <Navbar  className="topNavbar" style={{background:"black",height:"85px", width: "800px", margin: "auto"}} expand="md">
@@ -62,8 +86,9 @@ import {
                 <Row>
                 <Col sm="12">
                  <InputGroup >
-                 <Input type="text" style={{width:"770px", background:"transparent", border:"none"}} placeholder="Search for a movie"/>
+                 <Input type="text" style={{width:"770px", background:"transparent", border:"none", color:"white"}} placeholder="Search for a movie" value={this.state.value} onChange = {this.handleChange} onKeyPress={this.handleSubmit}/>
                 </InputGroup>
+               
                 </Col>
                 </Row>
               </NavItem>
