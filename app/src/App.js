@@ -4,6 +4,8 @@ import AppHome from './home/homepage/AppHome.js'
 import AppTodaysFifty from './todaysfifty/AppTodaysFifty.js'
 import { Switch, Route } from 'react-router-dom';
 
+import AppSearch from './search/AppSearch.js';
+
 
 
 class App extends Component{
@@ -33,6 +35,7 @@ class App extends Component{
          <Switch>
           <Route exact path='/' component={AppHome}></Route>
           <Route exact path='/todays50' component={AppTodaysFifty}></Route>
+          <Route exact path='/search' component={AppSearch} ></Route>
         </Switch>
       </div>
     )

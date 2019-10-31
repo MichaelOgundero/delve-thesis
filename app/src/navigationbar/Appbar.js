@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-    import { NavLink as Link } from 'react-router-dom';
+import { NavLink as Link, Redirect  } from 'react-router-dom';
 
 import {
   Collapse,
@@ -40,12 +40,14 @@ import {
     });
   }
 
+  redirectToTarget(){
+    this.props.history.push('/search')
+  }
+
 
   handleSubmit(event){
     if(event.key === 'Enter'){
-      return(
-        <div>Hii</div>
-      )
+      return <Redirect exact to="/search"/>
     }
     //event.preventDefault();
   }

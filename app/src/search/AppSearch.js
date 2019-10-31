@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
-import './AppTodaysFifty.css';
+import './AppSearch.css';
 import Appbar from '../navigationbar/Appbar.js';
 import AppFooter from '../footer/AppFooter.js'
-import AppTodaysFiftyContent from './todaysfiftycontent/AppTodaysFiftyContent.js'
+import AppSearchContent from './searchcontent/AppSearchContent.js'
 
 
-class AppTodaysFifty extends Component{
+class AppSearch extends Component{
   constructor(props){
     super(props);
     this.state = {
@@ -20,7 +20,7 @@ class AppTodaysFifty extends Component{
       <div className="page-container">
         <div className="content-wrap">
           <Appbar/>
-          <AppTodaysFiftyContent/>
+          <AppSearchContent/>
           <br></br>
           <br></br>
           <AppFooter/>
@@ -31,4 +31,4 @@ class AppTodaysFifty extends Component{
   
 }
 
-export default AppTodaysFifty;
+export default AppSearch;
