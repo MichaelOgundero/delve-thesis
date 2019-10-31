@@ -15,6 +15,7 @@ import com.example.delve.movie.SearchDTO;
 import com.example.delve.movie.TodaysFiftyDTO;
 import com.example.delve.movie.TrendingDTO;
 import com.example.delve.movie.UpcomingMovieDTO;
+import com.example.delve.search.SearchResult;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -89,17 +90,19 @@ public class MovieController{
     }
 
     @GetMapping("/search/{movie}")
-    public List<Object> getSearch(@PathVariable String movie){
-        List<Object> movies = new ArrayList<Object>();
+    public List<SearchResult> getSearch(@PathVariable String movie){
+        List<SearchResult> movies = new ArrayList<SearchResult>();
 
-        for(int i = 0;i<20;i++){
+        /*for(int i = 0;i<20;i++){
             SearchDTO searchDTO = new SearchDTO(movie, i);
             if(searchDTO.getTitle() != null){
                 movies.add(searchDTO);
             }
                
-        }
-
+        }*/
+        
+        SearchDTO searchDTO = new SearchDTO(movie);
+        movies = searchDTO.getSearchMovies();
 
         return movies;
     }

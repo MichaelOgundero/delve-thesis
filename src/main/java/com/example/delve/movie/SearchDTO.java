@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.example.delve.search.SearchExample;
+import com.example.delve.search.SearchResult;
+
 import org.springframework.web.client.RestTemplate;
 
 public class SearchDTO{
@@ -17,10 +19,10 @@ public class SearchDTO{
     private String releaseDate;
     private String language;
     private List<String> genres;
-    private List<Object> searchMovies;
+    private List<SearchResult> searchMovies;
     
 
-    public SearchDTO(String movie, int i){
+    public SearchDTO(String movie){
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -28,8 +30,9 @@ public class SearchDTO{
         
         this.movies = new HashMap<>();
         this.genres = new ArrayList<>();
+        this.searchMovies = new ArrayList<SearchResult>();
                 
-        if(searchExample.getResults().get(i).getOriginalLanguage().equals("en")){
+        /*if(searchExample.getResults().get(i).getOriginalLanguage().equals("en")){
             this.setTitle(searchExample.getResults().get(i).getTitle());
             this.setPosterPath(searchExample.getResults().get(i).getPosterPath());
             this.setMovieId(searchExample.getResults().get(i).getId());
@@ -41,12 +44,24 @@ public class SearchDTO{
                 this.setGenres(this.translateGenres(searchExample.getResults().get(i).getGenreIds().get(j).toString()));
             }
         
-        }
- 
+        }*/
 
+        for(int i=0;i<searchExample.getResults().size();i++){
+          if(searchExample.getResults().get(i).getOriginalLanguage().equals("en")){
+
+            this.searchMovies.add(searchExample.getResults().get(i));
+
+          }
+        }
+
+       //this.searchMovies =  searchExample.getResults();
 
         
 }
+
+    public List<SearchResult> getSearchMovies(){
+        return this.searchMovies;
+    }
 
 
     public String translateGenres(String genre){
