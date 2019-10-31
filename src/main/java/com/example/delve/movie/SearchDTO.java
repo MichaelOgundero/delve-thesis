@@ -20,8 +20,10 @@ public class SearchDTO{
     private String language;
     private List<String> genres;
     private List<SearchResult> searchMovies;
+    private List<Object> moviesList;
     
 
+  
     public SearchDTO(String movie){
 
         RestTemplate restTemplate = new RestTemplate();
@@ -31,6 +33,7 @@ public class SearchDTO{
         this.movies = new HashMap<>();
         this.genres = new ArrayList<>();
         this.searchMovies = new ArrayList<SearchResult>();
+        this.moviesList = new ArrayList<Object>();
                 
         /*if(searchExample.getResults().get(i).getOriginalLanguage().equals("en")){
             this.setTitle(searchExample.getResults().get(i).getTitle());
@@ -54,10 +57,20 @@ public class SearchDTO{
           }
         }
 
+        /*for(int i=0;i<this.searchMovies.size();i++){
+          this.moviesList.add(this.searchMovies.get(i).getTitle());
+          this.moviesList.add(this.searchMovies.get(i).getId());
+        }*/
+        
+
        //this.searchMovies =  searchExample.getResults();
 
         
 }
+
+    public List<Object> getMovies(){
+      return this.moviesList;
+    }
 
     public List<SearchResult> getSearchMovies(){
         return this.searchMovies;
