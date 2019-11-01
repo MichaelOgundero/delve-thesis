@@ -20,7 +20,7 @@ class AppSearch extends Component{
       <div className="page-container">
         <div className="content-wrap">
           <Appbar/>
-          <AppSearchContent/>
+          <AppSearchContent searchvalue = {this.props.searchvalue}/>
           <br></br>
           <br></br>
           <AppFooter/>

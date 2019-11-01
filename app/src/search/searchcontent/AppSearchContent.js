@@ -6,7 +6,7 @@ CardText, CardBody,
 CardTitle, Button} from 'reactstrap';
 
 import './AppSearchContent.css';
-import star from '../../images/star.png';
+import noPoster from '../../images/imageUnavailable.png';
 import see from '../../images/see.png'
 
 class AppSearchContent extends Component{
@@ -33,7 +33,8 @@ class AppSearchContent extends Component{
  
 
   async getInformation(){
-    const response = await fetch('api/nowPlaying');
+      const x = "joker"
+    const response = await fetch('api/search/' + this.props.searchvalue);
     const body = await response.json();
     this._isMounted && this.setState({
       movies: body,
@@ -56,20 +57,18 @@ class AppSearchContent extends Component{
         if(movie.title.length>27){
            movie.title =  movie.title.substring(0,24) + "..." 
         }
+        let poster = `http://image.tmdb.org/t/p/original${movie.poster_path}`;
+        if(movie.poster_path === null){
+          poster = noPoster;
+        }
 
         return(
           <Col xs="6" sm="4" key={index}>
             <div style={{paddingTop:"25px"}}>
               <Card style={{maxWidth:"185px", borderColor:" #1c1b1b"}}>
-                <CardImg style={{maxHeight:"278px", maxWidth:"185px",height:"278px", width:"auto",border:"4px solid black"}} src={`http://image.tmdb.org/t/p/original${movie.posterPath}`} alt="Card image cap"/>
+                <CardImg style={{maxHeight:"278px", maxWidth:"185px",height:"278px", width:"auto",border:"4px solid black"}} src={poster} alt="Card image cap"/>
                   <CardBody className="paddingCardbody">
-                      <CardTitle className="paddingCardbody" style={{color:"#fec106", textTransform:"capitalize",  fontSize:"13px"}} title={movieName}>{movie.title}</CardTitle>
-
-                      <CardText className="paddingCardbody" style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}}>{movie.director}</CardText>
-                      <CardText>
-                          <p style={{float: "left", paddingRight:"3.5px"}}><img src={star} height="20px" width="20px" border="1px" alt=""></img></p>
-                          <p style={{fontSize:"19px", color:"#FFFFFF"}}>{movie.score}</p>
-                      </CardText>
+                      <CardTitle  style={{color:"#fec106", textTransform:"capitalize",  fontSize:"13px"}} title={movieName}>{movie.title}</CardTitle>
                       <Button  color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
                   </CardBody>
 
@@ -86,7 +85,7 @@ class AppSearchContent extends Component{
             <Container style={{paddingBottom: "10px",width:"100%", display:"block", marginLeft:"auto", marginRight:"auto"}}>
               <div className="borderNowplaying"> 
                 <div>
-                  <p className="nowPlayingText" style={{paddingRight:"5px"}}>Results</p>
+                  <p className="nowPlayingText" style={{paddingRight:"5px"}}>Results for "{this.props.searchvalue}"</p>
                 </div> 
               </div>
               <div className="imagesNowPlaying"> 

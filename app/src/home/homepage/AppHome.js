@@ -15,29 +15,33 @@ class AppHome extends Component{
   constructor(props){
     super(props);
     this.state = {
-      isLoading: true
+      isLoading: true,
+      searchValue: " "
     }
+    //this.getSearchValue = this.getSearchValue.bind(this);
+    this.handleLanguage = this.handleLanguage.bind(this);
+   //this.sendSearchValue = this.sendSearchValue.bind(this);
   }
 
-  handler =(somevalue)=> {
-    this.setState({
-      isLoading: somevalue
-    })
+  handleLanguage(value){
+    this.setState({searchValue: value});
+    this.props.getSearchValue(value);
   }
-  
-  
+
+
 
   
- 
-
   render(){
 
+    console.log(this.state.searchValue + " got it")
+   // this.sendSearchValue()
+
     
-  
+
     return(
       <div className="page-container">
         <div className="content-wrap">
-          <Appbar/>
+          <Appbar handleLanguage={this.handleLanguage}/>
           <Appcarousel/>
           <AppNowPlaying/>
           <AppUpcoming/>

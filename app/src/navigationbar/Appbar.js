@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
+import { PropTypes } from 'react'
 
-import { NavLink as Link, Redirect  } from 'react-router-dom';
+import { NavLink as Link} from 'react-router-dom';
 
 import {
   Collapse,
@@ -11,6 +12,8 @@ import {
   NavItem,
    NavLink ,
    Col,
+   Button,
+   InputGroupAddon,
   Input,
   InputGroup,
    Row} from 'reactstrap';
@@ -30,7 +33,7 @@ import {
     };
 
     this.handleChange = this.handleChange.bind(this);
-    //this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this); 
     
   }
 
@@ -38,18 +41,18 @@ import {
     this.setState({
       value: event.target.value.toUpperCase()
     });
+   // this.props.handleLanguage(event.target.value)
+   
   }
 
-  redirectToTarget(){
-    this.props.history.push('/search')
-  }
+ 
 
 
   handleSubmit(event){
-    if(event.key === 'Enter'){
-      return <Redirect exact to="/search"/>
-    }
-    //event.preventDefault();
+    //console.log(event.target.value)
+    this.props.handleLanguage(this.state.value)
+    console.log("sent")
+    //this.props.getValue(event.target.value);
   }
 
 
@@ -58,6 +61,8 @@ import {
       isOpen: !this.state.isOpen
     });
   }
+
+
   render() {
     console.log(this.state.value)
     return (
@@ -88,7 +93,12 @@ import {
                 <Row>
                 <Col sm="12">
                  <InputGroup >
-                 <Input type="text" style={{width:"770px", background:"transparent", border:"none", color:"white"}} placeholder="Search for a movie" value={this.state.value} onChange = {this.handleChange} onKeyPress={this.handleSubmit}/>
+                  <Input type="text" style={{width:"690px", background:"transparent",  color:"white", border:"1px solid #fec106", marginLeft:"0px"}} placeholder="Search for a movie" value={this.state.value} onChange = {this.handleChange}/>
+                  <NavLink style={{ maxHeight:"38px", maxWidth:"75px"}} tag={Link} exact to="/search">
+                  <InputGroupAddon addonType="append">
+                      <Button onClick={this.handleSubmit} style={{maxHeight:"auto", maxWidth:"auto", position:"relative", left:"-8px", top:"-8px"}} outline color="warning">Search</Button>{' '}
+                  </InputGroupAddon>
+                  </NavLink>
                 </InputGroup>
                
                 </Col>
