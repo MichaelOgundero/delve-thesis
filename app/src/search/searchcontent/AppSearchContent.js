@@ -31,10 +31,11 @@ class AppSearchContent extends Component{
     this._isMounted = false;
   }
 
+  
   componentDidUpdate(prevProps){
     if(this.props.searchvalue != prevProps.searchvalue){
       this._isMounted  = true;
-    this._isMounted && this.getInformation();
+      this._isMounted && this.getInformation();
     }
   }
 
@@ -65,20 +66,20 @@ class AppSearchContent extends Component{
 
 
       const columns = movies.map((movie, index) => {
-        let movieName = movie.title;
-        if(movie.title.length>27){
-           movie.title =  movie.title.substring(0,24) + "..." 
-        }
         let poster = `http://image.tmdb.org/t/p/original${movie.poster_path}`;
         if(!movie.hasOwnProperty("poster_path")){
           poster = noPoster;
         }
-
+        let movieName = movie.title;
+        if(movie.title.length>27){
+           movie.title =  movie.title.substring(0,24) + "..." 
+        }
+       
         return(
           <Col xs="6" sm="4" key={index}>
             <div style={{paddingTop:"25px"}}>
               <Card style={{maxWidth:"185px", borderColor:" #1c1b1b"}}>
-                <CardImg style={{maxHeight:"278px", maxWidth:"185px",height:"278px", width:"auto",border:"4px solid black"}} src={poster} alt="Card image cap"/>
+                <CardImg style={{maxHeight:"278px", maxWidth:"185px",height:"278px", width:"auto",border:"4px solid black"}} src={poster} title={movieName} alt="Card image cap"/>
                   <CardBody className="paddingCardbody">
                       <CardTitle  style={{color:"#fec106", textTransform:"capitalize",  fontSize:"13px"}} title={movieName}>{movie.title}</CardTitle>
                       <Button  color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
