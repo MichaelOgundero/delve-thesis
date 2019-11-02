@@ -24,22 +24,34 @@ class AppSearchContent extends Component{
   componentDidMount(){
     this._isMounted  = true;
     this._isMounted && this.getInformation();
+
   }
 
   componentWillUnmount(){
     this._isMounted = false;
   }
 
+  componentDidUpdate(prevProps){
+    if(this.props.searchvalue != prevProps.searchvalue){
+      this._isMounted  = true;
+    this._isMounted && this.getInformation();
+    }
+  }
+
  
 
   async getInformation(){
-      const x = "joker"
-    const response = await fetch('api/search/' + this.props.searchvalue);
-    const body = await response.json();
-    this._isMounted && this.setState({
-      movies: body,
-      isLoading: false
-    });
+
+     
+        const response = await fetch('api/search/' + this.props.searchvalue);
+        const body = await response.json();
+        this._isMounted && this.setState({
+          movies: body,
+          isLoading: false
+        });
+        
+      
+
   }
 
     render() {
@@ -78,9 +90,9 @@ class AppSearchContent extends Component{
           </Col>
         );
       });
-
+    
         return (
-          
+
           <div className="containerDiv">
             <Container style={{paddingBottom: "10px",width:"100%", display:"block", marginLeft:"auto", marginRight:"auto"}}>
               <div className="borderNowplaying"> 

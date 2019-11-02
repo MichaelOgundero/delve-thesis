@@ -42,7 +42,7 @@ class App extends Component{
 
   getSearch(){
     return (
-      <AppSearch searchvalue = {this.state.searchValue} />
+      <AppSearch searchvalue = {this.state.searchValue}  getSearchValue={this.getSearchValue} />
     )
   }
   

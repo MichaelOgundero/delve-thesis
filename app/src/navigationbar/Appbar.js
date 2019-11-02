@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { PropTypes } from 'react'
+
 
 import { NavLink as Link} from 'react-router-dom';
 
@@ -42,23 +42,29 @@ import {
       value: event.target.value
     });
    // this.props.handleLanguage(event.target.value)
-   
+  
   }
 
   handleKeyPress(event){
     if(event.key === 'Enter'){
       console.log(this.state.value)
-      //this.props.handleSearch("joker")
+      
     }
   }
  
 
   handleSubmit(event){
     //console.log(event.target.value)
-    this.props.handleSearch(this.state.value)
-    //this.props.handleSearchPage(this.state.value)
+    //if(!this.state.value === " "){
+      this.props.handleSearch(this.state.value)
+ 
+   /* }else{
+      this.props.handleSearchPage(this.state.value)
+    }*/
+   
+    //this.props.handleSearch(this.state.searchPageValue)
     console.log("sent")
-    //this.props.getValue(event.target.value);
+ 
   }
 
 
