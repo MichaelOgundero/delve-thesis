@@ -34,19 +34,24 @@ import {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this); 
-    
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   handleChange(event){
     this.setState({
-      value: event.target.value.toUpperCase()
+      value: event.target.value
     });
    // this.props.handleLanguage(event.target.value)
    
   }
 
+  handleKeyPress(event){
+    if(event.key === 'Enter'){
+      console.log(this.state.value)
+      this.props.handleSearch(this.state.value)
+    }
+  }
  
-
 
   handleSubmit(event){
     //console.log(event.target.value)
@@ -94,7 +99,7 @@ import {
                 <Row>
                 <Col sm="12">
                  <InputGroup >
-                  <Input type="text" style={{width:"690px", background:"transparent",  color:"white", border:"1px solid #fec106", marginLeft:"0px"}} placeholder="Search for a movie" value={this.state.value} onChange = {this.handleChange}/>
+                  <Input type="text" style={{width:"690px", background:"transparent",  color:"white", border:"1px solid #fec106", marginLeft:"0px"}} placeholder="Search for a movie" value={this.state.value} onChange = {this.handleChange} onKeyPress={this.handleKeyPress}/>
                   <NavLink style={{ maxHeight:"38px", maxWidth:"75px"}} tag={Link} exact to="/search">
                   <InputGroupAddon addonType="append">
                       <Button onClick={this.handleSubmit} style={{maxHeight:"auto", maxWidth:"auto", position:"relative", left:"-8px", top:"-8px"}} outline color="warning">Search</Button>{' '}

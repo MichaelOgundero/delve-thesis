@@ -58,7 +58,7 @@ class AppSearchContent extends Component{
            movie.title =  movie.title.substring(0,24) + "..." 
         }
         let poster = `http://image.tmdb.org/t/p/original${movie.poster_path}`;
-        if(movie.poster_path === null){
+        if(!movie.hasOwnProperty("poster_path")){
           poster = noPoster;
         }
 

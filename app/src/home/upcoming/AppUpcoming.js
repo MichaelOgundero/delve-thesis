@@ -8,6 +8,7 @@ import './AppUpcoming.css';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import see from '../../images/see.png'
+import noPoster from '../../images/imageUnavailable.png';
 
 
 
@@ -80,13 +81,17 @@ class AppUpcoming extends Component{
         if(movie.title.length>27){
            movie.title =  movie.title.substring(0,24) + "..." 
         }
+        let poster = `http://image.tmdb.org/t/p/original${movie.poster_path}`;
+        if(!movie.hasOwnProperty("poster_path")){
+          poster = noPoster;
+        }
 
       return(
 
         <div style={{paddingTop:"25px"}} key={index}>
         <Card style={{maxWidth:"185px", borderColor:" #1c1b1b"}}>
           <CardImg  
-            src={`http://image.tmdb.org/t/p/original${movie.poster_path}`} alt="Card image cap" style={{border:"4px solid black", height:"278px", width:"185px",maxHeight:"278px", maxWidth:"185px",}} />
+            src={poster} alt="Card image cap" style={{border:"4px solid black", height:"278px", width:"185px",maxHeight:"278px", maxWidth:"185px",}} />
             <CardBody className="paddingCardbody">
                 <CardTitle className="paddingCardbody" style={{color:"#fec106", textTransform:"capitalize", fontSize:"13px"}} title={movieName}>{movie.title}</CardTitle>
                 <CardText className="paddingCardbody" style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}} title={movie.director}>{movie.director}</CardText>
