@@ -69,7 +69,7 @@ public class MovieController {
 
         List<NowPlayingCarouselResult> movies = new ArrayList<NowPlayingCarouselResult>();
        
-            
+        Thread.sleep(1000);
             NowPlayingDTO nowPlayingDTO = new NowPlayingDTO();
             movies = nowPlayingDTO.getNowPlayingCarousel();
         
@@ -81,6 +81,7 @@ public class MovieController {
     public List<NowPlayingResult> getNowPlaying() throws InterruptedException {
 
         List<NowPlayingResult> movies = new ArrayList<NowPlayingResult>();
+        Thread.sleep(1000);
             NowPlayingSectionDTO nowPlayingDTO = new NowPlayingSectionDTO();
             movies = nowPlayingDTO.getNowPlaying();
             return movies;
@@ -89,7 +90,8 @@ public class MovieController {
        
 
     @GetMapping("/search/{movie}")
-    public List<SearchResult> getSearch(@PathVariable String movie) {
+    public List<SearchResult> getSearch(@PathVariable String movie) throws InterruptedException {
+        Thread.sleep(1000);
         List<SearchResult> movies = new ArrayList<SearchResult>();
         SearchDTO searchDTO = new SearchDTO(movie);
         movies = searchDTO.getSearchMovies();
@@ -102,7 +104,7 @@ public class MovieController {
 
         List<Result> movies = new ArrayList<Result>();
         
-
+        Thread.sleep(1000);
             UpcomingMovieDTO upcomingMovieDTO = new UpcomingMovieDTO();
             movies = upcomingMovieDTO.getUpcoming();
         

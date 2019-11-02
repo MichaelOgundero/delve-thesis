@@ -48,7 +48,7 @@ import {
   handleKeyPress(event){
     if(event.key === 'Enter'){
       console.log(this.state.value)
-      this.props.handleSearch(this.state.value)
+      //this.props.handleSearch("joker")
     }
   }
  
