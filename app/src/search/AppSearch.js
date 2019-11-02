@@ -9,8 +9,16 @@ class AppSearch extends Component{
   constructor(props){
     super(props);
     this.state = {
-      isLoading: true
+      isLoading: true,
+      searchValue: " "
     }
+
+    this.handleSearchPage = this.handleSearchPage.bind(this);
+  }
+
+  handleSearchPage(value){
+    this.setState({searchValue: value})
+    this.props.getSearchValue(value);
   }
 
 
@@ -19,7 +27,7 @@ class AppSearch extends Component{
     return(
       <div className="page-container">
         <div className="content-wrap">
-          <Appbar/>
+          <Appbar handleSearchPage={this.handleSearchPage}/>
           <AppSearchContent searchvalue = {this.props.searchvalue}/>
           <br></br>
           <br></br>

@@ -50,7 +50,8 @@ import {
 
   handleSubmit(event){
     //console.log(event.target.value)
-    this.props.handleLanguage(this.state.value)
+    this.props.handleSearch(this.state.value)
+    //this.props.handleSearchPage(this.state.value)
     console.log("sent")
     //this.props.getValue(event.target.value);
   }

@@ -196,7 +196,7 @@ class Appcarousel extends Component {
      
       movieTrailers.push(movie.youtubeKey);
       movieTitles.push(movie.title)
-      console.log(movie.movieId)
+      console.log(movie.id)
       return (
         <CarouselItem
           className="custom-tag"
@@ -207,7 +207,7 @@ class Appcarousel extends Component {
           
            
         >
-          <img className = "centerImage"  src={`http://image.tmdb.org/t/p/w780${movie.backdropPath}`} alt="" />
+          <img className = "centerImage"  src={`http://image.tmdb.org/t/p/w780${movie.backdrop_path}`} alt="" />
           <CarouselCaption  className="content"  captionText={this.getOverviewButton(movie, activeIndex)} captionHeader={movie.title} />
         </CarouselItem>
       );

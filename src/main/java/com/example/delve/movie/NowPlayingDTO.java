@@ -1,14 +1,17 @@
 package com.example.delve.movie;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.web.client.RestTemplate;
-import com.example.delve.nowplaying.NowPlayingExample;
+import com.example.delve.nowplayingcarousel.NowPlayingCarouselExample;
+import com.example.delve.nowplayingcarousel.NowPlayingCarouselResult;
 
 import com.example.delve.trailer.Trailer;
 
 public class NowPlayingDTO{
-    private NowPlayingExample nowPlayingExample;
+    private NowPlayingCarouselExample nowPlayingExample;
     
     private Trailer trailerExample;
     private HashMap<String, Object> movies;
@@ -17,31 +20,47 @@ public class NowPlayingDTO{
     private String backdropPath;
     private int movieId;
     private String youtubeKey;
+    private List<NowPlayingCarouselResult> nowPlayingCarousel;
 
 
-    public NowPlayingDTO(int i){
+    public NowPlayingDTO(){
         RestTemplate restTemplate = new RestTemplate();
-        this.nowPlayingExample = restTemplate.getForObject("https://api.themoviedb.org/3/movie/now_playing?api_key=623eeab48528051330ddc3ca73959483&language=en-US&page=1&region=HU", NowPlayingExample.class);
+        this.nowPlayingExample = restTemplate.getForObject("https://api.themoviedb.org/3/movie/now_playing?api_key=623eeab48528051330ddc3ca73959483&language=en-US&page=1&region=HU", NowPlayingCarouselExample.class);
 
         this.movies = new HashMap<>();
+        this.nowPlayingCarousel = new ArrayList<NowPlayingCarouselResult>();
 
-        this.setTitle(nowPlayingExample.getResults().get(i).getTitle());
+        /*this.setTitle(nowPlayingExample.getResults().get(i).getTitle());
         this.setOverview(nowPlayingExample.getResults().get(i).getOverview());
         this.setBackdropPath(nowPlayingExample.getResults().get(i).getBackdropPath());
-        this.setMovieId(nowPlayingExample.getResults().get(i).getId());
+        this.setMovieId(nowPlayingExample.getResults().get(i).getId());*/
 
 
         RestTemplate restTemplateYtKey = new RestTemplate();
-        this.trailerExample = restTemplateYtKey.getForObject("https://api.themoviedb.org/3/movie/"+nowPlayingExample.getResults().get(i).getId()+"/videos?api_key=623eeab48528051330ddc3ca73959483&language=en-US", Trailer.class);
+        /* this.trailerExample = restTemplateYtKey.getForObject("https://api.themoviedb.org/3/movie/"+nowPlayingExample.getResults().get(i).getId()+"/videos?api_key=623eeab48528051330ddc3ca73959483&language=en-US", Trailer.class);
         for(int j=0;j<trailerExample.getResults().size();j++){
             if(trailerExample.getResults().get(j).getType().contentEquals("Trailer")){
                 this.setYoutubeKey(trailerExample.getResults().get(j).getKey());
             }
+        }*/
+        for(int i=0;i<nowPlayingExample.getResults().size()-2;i++){
+            this.trailerExample = restTemplateYtKey.getForObject("https://api.themoviedb.org/3/movie/"+nowPlayingExample.getResults().get(i).getId()+"/videos?api_key=623eeab48528051330ddc3ca73959483&language=en-US", Trailer.class);
+            for(int j=0;j<trailerExample.getResults().size();j++){
+                if(trailerExample.getResults().get(j).getType().contentEquals("Trailer")){
+                    nowPlayingExample.getResults().get(i).setyoutubeKey(trailerExample.getResults().get(j).getKey());
+                }
+            }
+
+            this.nowPlayingCarousel.add(nowPlayingExample.getResults().get(i));
         }
     
 
 
         
+    }
+
+    public List<NowPlayingCarouselResult> getNowPlayingCarousel(){
+        return this.nowPlayingCarousel;
     }
 
 

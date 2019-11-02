@@ -15,7 +15,11 @@ import com.example.delve.movie.SearchDTO;
 import com.example.delve.movie.TodaysFiftyDTO;
 import com.example.delve.movie.TrendingDTO;
 import com.example.delve.movie.UpcomingMovieDTO;
+import com.example.delve.nowplaying.NowPlayingResult;
+import com.example.delve.nowplayingcarousel.NowPlayingCarouselResult;
 import com.example.delve.search.SearchResult;
+import com.example.delve.trending.TrendingResults;
+import com.example.delve.upcoming.Result;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,114 +29,95 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
-public class MovieController{
+public class MovieController {
 
-    //LocalDate current = this.today();
+    // LocalDate current = this.today();
     LocalDate current = null;
-    
 
     Random random = new Random();
-     /*int page = random.nextInt((500 - 1) + 1) + 1;
-     int result = random.nextInt((19-0)+1) + 0;*/
+    /*
+     * int page = random.nextInt((500 - 1) + 1) + 1; int result =
+     * random.nextInt((19-0)+1) + 0;
+     */
     MovieDTO movieDTO = null;
-
 
     TodaysFiftyDTO genreSection = new TodaysFiftyDTO();
     static List<Integer> pageValues = new ArrayList<Integer>();
     static List<Integer> resultValues = new ArrayList<Integer>();
-    
 
-    Integer[] genreIDs = new Integer[] {28,12,16,35,80,99,18,10751,14,36,27,10402,9648,10749,878,10770,53,10752,37};
-    
-  
-   public List<Integer> getGenres(){
-       List<Integer> abc = new ArrayList<Integer>();
+    Integer[] genreIDs = new Integer[] { 28, 12, 16, 35, 80, 99, 18, 10751, 14, 36, 27, 10402, 9648, 10749, 878, 10770,
+            53, 10752, 37 };
 
-        while(abc.size()<5){
+    public List<Integer> getGenres() {
+        List<Integer> abc = new ArrayList<Integer>();
+
+        while (abc.size() < 5) {
             int a = random.nextInt(genreIDs.length);
-            if(!abc.contains(a)){
+            if (!abc.contains(a)) {
                 abc.add(a);
             }
         }
-       return abc;
-   }
+        return abc;
+    }
 
-   List<Integer> listIds = getGenres();
-      //TodaysFiftyDTO xxx = new TodaysFiftyDTO();
-  // List<Integer> pageMax = xxx.getPageMax((genreIDs[listIds.get(0)]));
+    List<Integer> listIds = getGenres();
+    // TodaysFiftyDTO xxx = new TodaysFiftyDTO();
+    // List<Integer> pageMax = xxx.getPageMax((genreIDs[listIds.get(0)]));
 
-   
- 
     @GetMapping("/nowPlayingCarousel")
-    public List<NowPlayingDTO> getNowPlayingCarousel() throws InterruptedException {
+    public List<NowPlayingCarouselResult> getNowPlayingCarousel() throws InterruptedException {
 
-        List<NowPlayingDTO> movies = new ArrayList<NowPlayingDTO>();
-        for(int i=0;i<5;i++){
-            Thread.sleep(2000);
-            NowPlayingDTO nowPlayingDTO = new NowPlayingDTO(i);
-            movies.add(nowPlayingDTO);
-        }
+        List<NowPlayingCarouselResult> movies = new ArrayList<NowPlayingCarouselResult>();
+       
+            
+            NowPlayingDTO nowPlayingDTO = new NowPlayingDTO();
+            movies = nowPlayingDTO.getNowPlayingCarousel();
+        
 
         return movies;
     }
 
     @GetMapping("/nowPlaying")
-    public List<NowPlayingSectionDTO> getNowPlaying() throws InterruptedException {
+    public List<NowPlayingResult> getNowPlaying() throws InterruptedException {
 
-        List<NowPlayingSectionDTO> movies = new ArrayList<NowPlayingSectionDTO>();
-        for(int i=0;i<9;i++){
-            Thread.sleep(2000);
-            NowPlayingSectionDTO nowPlayingDTO = new NowPlayingSectionDTO(i);
-            movies.add(nowPlayingDTO);
-        }
-
-        return movies;
+        List<NowPlayingResult> movies = new ArrayList<NowPlayingResult>();
+            NowPlayingSectionDTO nowPlayingDTO = new NowPlayingSectionDTO();
+            movies = nowPlayingDTO.getNowPlaying();
+            return movies;
     }
 
-    @GetMapping("/search/{movie}")
-    public List<SearchResult> getSearch(@PathVariable String movie){
-        List<SearchResult> movies = new ArrayList<SearchResult>();
+       
 
-        /*for(int i = 0;i<20;i++){
-            SearchDTO searchDTO = new SearchDTO(movie, i);
-            if(searchDTO.getTitle() != null){
-                movies.add(searchDTO);
-            }
-               
-        }*/
-        
+    @GetMapping("/search/{movie}")
+    public List<SearchResult> getSearch(@PathVariable String movie) {
+        List<SearchResult> movies = new ArrayList<SearchResult>();
         SearchDTO searchDTO = new SearchDTO(movie);
         movies = searchDTO.getSearchMovies();
 
         return movies;
     }
-   
 
     @GetMapping("/upcoming")
-    public List<UpcomingMovieDTO> getUpcoming() throws InterruptedException {
+    public List<Result> getUpcoming() throws InterruptedException {
 
-        List<UpcomingMovieDTO> movies = new ArrayList<UpcomingMovieDTO>();
+        List<Result> movies = new ArrayList<Result>();
         
-        for(int i=0;i<6;i++){
-            Thread.sleep(2000);
-            UpcomingMovieDTO upcomingMovieDTO = new UpcomingMovieDTO(i);
-            movies.add(upcomingMovieDTO);
-        }
+
+            UpcomingMovieDTO upcomingMovieDTO = new UpcomingMovieDTO();
+            movies = upcomingMovieDTO.getUpcoming();
+        
 
         return movies;
     }
 
-      @GetMapping("/trending")
-    public List<TrendingDTO> getTrending() throws InterruptedException {
+    @GetMapping("/trending")
+    public List<TrendingResults> getTrending() throws InterruptedException {
 
-        List<TrendingDTO> movies = new ArrayList<TrendingDTO>();
+        List<TrendingResults> movies = new ArrayList<TrendingResults>();
+        Thread.sleep(1000);
+            TrendingDTO trendingDTO = new TrendingDTO();
+            movies = trendingDTO.getTrending();
         
-        for(int i=0;i<10;i++){
-            Thread.sleep(2000);
-            TrendingDTO trendingDTO = new TrendingDTO(i);
-            movies.add(trendingDTO);
-        }
-
         return movies;
     }
 
@@ -140,7 +125,6 @@ public class MovieController{
     public List<MovieDTO> getMovieOfDay() throws InterruptedException {
        List <MovieDTO> movieOfDayDTO = new ArrayList<MovieDTO>();
         Thread.sleep(1000);
-        
         if(!this.today().equals(current) || movieDTO == null){
             current = this.today();
             Random random = new Random();

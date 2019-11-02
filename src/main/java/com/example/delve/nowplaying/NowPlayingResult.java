@@ -58,6 +58,10 @@ private Double voteAverage;
 private String overview;
 @JsonProperty("release_date")
 private String releaseDate;
+@JsonProperty("director")
+private String director;
+@JsonProperty("youtubeKey")
+private String youtubeKey;
 @JsonIgnore
 private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -69,6 +73,26 @@ return popularity;
 @JsonProperty("popularity")
 public void setPopularity(Double popularity) {
 this.popularity = popularity;
+}
+
+@JsonProperty("director")
+public String getDirector() {
+return director;
+}
+
+@JsonProperty("director")
+public void setdirector(String director) {
+this.director = director;
+}
+
+@JsonProperty("youtubeKey")
+public String getyoutubeKey() {
+return youtubeKey;
+}
+
+@JsonProperty("youtubeKey")
+public void setyoutubeKey(String youtubeKey) {
+this.youtubeKey = youtubeKey;
 }
 
 @JsonProperty("vote_count")
@@ -213,7 +237,7 @@ this.additionalProperties.put(name, value);
 
 @Override
 public String toString() {
-return new ToStringBuilder(this).append("popularity", popularity).append("voteCount", voteCount).append("video", video).append("posterPath", posterPath).append("id", id).append("adult", adult).append("backdropPath", backdropPath).append("originalLanguage", originalLanguage).append("originalTitle", originalTitle).append("genreIds", genreIds).append("title", title).append("voteAverage", voteAverage).append("overview", overview).append("releaseDate", releaseDate).append("additionalProperties", additionalProperties).toString();
+return new ToStringBuilder(this).append("popularity", popularity).append("director", director).append("voteCount", voteCount).append("video", video).append("posterPath", posterPath).append("youtubeKey", youtubeKey).append("id", id).append("adult", adult).append("backdropPath", backdropPath).append("originalLanguage", originalLanguage).append("originalTitle", originalTitle).append("genreIds", genreIds).append("title", title).append("voteAverage", voteAverage).append("overview", overview).append("releaseDate", releaseDate).append("additionalProperties", additionalProperties).toString();
 }
 
 }

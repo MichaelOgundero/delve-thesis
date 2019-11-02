@@ -18,12 +18,12 @@ class AppHome extends Component{
       isLoading: true,
       searchValue: " "
     }
-    //this.getSearchValue = this.getSearchValue.bind(this);
-    this.handleLanguage = this.handleLanguage.bind(this);
-   //this.sendSearchValue = this.sendSearchValue.bind(this);
+  
+    this.handleSearch = this.handleSearch.bind(this);
+  
   }
 
-  handleLanguage(value){
+  handleSearch(value){
     this.setState({searchValue: value});
     this.props.getSearchValue(value);
   }
@@ -41,7 +41,7 @@ class AppHome extends Component{
     return(
       <div className="page-container">
         <div className="content-wrap">
-          <Appbar handleLanguage={this.handleLanguage}/>
+          <Appbar handleSearch={this.handleSearch}/>
           <Appcarousel/>
           <AppNowPlaying/>
           <AppUpcoming/>

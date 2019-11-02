@@ -1,4 +1,4 @@
-package com.example.delve.upcoming;
+package com.example.delve.nowplayingcarousel;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,10 +28,10 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 "overview",
 "release_date"
 })
-public class Result {
+public class NowPlayingCarouselResult {
 
 @JsonProperty("popularity")
-private Float popularity;
+private Double popularity;
 @JsonProperty("vote_count")
 private Integer voteCount;
 @JsonProperty("video")
@@ -53,36 +53,36 @@ private List<Integer> genreIds = null;
 @JsonProperty("title")
 private String title;
 @JsonProperty("vote_average")
-private Integer voteAverage;
+private Double voteAverage;
 @JsonProperty("overview")
 private String overview;
 @JsonProperty("release_date")
 private String releaseDate;
-@JsonProperty("director")
-private String director;
+@JsonProperty("youtubeKey")
+private String youtubeKey;
 @JsonIgnore
 private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
 @JsonProperty("popularity")
-public Float getPopularity() {
+public Double getPopularity() {
 return popularity;
 }
 
 @JsonProperty("popularity")
-public void setPopularity(Float popularity) {
+public void setPopularity(Double popularity) {
 this.popularity = popularity;
 }
 
-@JsonProperty("director")
-public String getDirector() {
-return director;
+
+@JsonProperty("youtubeKey")
+public String getyoutubeKey() {
+return youtubeKey;
 }
 
-@JsonProperty("director")
-public void setdirector(String director) {
-this.director = director;
+@JsonProperty("youtubeKey")
+public void setyoutubeKey(String youtubeKey) {
+this.youtubeKey = youtubeKey;
 }
-
 
 @JsonProperty("vote_count")
 public Integer getVoteCount() {
@@ -185,12 +185,12 @@ this.title = title;
 }
 
 @JsonProperty("vote_average")
-public Integer getVoteAverage() {
+public Double getVoteAverage() {
 return voteAverage;
 }
 
 @JsonProperty("vote_average")
-public void setVoteAverage(Integer voteAverage) {
+public void setVoteAverage(Double voteAverage) {
 this.voteAverage = voteAverage;
 }
 
@@ -226,7 +226,7 @@ this.additionalProperties.put(name, value);
 
 @Override
 public String toString() {
-return new ToStringBuilder(this).append("popularity", popularity).append("voteCount", voteCount).append("video", video).append("posterPath", posterPath).append("id", id).append("adult", adult).append("backdropPath", backdropPath).append("originalLanguage", originalLanguage).append("originalTitle", originalTitle).append("genreIds", genreIds).append("title", title).append("voteAverage", voteAverage).append("director", director).append("overview", overview).append("releaseDate", releaseDate).append("additionalProperties", additionalProperties).toString();
+return new ToStringBuilder(this).append("popularity", popularity).append("voteCount", voteCount).append("video", video).append("posterPath", posterPath).append("youtubeKey", youtubeKey).append("id", id).append("adult", adult).append("backdropPath", backdropPath).append("originalLanguage", originalLanguage).append("originalTitle", originalTitle).append("genreIds", genreIds).append("title", title).append("voteAverage", voteAverage).append("overview", overview).append("releaseDate", releaseDate).append("additionalProperties", additionalProperties).toString();
 }
 
 }

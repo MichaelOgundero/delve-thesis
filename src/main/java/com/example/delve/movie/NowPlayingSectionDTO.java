@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.example.delve.credits.Credits;
 import com.example.delve.nowplaying.NowPlayingExample;
+import com.example.delve.nowplaying.NowPlayingResult;
 
 import org.springframework.web.client.RestTemplate;
 
@@ -24,15 +25,17 @@ public class NowPlayingSectionDTO{
     private boolean adult;
     private String director;
     private List<String> genres;
+    private List<NowPlayingResult> nowPlayingMovies;
 
-    public NowPlayingSectionDTO(int i){
+    public NowPlayingSectionDTO(){
         RestTemplate restTemplate = new RestTemplate();
         this.nowPlayingExample = restTemplate.getForObject("https://api.themoviedb.org/3/movie/now_playing?api_key=623eeab48528051330ddc3ca73959483&language=en-US&page=1&region=HU", NowPlayingExample.class);
 
         this.movies = new HashMap<>();
         this.genres = new ArrayList<>();
+        this.nowPlayingMovies = new ArrayList<NowPlayingResult>();
 
-        this.setTitle(nowPlayingExample.getResults().get(i).getTitle());
+        /*this.setTitle(nowPlayingExample.getResults().get(i).getTitle());
         this.setOverview(nowPlayingExample.getResults().get(i).getOverview());
         this.setPosterPath(nowPlayingExample.getResults().get(i).getPosterPath());
         this.setBackdropPath(nowPlayingExample.getResults().get(i).getBackdropPath());
@@ -40,16 +43,31 @@ public class NowPlayingSectionDTO{
         this.setScore(nowPlayingExample.getResults().get(i).getVoteAverage());
         this.setReleaseDate(nowPlayingExample.getResults().get(i).getReleaseDate());
         this.setLanguage(nowPlayingExample.getResults().get(i).getOriginalLanguage());
-        this.setAdult(nowPlayingExample.getResults().get(i).getAdult());
+        this.setAdult(nowPlayingExample.getResults().get(i).getAdult());*/
         
         RestTemplate restTemplateDirector = new RestTemplate();
-        this.credits = restTemplateDirector.getForObject("https://api.themoviedb.org/3/movie/"+nowPlayingExample.getResults().get(i).getId()+"/credits?api_key=623eeab48528051330ddc3ca73959483", Credits.class);
+       /* this.credits = restTemplateDirector.getForObject("https://api.themoviedb.org/3/movie/"+nowPlayingExample.getResults().get(i).getId()+"/credits?api_key=623eeab48528051330ddc3ca73959483", Credits.class);
         for(int j=0;j<credits.getCrew().size();j++){
             if(credits.getCrew().get(j).getJob().contentEquals("Director")){
                 this.setDirector(credits.getCrew().get(j).getName());
              }
         
-        }
+        }*/
+
+        for(int i=0;i<nowPlayingExample.getResults().size();i++){
+            this.credits = restTemplateDirector.getForObject("https://api.themoviedb.org/3/movie/"+nowPlayingExample.getResults().get(i).getId()+"/credits?api_key=623eeab48528051330ddc3ca73959483", Credits.class);
+            for(int j=0;j<credits.getCrew().size();j++){
+                if(credits.getCrew().get(j).getJob().contentEquals("Director")){
+                    nowPlayingExample.getResults().get(i).setdirector(credits.getCrew().get(j).getName());
+                 }
+            }
+            
+            this.nowPlayingMovies.add(nowPlayingExample.getResults().get(i));
+    }
+}
+
+    public List<NowPlayingResult> getNowPlaying(){
+        return this.nowPlayingMovies;
     }
 
 

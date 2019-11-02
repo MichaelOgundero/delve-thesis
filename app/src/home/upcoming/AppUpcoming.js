@@ -86,11 +86,11 @@ class AppUpcoming extends Component{
         <div style={{paddingTop:"25px"}} key={index}>
         <Card style={{maxWidth:"185px", borderColor:" #1c1b1b"}}>
           <CardImg  
-            src={`http://image.tmdb.org/t/p/original${movie.posterPath}`} alt="Card image cap" style={{border:"4px solid black", height:"278px", width:"185px",maxHeight:"278px", maxWidth:"185px",}} />
+            src={`http://image.tmdb.org/t/p/original${movie.poster_path}`} alt="Card image cap" style={{border:"4px solid black", height:"278px", width:"185px",maxHeight:"278px", maxWidth:"185px",}} />
             <CardBody className="paddingCardbody">
                 <CardTitle className="paddingCardbody" style={{color:"#fec106", textTransform:"capitalize", fontSize:"13px"}} title={movieName}>{movie.title}</CardTitle>
-                <CardText className="paddingCardbody" style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}} title={movie.director}>{movie.director.substring(0,20)}</CardText>
-                <CardText  style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}}>{movie.releaseDate}</CardText>
+                <CardText className="paddingCardbody" style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}} title={movie.director}>{movie.director}</CardText>
+                <CardText  style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}}>{movie.release_date}</CardText>
                 <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
             </CardBody>
           </Card>

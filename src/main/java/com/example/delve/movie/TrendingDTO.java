@@ -1,8 +1,11 @@
 package com.example.delve.movie;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.example.delve.trending.TrendingExample;
+import com.example.delve.trending.TrendingResults;
 
 import org.springframework.web.client.RestTemplate;
 
@@ -13,22 +16,27 @@ public class TrendingDTO {
     private String title;
     private String posterPath;
     private int trendingId;
+    private List<TrendingResults> trendingMovies;
 
         
-    public TrendingDTO(int i){
+    public TrendingDTO(){
         RestTemplate restTemplate = new RestTemplate();
 
         this.trendingExample = restTemplate.getForObject("https://api.themoviedb.org/3/trending/movie/week?api_key=623eeab48528051330ddc3ca73959483", TrendingExample.class);
 
-        trendings = new HashMap<>();
+        this.trendings = new HashMap<>();
+        this.trendingMovies = new ArrayList<TrendingResults>();
 
-        this.setTitle(trendingExample.getResults().get(i).getTitle());
-        this.setPosterPath(trendingExample.getResults().get(i).getPosterPath());
-        this.setTrendingId(trendingExample.getResults().get(i).getId());
+        for(int i=0;i<trendingExample.getResults().size();i++){
+            this.trendingMovies.add(trendingExample.getResults().get(i));
+        }
         
     }
 
 
+    public List<TrendingResults> getTrending(){
+        return this.trendingMovies;
+    }
 
     public String getTitle(){
         return this.title;
