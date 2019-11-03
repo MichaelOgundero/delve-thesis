@@ -15,7 +15,8 @@ class AppSearchContent extends Component{
     super(props);
     this.state = {
       isLoading: true,
-      movies: []
+      movies: [],
+      searchValue: " "
     }
     this._isMounted = false;
   }
@@ -43,7 +44,6 @@ class AppSearchContent extends Component{
 
   async getInformation(){
 
-     
         const response = await fetch('api/search/' + this.props.searchvalue);
         const body = await response.json();
         this._isMounted && this.setState({

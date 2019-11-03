@@ -19,6 +19,7 @@ class App extends Component{
     this.getSearchValue = this.getSearchValue.bind(this);
     this.getHome = this.getHome.bind(this);
     this.getSearch = this.getSearch.bind(this);
+    this.getTodaysFifty = this.getTodaysFifty.bind(this);
   }
 
   getSearchValue(value){
@@ -36,7 +37,7 @@ class App extends Component{
 
   getTodaysFifty(){
     return (
-      <AppTodaysFifty/>
+      <AppTodaysFifty getSearchValue={this.getSearchValue}/>
     )
   }
 
