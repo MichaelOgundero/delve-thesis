@@ -79,9 +79,9 @@ public class MovieController {
 
     @GetMapping("/nowPlaying")
     public List<NowPlayingResult> getNowPlaying() throws InterruptedException {
-
+    
         List<NowPlayingResult> movies = new ArrayList<NowPlayingResult>();
-        Thread.sleep(1000);
+        Thread.sleep(2000);
             NowPlayingSectionDTO nowPlayingDTO = new NowPlayingSectionDTO();
             movies = nowPlayingDTO.getNowPlaying();
             return movies;

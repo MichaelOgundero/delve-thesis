@@ -40,7 +40,7 @@ public class UpcomingMovieDTO {
         RestTemplate restTemplateDirector = new RestTemplate();
         //this.credits = restTemplateDirector.getForObject("https://api.themoviedb.org/3/movie/"+upcomingExample.getResults().get(i).getId()+"/credits?api_key=623eeab48528051330ddc3ca73959483", Credits.class);
         
-        for(int i=0;i<upcomingExample.getResults().size();i++){
+        for(int i=0;i<10;i++){
 
             this.credits = restTemplateDirector.getForObject("https://api.themoviedb.org/3/movie/"+upcomingExample.getResults().get(i).getId()+"/credits?api_key=623eeab48528051330ddc3ca73959483", Credits.class);
             for(int j=0;j<credits.getCrew().size();j++){
