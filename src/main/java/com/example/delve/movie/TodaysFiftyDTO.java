@@ -8,6 +8,7 @@ import java.util.Random;
 import com.example.delve.classmodels.Example;
 import com.example.delve.credits.Credits;
 import com.example.delve.movieofday.MovieOfDayExample;
+import com.example.delve.movieofday.MovieOfDayResults;
 
 import org.springframework.web.client.RestTemplate;
 
@@ -21,6 +22,7 @@ public class TodaysFiftyDTO{
     private String language;
     private String director;
     private String genreId;
+    private List<MovieOfDayResults> movieOfDayResults;
     
   public TodaysFiftyDTO(){}
     public TodaysFiftyDTO(int genreId, int page, int result) throws InterruptedException {
