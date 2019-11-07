@@ -28,7 +28,6 @@ class App extends Component{
     })
   }
   
-  
   getHome(){
     return (
         <AppHome getSearchValue={this.getSearchValue}/>
@@ -59,6 +58,8 @@ class App extends Component{
           <Route exact path='/' component={this.getHome}></Route>
           <Route exact path='/todays50' component={this.getTodaysFifty}></Route>
           <Route exact path= "/search" component={this.getSearch} ></Route>
+          <Route exact path= "/login" component={this.getLogin} ></Route>
+          <Route exact path= "/details" component={this.getDetails} ></Route>
         </Switch>
       </div>
     )

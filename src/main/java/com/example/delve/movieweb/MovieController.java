@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Random;
 
 import com.example.delve.movie.MovieDTO;
+import com.example.delve.movie.MovieDetailsDTO;
+import com.example.delve.movie.MovieVideosDTO;
 import com.example.delve.movie.NowPlayingDTO;
 import com.example.delve.movie.NowPlayingSectionDTO;
 import com.example.delve.movie.ReviewsDTO;
@@ -18,6 +20,8 @@ import com.example.delve.movie.UpcomingMovieDTO;
 import com.example.delve.nowplaying.NowPlayingResult;
 import com.example.delve.nowplayingcarousel.NowPlayingCarouselResult;
 import com.example.delve.search.SearchResult;
+import com.example.delve.trailer.Trailer;
+import com.example.delve.trailer.TrailerResults;
 import com.example.delve.trending.TrendingResults;
 import com.example.delve.upcoming.Result;
 
@@ -99,6 +103,18 @@ public class MovieController {
         return movies;
     }
 
+    @GetMapping("/detail/{movieID}")
+    public List<MovieDetailsDTO> getMovieDetails(@PathVariable String movieID) throws InterruptedException{
+        List<MovieDetailsDTO> movie = new ArrayList<MovieDetailsDTO>();
+        MovieDetailsDTO movieDetail = new MovieDetailsDTO(movieID);
+        movie.add(movieDetail);
+
+        return movie;
+
+    }
+
+
+
     @GetMapping("/upcoming")
     public List<Result> getUpcoming() throws InterruptedException {
 
@@ -108,9 +124,19 @@ public class MovieController {
             UpcomingMovieDTO upcomingMovieDTO = new UpcomingMovieDTO();
             movies = upcomingMovieDTO.getUpcoming();
         
-
         return movies;
     }
+
+    @GetMapping("/videos/{movieID}")
+    public List<TrailerResults> getVideos(@PathVariable String movieID) throws InterruptedException {
+        Thread.sleep(1000);
+        List<TrailerResults> videos = new ArrayList<TrailerResults>();
+        MovieVideosDTO movieVideosDTO = new MovieVideosDTO(movieID);
+        videos = movieVideosDTO.getVideos();
+
+        return videos;
+    }
+
 
     @GetMapping("/trending")
     public List<TrendingResults> getTrending() throws InterruptedException {

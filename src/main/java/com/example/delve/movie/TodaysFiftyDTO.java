@@ -22,7 +22,7 @@ public class TodaysFiftyDTO{
     private String language;
     private String director;
     private String genreId;
-    private List<MovieOfDayResults> movieOfDayResults;
+    
     
   public TodaysFiftyDTO(){}
     public TodaysFiftyDTO(int genreId, int page, int result) throws InterruptedException {
