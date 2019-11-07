@@ -91,6 +91,15 @@ import {
               <NavItem style={{paddingTop:"50px", fontWeight:"bold"}}>
                 <NavLink tag={Link} activeClassName="current" className="navLink" exact to="/todays50">Todays 50</NavLink>
               </NavItem>
+
+            <NavItem style={{paddingTop:"50px", fontWeight:"bold"}}>
+                <NavLink tag={Link} activeClassName="current" className="navLink" exact to="/signIn">Sign In</NavLink>
+            </NavItem>
+
+            <NavItem style={{paddingTop:"50px", fontWeight:"bold"}}>
+              <NavLink tag={Link} activeClassName="current" className="navLink" exact to="/signUp">Sign Up</NavLink>
+            </NavItem>
+              
             </Nav>
           </Collapse>
           </Navbar>

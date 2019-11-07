@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import './App.css';
 import AppHome from './home/homepage/AppHome.js'
 import AppTodaysFifty from './todaysfifty/AppTodaysFifty.js'
+import AppMovieDetails from './moviedetails/AppMovieDetails.js'
 import { Switch, Route } from 'react-router-dom';
 
 import AppSearch from './search/AppSearch.js';
@@ -20,6 +21,7 @@ class App extends Component{
     this.getHome = this.getHome.bind(this);
     this.getSearch = this.getSearch.bind(this);
     this.getTodaysFifty = this.getTodaysFifty.bind(this);
+    this.getDetails = this.getDetails.bind(this);
   }
 
   getSearchValue(value){
@@ -43,6 +45,12 @@ class App extends Component{
   getSearch(){
     return (
       <AppSearch searchvalue = {this.state.searchValue}  getSearchValue={this.getSearchValue} />
+    )
+  }
+
+  getDetails(){
+    return(
+      <AppMovieDetails getSearchValue={this.getSearchValue}/>
     )
   }
   

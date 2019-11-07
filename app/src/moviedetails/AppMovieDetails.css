@@ -1,0 +1,31 @@
+.loader {
+    border: 4px solid #000000; /* Light grey */
+    border-top: 4px solid #fec106; /* yellow */
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .page-container {
+    position: relative;
+    min-height: 100vh;
+  }
+  
+  .content-wrap {
+    padding-bottom: 2.5rem;    /* Footer height */
+  }
+  
+  .footer {
+    position: absolute;
+    bottom: 0;
+    background: black;
+    width: 100%;
+    padding: top 50px;
+    height: 80px;            /* Footer height */
+  }
