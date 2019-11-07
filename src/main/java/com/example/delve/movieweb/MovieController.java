@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import com.example.delve.movie.MoreDetailsDTO;
 import com.example.delve.movie.MovieDTO;
 import com.example.delve.movie.MovieDetailsDTO;
 import com.example.delve.movie.MovieVideosDTO;
@@ -19,6 +20,7 @@ import com.example.delve.movie.TrendingDTO;
 import com.example.delve.movie.UpcomingMovieDTO;
 import com.example.delve.nowplaying.NowPlayingResult;
 import com.example.delve.nowplayingcarousel.NowPlayingCarouselResult;
+import com.example.delve.reviews.ReviewResult;
 import com.example.delve.search.SearchResult;
 import com.example.delve.trailer.Trailer;
 import com.example.delve.trailer.TrailerResults;
@@ -105,12 +107,44 @@ public class MovieController {
 
     @GetMapping("/detail/{movieID}")
     public List<MovieDetailsDTO> getMovieDetails(@PathVariable String movieID) throws InterruptedException{
+        Thread.sleep(1000);
         List<MovieDetailsDTO> movie = new ArrayList<MovieDetailsDTO>();
         MovieDetailsDTO movieDetail = new MovieDetailsDTO(movieID);
         movie.add(movieDetail);
 
         return movie;
 
+    }
+
+    @GetMapping("/videos/{movieID}")
+    public List<TrailerResults> getVideos(@PathVariable String movieID) throws InterruptedException {
+        Thread.sleep(1000);
+        List<TrailerResults> videos = new ArrayList<TrailerResults>();
+        MovieVideosDTO movieVideosDTO = new MovieVideosDTO(movieID);
+        videos = movieVideosDTO.getVideos();
+
+        return videos;
+    }
+
+    @GetMapping("/moreDetails/{movieID}")
+    public List<MoreDetailsDTO> getMoreDetails(@PathVariable String movieID) throws InterruptedException {
+        Thread.sleep(1000);
+        List<MoreDetailsDTO> moreDetails = new ArrayList<MoreDetailsDTO>();
+        MoreDetailsDTO moreDetailsDTO = new MoreDetailsDTO(movieID);
+        moreDetails.add(moreDetailsDTO);
+
+        return moreDetails;
+   
+    }
+
+    @GetMapping("/reviews/{movieID}")
+    public List<ReviewResult> getReviews(@PathVariable String movieID) throws InterruptedException {
+        Thread.sleep(1000);
+        List<ReviewResult> reviews = new ArrayList<ReviewResult>();
+        ReviewsDTO reviewsDTO = new ReviewsDTO(movieID);
+        reviews = reviewsDTO.getReviews();
+
+        return reviews;
     }
 
 
@@ -127,15 +161,7 @@ public class MovieController {
         return movies;
     }
 
-    @GetMapping("/videos/{movieID}")
-    public List<TrailerResults> getVideos(@PathVariable String movieID) throws InterruptedException {
-        Thread.sleep(1000);
-        List<TrailerResults> videos = new ArrayList<TrailerResults>();
-        MovieVideosDTO movieVideosDTO = new MovieVideosDTO(movieID);
-        videos = movieVideosDTO.getVideos();
 
-        return videos;
-    }
 
 
     @GetMapping("/trending")
@@ -332,15 +358,6 @@ public class MovieController {
     
     
         return todaysFiftyDTO;
-    }
-
-    @GetMapping("/reviews")
-    public List<ReviewsDTO> getReviews() throws InterruptedException {
-    List <ReviewsDTO> reviews = new ArrayList<ReviewsDTO>();
-        Thread.sleep(2000);
-        ReviewsDTO review= new ReviewsDTO();
-        reviews.add(review);
-        return reviews;
     }
 
     public LocalDate today(){

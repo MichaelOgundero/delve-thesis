@@ -7,10 +7,15 @@ import java.util.List;
 import org.springframework.web.client.RestTemplate;
 
 import com.example.delve.details.DetailsExample;
-import com.example.delve.trailer.Trailer;
+import com.example.delve.details.DetailsProductionCompany;
+import com.example.delve.keywords.KeywordExample;
+import com.example.delve.keywords.KeywordResult;
+import com.example.delve.ratings.RatingExample;
 
 public class MovieDetailsDTO{
     private DetailsExample detailsExample;
+    private RatingExample ratingExample;
+    private KeywordExample keywordExample;
 
   
    
@@ -34,11 +39,13 @@ public class MovieDetailsDTO{
     private String homepage;
     private String status;
     private String tagline;
+    private String movieRating;
 
     private List<String> genres;
-    private List<String> productionCompanies;
+    private List<DetailsProductionCompany> productionCompanies;
     private List<String> productionCountries;
     private List<String> spokenLanguages;
+    private List<KeywordResult> keywords;
 
    
    
@@ -53,6 +60,7 @@ public class MovieDetailsDTO{
         this.productionCompanies = new ArrayList<>();
         this.productionCountries = new ArrayList<>();
         this.spokenLanguages = new ArrayList<>();
+        this.keywords = new ArrayList<>();
         
 
     
@@ -84,12 +92,22 @@ public class MovieDetailsDTO{
             this.setProductionCountries(detailsExample.getProductionCountries().get(i).getName());
         }
 
-        for(int i=0;i<detailsExample.getProductionCompanies().size();i++){
-            this.setProductionCompanies(detailsExample.getProductionCompanies().get(i).getName() + " "+ detailsExample.getProductionCompanies().get(0).getLogoPath());
-        }
+        this.setProductionCompanies(detailsExample.getProductionCompanies());
        
+        //getting the movie certifaction rating
+        RestTemplate restTemplateRating = new RestTemplate();
+        this.ratingExample = restTemplateRating.getForObject("https://api.themoviedb.org/3/movie/"+movieID+"/release_dates?api_key=623eeab48528051330ddc3ca73959483", RatingExample.class);
     
+        for(int i=0; i<ratingExample.getResults().size();i++){
+            if(ratingExample.getResults().get(i).getIso31661().equals("US")){
+                this.setMovieRating(ratingExample.getResults().get(i).getReleaseDates().get(0).getCertification());
+            }
+        }
 
+        RestTemplate restTemplateKeyword = new RestTemplate();
+        this.keywordExample = restTemplateKeyword.getForObject("https://api.themoviedb.org/3/movie/"+movieID+"/keywords?api_key=623eeab48528051330ddc3ca73959483", KeywordExample.class);
+        
+        this.setKeywords(keywordExample.getKeywords());
 
         
     }
@@ -129,12 +147,20 @@ public class MovieDetailsDTO{
         return this.genres.toArray();
     }
 
-    public void setProductionCompanies(String productionCompany){
-        this.productionCompanies.add(productionCompany);
+    public void setProductionCompanies(List<DetailsProductionCompany> productionCompany){
+        this.productionCompanies = productionCompany;
     }
 
     public Object[] getProductionCompanies(){
         return this.productionCompanies.toArray();
+    }
+
+    public void setKeywords(List<KeywordResult> keyword){
+        this.keywords = keyword;
+    }
+
+    public Object[] getKeywords(){
+        return this.keywords.toArray();
     }
 
     public void setProductionCountries(String productionCountry){
@@ -161,6 +187,16 @@ public class MovieDetailsDTO{
         this.homepage = homepage;
 
         movies.put("homepage", this.getHomepage());
+    }
+
+    public String getMovieRating(){
+        return this.movieRating;
+    }
+
+    public void setMovieRating(String movieRating){
+        this.movieRating = movieRating;
+
+        movies.put("movieRating", this.getMovieRating());
     }
 
     public String getOriginalTitle(){
