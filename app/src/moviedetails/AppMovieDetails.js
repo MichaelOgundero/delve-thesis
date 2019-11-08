@@ -29,7 +29,7 @@ class AppMovieDetails extends Component{
       <div className="page-container">
         <div className="content-wrap">
           <Appbar handleSearch={this.handleSearch}/>
-          
+          <AppMovieDetailsContent/>
           <br></br>
           <br></br>
           <AppFooter/>
