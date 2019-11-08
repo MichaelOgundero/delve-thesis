@@ -61,7 +61,7 @@ class AppNowPlaying extends Component{
         return(
           <Col xs="6" sm="4" key={index}>
             <div style={{paddingTop:"25px"}}>
-              <Card style={{maxWidth:"185px", borderColor:" #1c1b1b", border:"1px solid red"}}>
+              <Card style={{maxWidth:"185px", borderColor:" #1c1b1b"}}>
                 <CardImg style={{maxHeight:"278px", maxWidth:"185px",height:"278px", width:"auto",border:"4px solid black"}} src={`http://image.tmdb.org/t/p/original${movie.poster_path}`} alt="Card image cap"/>
                   <CardBody className="paddingCardbody">
                       <CardTitle className="paddingCardbody" style={{color:"#fec106", textTransform:"capitalize",  fontSize:"13px"}} title={movieName}>{movie.title}</CardTitle>
@@ -73,8 +73,8 @@ class AppNowPlaying extends Component{
                       </CardText>
                       
                       
-                        <NavLink tag={Link} exact to="/details" style={{border:"1px solid blue", display:"inline-block", height:"100%", fontSize:"0", margin:"0", padding:"0"}}>
-                          <div style={{ border:"1px solid green", display:"inline-block"}}>
+                        <NavLink tag={Link} exact to="/details" style={{ display:"inline-block", height:"100%", fontSize:"0", margin:"0", padding:"0"}}>
+                          <div style={{  display:"inline-block"}}>
                           <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
                           </div>
                         </NavLink>
