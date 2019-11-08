@@ -1,7 +1,8 @@
 import React,  {Component} from 'react';
+import { NavLink as Link} from 'react-router-dom';
 
-import { Container,Card, CardImg, CardText, CardBody,
-  CardTitle, CardSubtitle, Button} from 'reactstrap';
+import { Container,Card, NavLink, CardImg, CardText, CardBody,
+  CardTitle, CardSubtitle,UncontrolledCollapse, Button} from 'reactstrap';
 
 import './AppMovieOfTheDay.css';
 import see from '../../images/see.png'
@@ -16,6 +17,8 @@ class AppMovieOfTheDay extends Component{
       movies: [],
    
     }
+    
+
     this._isMounted = false;
   }
 
@@ -40,7 +43,10 @@ class AppMovieOfTheDay extends Component{
 
   render() {
     const { movies, isLoading} = this.state;
+    
 
+  
+   
 
     if(isLoading){
       return(
@@ -72,42 +78,81 @@ class AppMovieOfTheDay extends Component{
       const year = movie.releaseDate.substring(0,4);
       return(
 
-      <div className="wrapper">
+      <div style={{ maxHeight:"100%", maxwidth:"100%"}}>
         
-        <div style={{paddingTop:"25px", paddingBottom:"25px", maxWidth:"185px",  display: "inline-block"}} key={index}>
-          <div  style={{display:"table-cell"}}>
-            <div style={{display: "inline-block"}}>
+        <div style={{display: "inline-block",maxHeight:"100%", marginTop:"10px", marginBottom:"10px", maxWidth:"185px"}} key={index}>
               <Card style={{maxWidth:"185px", borderColor:" #1c1b1b"}}>
                 <CardImg  
                   src={`http://image.tmdb.org/t/p/original${movie.posterPath}`} alt="Card image cap" style={{border:"4px solid black", height:"278px", width:"185px",maxHeight:"278px", maxWidth:"185px"}} />
                 </Card>
-            </div>
-          </div>
         </div>
-        <div  style={{display:"inline-block", maxHeight:"100%" }}>
-          <div style={{display: "table-cell"}}>
-            <div style={{  display: "inline-block"}}>
-               <CardBody>
-              <CardTitle className="paddingCardbody" style={{color:"#fec106", width:"410px", maxwidth:"410px", fontSize:"32px", textTransform:"capitalize"}}>{movie.title}</CardTitle>
-              <CardText className="paddingCardbody" style={{color:"#FFFFFF", width:"410px", maxwidth:"410px", textTransform:"capitalize"}}>{movie.director}</CardText>
-              <CardSubtitle className="paddingCardbody" style={{color:"#FFFFFF", width:"410px", maxwidth:"410px", textTransform:"capitalize"}}>{genreContent} </CardSubtitle>
-              <CardText className="paddingCardbody" style={{color:"#FFFFFF", width:"410px", maxwidth:"410px"}}>
-                <small>{language} - {runtime} - {year}</small>
-              </CardText>
-              <CardText >
-                <p style={{float: "left", paddingRight:"3.5px"}}><img src={star} height="20px" width="20px" border="1px" alt=""></img></p>
-                <p style={{fontSize:"19px", color:"#FFFFFF"}}>{movie.score}</p>
-              </CardText>
-              <CardText  style={{color:"#FFFFFF", width:"410px", maxwidth:"410px"}}>
-                  <small >{movie.overview}</small>
-              </CardText >
+
+        <div style={{display: "inline-block", verticalAlign:"top",  maxHeight:"100%", maxWidth:"100%" , marginTop:"10px", marginBottom:"10px"}} key={index}> 
+        
             
-              <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
-            </CardBody>
+               <CardBody style={{ margin:0, padding:0, marginLeft:"40px"}}>
+                 <div style={{ maxHeight:"100%"}}>
+                 <CardTitle className="paddingCardbody" style={{color:"#fec106", width:"410px", maxwidth:"410px", fontSize:"32px", textTransform:"capitalize"}}>{movie.title}</CardTitle>
+                 </div>
+
+                 <div style={{ maxHeight:"100%"}}>
+                 <CardText className="paddingCardbody" style={{color:"#FFFFFF", width:"410px", maxwidth:"410px", textTransform:"capitalize"}}>{movie.director}</CardText>
+
+                 </div>
+
+                 <div style={{ maxHeight:"100%"}}>
+                 <CardSubtitle className="paddingCardbody" style={{color:"#FFFFFF", width:"410px", maxwidth:"410px", textTransform:"capitalize"}}>{genreContent} </CardSubtitle>
+
+                 </div>
+
+                 <div style={{ maxHeight:"100%"}}>
+                  <CardText className="paddingCardbody" style={{color:"#FFFFFF", width:"410px", maxwidth:"410px"}}>
+                    <small>{language} - {runtime} - {year}</small>
+                  </CardText>
+                 </div>
+
+                 <div style={{ maxHeight:"100%"}}>
+                  <CardText >
+                    <p style={{float: "left", paddingRight:"3.5px"}}><img src={star} height="20px" width="20px" border="1px" alt=""></img></p>
+                    <p style={{fontSize:"19px", color:"#FFFFFF"}}>{movie.score}</p>
+                  </CardText>
+                 </div>
+
+                 <div style={{maxHeight:"100%"}}>
+                  <div style={{paddingTop: "10px"}}>
+                    <div style={{  display:"inline-block"}}>
+                      <Button  id="toggler" color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>Overview</Button>{' '}
+                    </div>
+         
+                    <NavLink tag={Link} exact to="/details" style={{display:"inline-block", height:"100%", margin:"0", marginLeft:"5px", padding:"0"}}>
+               
+                      <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
+             
+                    </NavLink>
+ 
+    
+        
+                  </div>
+                </div>
+
+                 <div style={{ maxHeight:"100%", marginTop:"10px", marginBottom:"10px"}}>
+
+                 <UncontrolledCollapse toggler="#toggler">
+                    <CardText  style={{color:"#FFFFFF", width:"410px", maxwidth:"410px"}}>
+                    <small >{movie.overview}</small>
+                    </CardText >
+                    </UncontrolledCollapse>
+
+
+
+                 </div>
+
+                 
+
+              </CardBody>
             </div>
-           
-          </div>
-        </div>
+ 
+     
       </div>
       );
     });

@@ -1,6 +1,7 @@
 import React,  {Component} from 'react';
+import { NavLink as Link} from 'react-router-dom';
 
-import { Container, Row,
+import { Container, Row,NavLink,
 Col,Card, CardImg, 
 CardText, CardBody,
 CardTitle, Button} from 'reactstrap';
@@ -60,7 +61,7 @@ class AppNowPlaying extends Component{
         return(
           <Col xs="6" sm="4" key={index}>
             <div style={{paddingTop:"25px"}}>
-              <Card style={{maxWidth:"185px", borderColor:" #1c1b1b"}}>
+              <Card style={{maxWidth:"185px", borderColor:" #1c1b1b", border:"1px solid red"}}>
                 <CardImg style={{maxHeight:"278px", maxWidth:"185px",height:"278px", width:"auto",border:"4px solid black"}} src={`http://image.tmdb.org/t/p/original${movie.poster_path}`} alt="Card image cap"/>
                   <CardBody className="paddingCardbody">
                       <CardTitle className="paddingCardbody" style={{color:"#fec106", textTransform:"capitalize",  fontSize:"13px"}} title={movieName}>{movie.title}</CardTitle>
@@ -70,10 +71,16 @@ class AppNowPlaying extends Component{
                           <p style={{float: "left", paddingRight:"3.5px"}}><img src={star} height="20px" width="20px" border="1px" alt=""></img></p>
                           <p style={{fontSize:"19px", color:"#FFFFFF"}}>{movie.vote_average}</p>
                       </CardText>
-                      <Button  color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
-                  </CardBody>
+                      
+                      
+                        <NavLink tag={Link} exact to="/details" style={{border:"1px solid blue", display:"inline-block", height:"100%", fontSize:"0", margin:"0", padding:"0"}}>
+                          <div style={{ border:"1px solid green", display:"inline-block"}}>
+                          <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
+                          </div>
+                        </NavLink>
+                        
 
-
+                      </CardBody>
                 </Card>
             </div>
           </Col>

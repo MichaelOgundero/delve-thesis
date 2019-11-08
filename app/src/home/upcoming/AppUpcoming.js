@@ -1,6 +1,7 @@
 import React,  {Component} from 'react';
+import { NavLink as Link} from 'react-router-dom';
 
-import { Container,Card, CardImg, CardText, CardBody,
+import { Container,Card, NavLink, CardImg, CardText, CardBody,
   CardTitle, Button} from 'reactstrap';
 
 import './AppUpcoming.css';
@@ -96,8 +97,12 @@ class AppUpcoming extends Component{
                 <CardTitle className="paddingCardbody" style={{color:"#fec106", textTransform:"capitalize", fontSize:"13px"}} title={movieName}>{movie.title}</CardTitle>
                 <CardText className="paddingCardbody" style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}} title={movie.director}>{movie.director}</CardText>
                 <CardText  style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}}>{movie.release_date}</CardText>
-                <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
-            </CardBody>
+                  <NavLink tag={Link} exact to="/details" style={{border:"1px solid blue", display:"inline-block", height:"100%", fontSize:"0", margin:"0", padding:"0"}}>
+                    <div style={{ border:"1px solid green", display:"inline-block"}}>
+                      <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
+                    </div>
+                  </NavLink>            
+                </CardBody>
           </Card>
       </div>
       );

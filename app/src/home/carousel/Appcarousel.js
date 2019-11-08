@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { NavLink as Link} from 'react-router-dom';
+
 import {
   Carousel,
+  NavLink ,
   CarouselItem,
   CarouselControl,
   CarouselIndicators,
@@ -156,8 +159,18 @@ class Appcarousel extends Component {
       <div>
         <div>{movie.overview}</div>
         <div style={{paddingTop: "10px"}}>
-        <Button onClick={()=> this.toggle()} color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"4px", paddingRight:"2px"}} src={play} alt=""></img></span>Watch Trailer</Button>{' '}
-        <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
+          <div style={{  display:"inline-block"}}>
+            <Button onClick={()=> this.toggle()} color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"4px", paddingRight:"2px"}} src={play} alt=""></img></span>Watch Trailer</Button>{' '}
+          </div>
+         
+            <NavLink tag={Link} exact to="/details" style={{display:"inline-block", height:"100%", margin:"0", marginLeft:"5px", padding:"0"}}>
+               
+                      <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
+             
+            </NavLink>
+ 
+    
+        
         </div>
         <div>
           <Modal size="lg" isOpen={this.state.modal} >
