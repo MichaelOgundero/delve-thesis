@@ -1,6 +1,7 @@
 import React,  {Component} from 'react';
+import { NavLink as Link} from 'react-router-dom';
 
-import { Container,Card, CardImg, CardText, CardBody,
+import { Container,Card, CardImg, CardText, CardBody,NavLink,
   CardTitle, Button, Alert } from 'reactstrap';
 
 import './AppTodaysFiftyContent.css';
@@ -182,8 +183,18 @@ class AppTodaysFiftyContent extends Component{
             <CardBody className="paddingCardbody">
                 <CardTitle className="paddingCardbody" style={{color:"#fec106", textTransform:"capitalize", fontSize:"13px"}} title={movie.title}>{movieName}</CardTitle>
                 <CardText  style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}} title={movie.director}>{movie.director}</CardText>
-                  <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
-                  <Button  onClick={ ()=>{this.sectionOneOnclick(index)}}  style={{color:"black", position:"absolute", right:"0px"}} color="warning" size="sm"><span> <img max-width="10px" max-height="10px" style={{paddingBottom:"3.5px", paddingRight:"2px"}} src={add} alt=""></img></span>Add</Button>{' '} 
+                <div style={{}}>
+                  <NavLink tag={Link} exact to="/details" style={{display:"inline-block", height:"100%", margin:"0", padding:"0"}}>
+               
+                    <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
+             
+                  </NavLink>
+
+                  <div style={{  display:"inline-block", marginRight:"0px", float:"right"}}>
+                    <Button  onClick={ ()=>{this.sectionOneOnclick(index)}}   color="warning" size="sm"><span> <img max-width="10px" max-height="10px" style={{paddingBottom:"3.5px", paddingRight:"2px"}} src={add} alt=""></img></span>Add</Button>{' '} 
+                  </div>
+
+                </div>   
 
             </CardBody>
 
@@ -215,8 +226,19 @@ class AppTodaysFiftyContent extends Component{
           <CardBody className="paddingCardbody">
               <CardTitle className="paddingCardbody" style={{color:"#fec106", textTransform:"capitalize", fontSize:"13px"}} title={movie.title}>{movieName}</CardTitle>
               <CardText style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}} title={movie.director}>{movie.director}</CardText>
-              <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
-              <Button onClick={()=>{this.sectionTwoOnclick(index)}} style={{color:"black", position:"absolute", right:"0px"}} color="warning" size="sm"><span> <img max-width="10px" max-height="10px" style={{paddingBottom:"3.5px", paddingRight:"2px"}} src={add} alt=""></img></span>Add</Button>{' '}           </CardBody>
+              <div style={{}}>
+                  <NavLink tag={Link} exact to="/details" style={{display:"inline-block", height:"100%", margin:"0", padding:"0"}}>
+               
+                    <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
+             
+                  </NavLink>
+
+                  <div style={{  display:"inline-block", marginRight:"0px", float:"right"}}>
+                    <Button  onClick={()=>{this.sectionTwoOnclick(index)}}    color="warning" size="sm"><span> <img max-width="10px" max-height="10px" style={{paddingBottom:"3.5px", paddingRight:"2px"}} src={add} alt=""></img></span>Add</Button>{' '} 
+                  </div>
+
+                </div>   
+          </CardBody>
         </Card>
     </div>
     );
@@ -246,8 +268,20 @@ class AppTodaysFiftyContent extends Component{
           <CardBody className="paddingCardbody">
               <CardTitle className="paddingCardbody" style={{color:"#fec106", textTransform:"capitalize", fontSize:"13px"}} title={movie.title}>{movieName}</CardTitle>
               <CardText  style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}} title={movie.director}>{movie.director}</CardText>
-              <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
-              <Button onClick={()=>{this.sectionThreeOnclick(index)}} style={{color:"black", position:"absolute", right:"0px"}} color="warning" size="sm"><span> <img max-width="10px" max-height="10px" style={{paddingBottom:"3.5px", paddingRight:"2px"}} src={add} alt=""></img></span>Add</Button>{' '}           </CardBody>
+              <div style={{}}>
+                  <NavLink tag={Link} exact to="/details" style={{display:"inline-block", height:"100%", margin:"0", padding:"0"}}>
+               
+                    <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
+             
+                  </NavLink>
+
+                  <div style={{  display:"inline-block", marginRight:"0px", float:"right"}}>
+                    <Button  onClick={ ()=>{this.sectionThreeOnclick(index)}}   color="warning" size="sm"><span> <img max-width="10px" max-height="10px" style={{paddingBottom:"3.5px", paddingRight:"2px"}} src={add} alt=""></img></span>Add</Button>{' '} 
+                  </div>
+
+                </div>   
+
+              </CardBody>
         </Card>
     </div>
     );
@@ -278,8 +312,19 @@ class AppTodaysFiftyContent extends Component{
         <CardBody className="paddingCardbody">
             <CardTitle className="paddingCardbody" style={{color:"#fec106", textTransform:"capitalize", fontSize:"13px"}} title={movie.title}>{movieName}</CardTitle>
             <CardText  style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}} title={movie.director}>{movie.director}</CardText>
-            <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
-            <Button onClick={()=>{this.sectionFourOnclick(index)}} style={{color:"black", position:"absolute", right:"0px"}} color="warning" size="sm"><span> <img max-width="10px" max-height="10px" style={{paddingBottom:"3.5px", paddingRight:"2px"}} src={add} alt=""></img></span>Add</Button>{' '}         </CardBody>
+            <div style={{}}>
+                  <NavLink tag={Link} exact to="/details" style={{display:"inline-block", height:"100%", margin:"0", padding:"0"}}>
+               
+                    <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
+             
+                  </NavLink>
+
+                  <div style={{  display:"inline-block", marginRight:"0px", float:"right"}}>
+                    <Button  onClick={ ()=>{this.sectionFourOnclick(index)}}   color="warning" size="sm"><span> <img max-width="10px" max-height="10px" style={{paddingBottom:"3.5px", paddingRight:"2px"}} src={add} alt=""></img></span>Add</Button>{' '} 
+                  </div>
+
+                </div>   
+          </CardBody>
       </Card>
     </div>
     );
@@ -310,8 +355,20 @@ class AppTodaysFiftyContent extends Component{
         <CardBody className="paddingCardbody">
             <CardTitle className="paddingCardbody" style={{color:"#fec106", textTransform:"capitalize", fontSize:"13px"}} title={movie.title}>{movieName}</CardTitle>
             <CardText style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}} title={movie.director}>{movie.director}</CardText>
-            <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
-            <Button onClick={()=>{this.sectionFiveOnclick(index)}} style={{color:"black", position:"absolute", right:"0px"}} color="warning" size="sm"><span> <img max-width="10px" max-height="10px" style={{paddingBottom:"3.5px", paddingRight:"2px"}} src={add} alt=""></img></span>Add</Button>{' '}         </CardBody>
+            <div style={{}}>
+                  <NavLink tag={Link} exact to="/details" style={{display:"inline-block", height:"100%", margin:"0", padding:"0"}}>
+               
+                    <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
+             
+                  </NavLink>
+
+                  <div style={{  display:"inline-block", marginRight:"0px", float:"right"}}>
+                    <Button  onClick={ ()=>{this.sectionFiveOnclick(index)}}   color="warning" size="sm"><span> <img max-width="10px" max-height="10px" style={{paddingBottom:"3.5px", paddingRight:"2px"}} src={add} alt=""></img></span>Add</Button>{' '} 
+                  </div>
+
+                </div>   
+
+       </CardBody>
       </Card>
     </div>
     );

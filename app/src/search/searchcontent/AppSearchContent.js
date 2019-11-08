@@ -1,6 +1,8 @@
 import React,  {Component} from 'react';
 
-import { Container, Row,
+import { NavLink as Link} from 'react-router-dom';
+
+import { Container, Row,NavLink,
 Col,Card, CardImg, 
 CardText, CardBody,
 CardTitle, Button} from 'reactstrap';
@@ -82,8 +84,12 @@ class AppSearchContent extends Component{
                 <CardImg style={{maxHeight:"278px", maxWidth:"185px",height:"278px", width:"auto",border:"4px solid black"}} src={poster} title={movieName} alt="Card image cap"/>
                   <CardBody className="paddingCardbody">
                       <CardTitle  style={{color:"#fec106", textTransform:"capitalize",  fontSize:"13px"}} title={movieName}>{movie.title}</CardTitle>
-                      <Button  color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
-                  </CardBody>
+                        <NavLink tag={Link} exact to="/details" style={{ display:"inline-block", height:"100%", fontSize:"0", margin:"0", padding:"0"}}>
+                          <div style={{  display:"inline-block"}}>
+                            <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
+                          </div>
+                        </NavLink>                  
+                      </CardBody>
 
 
                 </Card>
