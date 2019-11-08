@@ -3,6 +3,9 @@ import './App.css';
 import AppHome from './home/homepage/AppHome.js'
 import AppTodaysFifty from './todaysfifty/AppTodaysFifty.js'
 import AppMovieDetails from './moviedetails/AppMovieDetails.js'
+import AppSignUp from './signup/AppSignUp.js'
+import AppSignIn from './signin/AppSignIn.js'
+
 import { Switch, Route } from 'react-router-dom';
 
 import AppSearch from './search/AppSearch.js';
@@ -22,6 +25,8 @@ class App extends Component{
     this.getSearch = this.getSearch.bind(this);
     this.getTodaysFifty = this.getTodaysFifty.bind(this);
     this.getDetails = this.getDetails.bind(this);
+    this.getSignUp = this.getSignUp.bind(this);
+    this.getSignIn = this.getSignIn.bind(this);
   }
 
   getSearchValue(value){
@@ -53,6 +58,18 @@ class App extends Component{
       <AppMovieDetails getSearchValue={this.getSearchValue}/>
     )
   }
+
+  getSignUp(){
+    return(
+      <AppSignUp   />
+    )
+  }
+
+  getSignIn(){
+    return(
+      <AppSignIn/>
+    )
+  }
   
  
 
@@ -66,7 +83,8 @@ class App extends Component{
           <Route exact path='/' component={this.getHome}></Route>
           <Route exact path='/todays50' component={this.getTodaysFifty}></Route>
           <Route exact path= "/search" component={this.getSearch} ></Route>
-          <Route exact path= "/login" component={this.getLogin} ></Route>
+          <Route exact path= "/signIn" component={this.getSignIn} ></Route>
+          <Route exact path= "/signUp" component = {this.getSignUp}></Route>
           <Route exact path= "/details" component={this.getDetails} ></Route>
         </Switch>
       </div>

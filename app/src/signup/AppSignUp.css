@@ -1,0 +1,39 @@
+.navBarBrand {
+    color: #fec106;
+    font-weight: bold;
+  
+ 
+ }
+
+ .signUpContent {
+    width: 700px;
+    height: 700px;
+    
+
+    position:absolute; /*it can be fixed too*/
+    left:0; right:0;
+    top:0; bottom:0;
+    margin:auto;
+
+    /*this to solve "the content will not be cut when the window is smaller than the content": */
+    max-width:100%;
+    max-height:100%;
+    overflow:auto;
+}
+
+.logoDiv {
+    display: inline-block;
+    width:300px;
+    height:650px;
+    margin-left: 20px;
+    margin-top: 25px;
+    border: 1px solid red;
+}
+.formDiv {
+    display: inline-block;
+    width:350px;
+    height:650px;
+    margin-left: 10px;
+    margin-top: 25px;
+    border: 1px solid blue;
+}
