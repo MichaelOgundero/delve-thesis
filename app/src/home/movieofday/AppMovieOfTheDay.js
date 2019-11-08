@@ -7,6 +7,7 @@ import { Container,Card, NavLink, CardImg, CardText, CardBody,
 import './AppMovieOfTheDay.css';
 import see from '../../images/see.png'
 import star from '../../images/star.png';
+import overView from '../../images/overView.png';
 import { instanceOf } from 'prop-types';
 
 class AppMovieOfTheDay extends Component{
@@ -121,7 +122,7 @@ class AppMovieOfTheDay extends Component{
                  <div style={{maxHeight:"100%"}}>
                   <div style={{paddingTop: "10px"}}>
                     <div style={{  display:"inline-block"}}>
-                      <Button  id="toggler" color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>Overview</Button>{' '}
+                      <Button  id="toggler" color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"3px", paddingRight:"2px"}} src={overView} alt=""></img></span>Overview</Button>{' '}
                     </div>
          
                     <NavLink tag={Link} exact to="/details" style={{display:"inline-block", height:"100%", margin:"0", marginLeft:"5px", padding:"0"}}>
