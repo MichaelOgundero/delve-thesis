@@ -100,7 +100,14 @@ public class MovieDetailsDTO{
     
         for(int i=0; i<ratingExample.getResults().size();i++){
             if(ratingExample.getResults().get(i).getIso31661().equals("US")){
-                this.setMovieRating(ratingExample.getResults().get(i).getReleaseDates().get(0).getCertification());
+                for(int j=0;j<ratingExample.getResults().get(i).getReleaseDates().size();j++){
+                    if(!ratingExample.getResults().get(i).getReleaseDates().get(j).getCertification().equals("")){
+                        this.setMovieRating(ratingExample.getResults().get(i).getReleaseDates().get(j).getCertification());
+                    }else{
+                        this.setMovieRating("N/A");
+                    }
+                }
+                
             }
         }
 

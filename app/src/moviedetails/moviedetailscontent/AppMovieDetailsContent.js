@@ -1,15 +1,27 @@
-import React,  {Component} from 'react';
+import React,  {Component, useState} from 'react';
 import { NavLink as Link} from 'react-router-dom';
+import classnames from 'classnames';
 
 import './AppMovieDetailsContent.css';
 
+import { Container, Row,NavLink,
+  Col,Card, CardImg, 
+  CardText, CardBody,Table,
+  CardTitle,CardSubtitle, Button,
+  Nav, NavItem, TabContent, TabPane} from 'reactstrap';
 
+  import ReactPlayer from 'react-player';
+  import addDetails from '../../images/addDetails.png';
+
+  import detailStar from '../../images/detailStar.png'
+  
 
 class  AppMovieDetailsContent extends Component{
 
     constructor(props){
         super(props);
         this.state = {
+            activeTab: '1',
             isLoading: true,
             movieDetails: [],   //details
             movieCast:[],       //moreDetails
@@ -22,6 +34,16 @@ class  AppMovieDetailsContent extends Component{
            
           }
           this._isMounted = false;
+          this.toggle = this.toggle.bind(this);
+    }
+
+    toggle(tab){
+      const {activeTab} = this.state;
+      if(activeTab !== tab){
+        this.setState({
+          activeTab: tab
+        })
+      }
     }
 
 
@@ -35,13 +57,16 @@ class  AppMovieDetailsContent extends Component{
       }
 
       async getInformation(){
-
+        //475557 joker
+        //299536 infinity war
+        //1273
+        const movieID = 475557
    
         Promise.all([
-            fetch("api/detail/550"),
-            fetch("api/moreDetails/550"),
-            fetch("api/reviews/550"),
-            fetch("api/videos/550")
+            fetch(`api/detail/${movieID}`),
+            fetch(`api/moreDetails/${movieID}`),
+            fetch(`api/reviews/${movieID}`),
+            fetch(`api/videos/${movieID}`)
 
         ]).
 
@@ -67,24 +92,426 @@ class  AppMovieDetailsContent extends Component{
     
       }
 
+ 
+
 
       render(){
 
-
+        let director;
+        let posterPath;
+        let finalTrailer;
         const { movieDetails, movieCast,
                 movieCrew, movieBackdrops,
                 moviePoster, similarMovies,
                 movieReviews, movieVideos,
-                 isLoading} = this.state;
+                 isLoading, activeTab} = this.state;
+        
 
-                 movieDetails.forEach(cast => {
-            console.log(cast.title)
-        });
+                 movieCrew.forEach(crew => {
+                  if(crew.job === "Director"){
+                    director = crew.name;
+                  }
+              });
+
+              let pcName = []
+              movieDetails.forEach(movie=>{
+                for(let i=0;i<movie.productionCompanies.length;i++){
+                  pcName.push(movie.productionCompanies[i].name)
+                }
+              })
+
+              /*console.log(pcNameArray)
+              let pcName = []
+              for(let i=0;i<pcNameArray.length;i++){
+                pcName.push(pcNameArray.name)
+              }*/
+              
+
+              
+              moviePoster.forEach((poster, index)=>{
+           
+                if(index === 3){
+                  posterPath = poster.file_path
+                }
+              })
+
+              movieVideos.forEach((video)=>{
+                if(video.type === "Trailer"){
+                  finalTrailer = video.key
+                }
+              })
+
+              function convertDate(date){
+                const year = date.substring(0,4);
+                let month = date.substring(5,7);
+                const day = date.substring(9,10);
+                const dateConverted = ""
+                if(month === "01"){
+                  month = "January"
+                  return  month + " " + day + ", " + year}
+                if(month === "02"){
+                  month = "February"
+                  return  month + " " + day + ", " + year}
+                if(month === "03"){
+                  month = "March"
+                  return  month + " " + day + ", " + year}
+                if(month === "04"){
+                  month = "April"
+                  return  month + " " + day + ", " + year}
+                if(month === "05"){
+                  month = "May"
+                  return  month + " " + day + ", " + year} 
+                if(month === "06"){
+                  month = "June"
+                  return  month + " " + day + ", " + year}
+                if(month === "07"){
+                  month = "July"
+                  return  month + " " + day + ", " + year}
+                if(month === "08"){
+                  month = "August"
+                  return  month + " " + day + ", " + year}
+                if(month === "09"){
+                  month = "September"
+                  return  month + " " + day + ", " + year}
+                if(month === "10"){
+                  month = "October"
+                  return  month + " " + day + ", " + year}
+                if(month === "11"){
+                  month = "November"
+                  return  month + " " + day + ", " + year}
+                if(month === "12"){
+                  month = "December"
+                  return  month + " " + day + ", " + year}
+                
+
+                return dateConverted;
+              }
+        
+
+            if(isLoading){
+              return(
+                <div className="loader"></div>
+              )
+            }
+
+            const firstRow = movieDetails.map((movie, index)=>{
+
+              let textColor;
+              if(movie.movieRating === "R"){
+                textColor = "red"
+              }
+              if(movie.movieRating==="PG"){
+                textColor = "green"
+              }
+
+              let genreContent = "";
+              if(movie.genres.length === 0){
+                genreContent = "N/A"
+              }
+              else if(movie.genres.length === 1){
+               genreContent = movie.genres[0]
+              }
+              else if(movie.genres.length === 2){
+                 genreContent = movie.genres[0] + " ," + movie.genres[1]
+              }
+              else {
+                genreContent = movie.genres[0] + ", " + movie.genres[1] + ", " + movie.genres[2];
+              }
+              
+
+              return(
+                <div style={{maxHeight:"100%", maxWidth:"100%", border:"1px solid red", background:"black"}} key={index}>
+                  <div style={{maxHeight:"100%", maxWidth:"100%"}}>
+                    <div style={{display:"inline-block", maxHeight:"100%", maxWidth:"100%"}}>
+                      <CardTitle style={{color:"#fec106", maxWidth:"100%", maxHeight:"100%", border:"1px solid red", background:"black", fontWeight:"bold", fontSize:"32px"}}>
+                        {movie.title} 
+                      </CardTitle>
+                    </div>
+                    <div style={{display:"inline-block", maxWidth:"100%", maxHeight:"100%"}}>
+                      <CardSubtitle style={{color:"#FFFFFF", maxWidth:"100%", maxHeight:"100%",border:"1px solid red", marginLeft:"2px", background:"black", fontWeight:"bold", fontSize:"25px"}}>
+                        ({movie.releaseDate.substring(0,4)})
+                      </CardSubtitle>
+                    </div>
+                  </div>
+                <div style={{maxHeight:"100%", maxWidth:"100%", border:"1px solid white", paddingBottom:"15px"}}>
+                  <div style={{display:"inline-block", maxWidth:"100%", maxHeight:"100%"}}>
+                    <CardSubtitle style={{color:"#fec106", maxWidth:"100%", maxHeight:"100%",border:"1px solid red", fontSize:"20px"}}>
+                      Directed by 
+                    </CardSubtitle>
+                  </div>
+                  <div style={{display:"inline-block", maxWidth:"100%", maxHeight:"100%"}}>
+                    <CardSubtitle style={{color:"#FFFFFF", maxWidth:"100%", maxHeight:"100%",border:"1px solid red", marginLeft:"2px",marginTop:"5px", fontSize:"20px",fontWeight:"bold"}}>
+                      {director}
+                    </CardSubtitle>
+                  </div>
+                  <div style={{display:"inline-block", maxWidth:"100%", maxHeight:"100%", border:"1px solid green", float:"right"}}>
+                    <div style={{display:"inline-block", maxHeight:"100%", maxWidth:"100%"}}>
+                      <img src={detailStar} alt="" style={{width:"32px",height:"32px",border:"1px solid red",padding:"0",marginBottom:"11px",background:"black"}}>
+                      </img>
+                    </div>
+                    <div style={{display:"inline-block", maxHeight:"100%", maxWidth:"100%"}}>
+                      <CardSubtitle style={{color:"#FFFFFF", maxWidth:"100%", maxHeight:"100%",border:"1px solid red",padding:"0", marginLeft:"2px",background:"black", fontWeight:"bold", fontSize:"20px"}}>
+                        {movie.score}
+                      </CardSubtitle>
+                    </div>
+                  </div>
+
+                </div>
+                <div style={{ maxHeight:"285px", maxWidth:"100%", border:"1px solid green", overflow:"hidden"}}>
+                  <div style={{overflow:"hidden", float:"left", maxHeight:"100%", maxWidth:"100%", border:"1px solid red", marginRight:"10px"}}>
+                    <CardImg src={`http://image.tmdb.org/t/p/original${posterPath}`} alt="" title={movie.title} style={{height:"278px", width:"185px", maxHeight:"278px", maxWidth:"185px", border:"1px solid blue"}}/>
+                  </div>
+                  <div  className="player-wrapper" style={{overflow:"hidden", maxHeight:"300px", maxWidth:"100%", border:"1px solid white"}}>
+                    <ReactPlayer
+                      url= {`https://www.youtube.com/watch?v=${finalTrailer}`}
+                      class="react-player"
+                      playing = {true}
+                      width="545px"
+                      height = "278px"
+                      controls = {true}
+                      light = {true}  //auto play
+                      loop = {true}
+                      style={{border:"1px solid white"}}
+                    />
+                  </div>
+
+                </div>
+                <div style={{maxHeight:"100%", maxWidth:"100%", border:"1px solid green", overflow:"hidden",marginTop:"5px"}}>
+                  <div style={{maxheight:"100%", maxWidth:"100%",display:"inline-block"}}>
+                      <Button color="warning" size="lg" style={{width:"185px"}}><span><img src={addDetails} width="15px" height="15px" alt="" style={{marginBottom:"2px"}}></img><span style={{ fontWeight:"bold", fontSize:"15px",marginLeft:"5px"}}>Add to Watchlist</span></span></Button>
+                  </div>
+                  
+                  <div style={{maxHeight:"100%", maxWidth:"100%", display:"inline-block", border:"1px solid yellow", marginLeft:"12px"}}>
+                    <div style={{display:"inline-block", maxWidth:"100%", maxHeight:"100%"}}>
+                      <CardSubtitle style={{color:`${textColor}`, maxWidth:"100%", maxHeight:"100%",border:"1px solid red", fontSize:"15px", fontWeight:"bold"}}>
+                        {movie.movieRating}
+                      </CardSubtitle>
+                    </div>
+                    <div style={{display:"inline-block", maxWidth:"100%", maxHeight:"100%"}}>
+                      <CardSubtitle style={{color:"#FFFFFF", maxWidth:"100%", maxHeight:"100%", fontSize:"15px", marginLeft:"10px", marginRight:"10px"}}>
+                        I
+                      </CardSubtitle>
+                    </div>
+                    <div style={{display:"inline-block", maxWidth:"100%", maxHeight:"100%"}}>
+                      <CardSubtitle style={{color:"#FFFFFF", maxWidth:"100%", maxHeight:"100%",border:"1px solid red", fontSize:"15px", fontWeight:"bold"}}>
+                        {movie.runtime} min
+                      </CardSubtitle>
+                    </div>
+                    <div style={{display:"inline-block", maxWidth:"100%", maxHeight:"100%"}}>
+                      <CardSubtitle style={{color:"#FFFFFF", maxWidth:"100%", maxHeight:"100%", fontSize:"15px", marginLeft:"10px", marginRight:"10px"}}>
+                        I
+                      </CardSubtitle>
+                    </div>
+                    <div style={{display:"inline-block", maxWidth:"100%", maxHeight:"100%"}}>
+                      <CardSubtitle style={{color:"#FFFFFF", maxWidth:"100%", maxHeight:"100%",border:"1px solid red", fontSize:"15px", fontWeight:"bold"}}>
+                        {genreContent}
+                      </CardSubtitle>
+                    </div>
+                    <div style={{display:"inline-block", maxWidth:"100%", maxHeight:"100%"}}>
+                      <CardSubtitle style={{color:"#FFFFFF", maxWidth:"100%", maxHeight:"100%", fontSize:"15px", marginLeft:"10px", marginRight:"10px"}}>
+                        I
+                      </CardSubtitle>
+                    </div>
+                    <div style={{display:"inline-block", maxWidth:"100%", maxHeight:"100%"}}>
+                      <CardSubtitle style={{color:"#FFFFFF", maxWidth:"100%", maxHeight:"100%",border:"1px solid red", fontSize:"15px", fontWeight:"bold"}}>
+                        {convertDate(movie.releaseDate)}
+                      </CardSubtitle>
+                    </div>
+                  </div>
+                </div>
+                </div>
+
+              )
+            })
+
+            const overView = movieDetails.map((movie, index)=>{
+ 
+
+              let keywords = "";
+              if(movie.keywords.length === 0){
+                keywords = "N/A"
+              }
+              else if(movie.keywords.length === 1){
+                keywords = movie.keywords[0].name
+              }
+              else if(movie.keywords.length === 2){
+                keywords = movie.keywords[0].name + ", " + movie.keywords[1].name
+              }
+              else {
+                keywords = movie.keywords[0].name + ", " + movie.keywords[1].name + ", " + movie.keywords[2].name;
+              }
+              return(
+                <div style={{maxHeight:"100%", maxWidth:"100%", border:"1px solid red", background:"black"}} key={index}>
+                  <div style={{maxHeight:"100%", maxWidth:"100%", background:"black", borderBottom:"1px solid #fec106"}}>
+                      <CardSubtitle style={{color:"#fec106", fontWeight:"bold", fontSize:"28px"}}>Plot</CardSubtitle>
+                  </div>
+                 
+                  <div style={{maxHeight:"100%", maxWidth:"100%", marginTop:"10px"}}>
+                    <CardSubtitle style={{color:"#FFFFFF", maxWidth:"100%", maxHeight:"100%", border:"1px solid red", background:"black", fontSize:"15px"}}>
+                      {movie.overview}
+                    </CardSubtitle>
+                  </div>
+
+                  <div style={{maxHeight:"100%", maxWidth:"100%", background:"black", borderBottom:"1px solid #fec106", marginTop:"30px"}}>
+                    <CardSubtitle style={{color:"#fec106", fontWeight:"bold", fontSize:"28px"}}>More Information</CardSubtitle>
+                  </div>
+
+                  <div style={{maxHeight:"100%", maxWidth:"100%", marginTop:"10px"}}>
+                    <Table borderless style={{maxWidth:"100%", maxheight:"100px"}}>
+                      <tbody>
+                        <tr style={{margin:"0", padding:"0" }}>
+                          <td style={{margin:"0", padding:"0", maxHeight:"100%"}}>
+                            <CardSubtitle style={{color:"#FFFFFF", fontSize:"18px"}}>Language</CardSubtitle>
+                          </td>
+                          <td style={{margin:"0", padding:"0", maxHeight:"100%"}}>
+                            <CardSubtitle style={{color:"#fec106", fontSize:"18px"}}>{movie.language}</CardSubtitle>
+                          </td>
+                        </tr>
+                        <br></br>
+                        <tr  style={{margin:"0", padding:"0"}}>
+                          <td style={{margin:"0", padding:"0", maxHeight:"100%"}}>
+                            <CardSubtitle style={{color:"#FFFFFF", fontSize:"18px"}}>Tagline</CardSubtitle>
+                          </td>
+                          <td style={{margin:"0", padding:"0", maxHeight:"100%"}}>
+                            <CardSubtitle style={{color:"#fec106", fontSize:"18px"}}>{movie.tagline}</CardSubtitle>
+                          </td>
+                        </tr>
+                        <br></br>
+                        <tr  style={{margin:"0", padding:"0"}}>
+                          <td style={{margin:"0", padding:"0", maxHeight:"100%"}}>
+                            <CardSubtitle style={{color:"#FFFFFF", fontSize:"18px"}}>Status</CardSubtitle>
+                          </td>
+                          <td style={{margin:"0", padding:"0", maxHeight:"100%"}}>
+                            <CardSubtitle style={{color:"#fec106", fontSize:"18px"}}>{movie.status}</CardSubtitle>
+                          </td>
+                        </tr>
+                        <br></br>
+                        <tr  style={{margin:"0", padding:"0"}}>
+                          <td style={{margin:"0", padding:"0", maxHeight:"100%"}}>
+                            <CardSubtitle style={{color:"#FFFFFF", fontSize:"18px"}}>Spoken Language(s)</CardSubtitle>
+                          </td>
+                          <td style={{margin:"0", padding:"0", maxHeight:"100%"}}>
+                            <CardSubtitle style={{color:"#fec106", fontSize:"18px"}}>{movie.spokenLanguages}</CardSubtitle>
+                          </td>
+                        </tr>
+                        <br></br>
+                        <tr  style={{margin:"0", padding:"0"}}>
+                          <td style={{margin:"0", padding:"0", maxHeight:"100%"}}>
+                            <CardSubtitle style={{color:"#FFFFFF", fontSize:"18px"}}>Homepage</CardSubtitle>
+                          </td>
+                          <td style={{margin:"0", padding:"0", maxHeight:"100%"}}>
+                            <CardSubtitle style={{color:"#fec106", fontSize:"18px"}}><a style={{color:"#fec106"}} href={movie.homepage} target="_blank">{movie.homepage}</a></CardSubtitle>
+                          </td>
+                        </tr>
+                        <br></br>
+                        <tr  style={{margin:"0", padding:"0"}}>
+                          <td style={{margin:"0", padding:"0", maxHeight:"100%"}}>
+                            <CardSubtitle style={{color:"#FFFFFF", fontSize:"18px"}}>Original Title</CardSubtitle>
+                          </td>
+                          <td style={{margin:"0", padding:"0", maxHeight:"100%"}}>
+                            <CardSubtitle style={{color:"#fec106", fontSize:"18px"}}>{movie.originalTitle}</CardSubtitle>
+                          </td>
+                        </tr>
+                        <br></br>
+                        <tr  style={{margin:"0", padding:"0"}}>
+                          <td style={{margin:"0", padding:"0", maxHeight:"100%"}}>
+                            <CardSubtitle style={{color:"#FFFFFF", fontSize:"18px"}}>Keywords</CardSubtitle>
+                          </td>
+                          <td style={{margin:"0", padding:"0", maxHeight:"100%"}}>
+                            <CardSubtitle style={{color:"#fec106", fontSize:"18px"}}>{keywords}</CardSubtitle>
+                          </td>
+                        </tr>
+
+                      </tbody>
+                    </Table>
+                  </div>
+
+                </div>
+              )
+            })
+
+           
 
         
 
             return(
-                <div></div>
+                <div className="containerDiv" style={{background:"black", border:"1px solid red", maxHeight:"100%"}}>
+                  <Container>
+                    <div className="backgroundUpcoming" style={{maxHeight:"100%"}}>
+                      {firstRow}
+                    </div>
+                  </Container>
+                  <Container>
+                    <div className="backgroundUpcoming" style={{background:"black", maxHeight:"100%", border:"1px solid red", marginTop:"10px"}}>
+                      <Nav tabs>
+                        <NavItem style={{border:"1px solid red"}}>
+                          <NavLink
+                            className={classnames({ active: activeTab === '1' })}
+                            onClick={() => { this.toggle('1'); }}
+                            >
+                            <span style={{color:"#fec106",fontWeight:"bold"}}>Overview</span>
+                           </NavLink>
+                        </NavItem>
+                        <NavItem>
+                          <NavLink
+                            className={classnames({ active: activeTab === '2' })}
+                            onClick={() => { this.toggle('2'); }}
+                            >
+                              <span style={{color:"#fec106",fontWeight:"bold"}}>Cast and Crew</span>
+                          </NavLink>
+                        </NavItem>
+                        <NavItem>
+                          <NavLink
+                            className={classnames({ active: activeTab === '3' })}
+                            onClick={() => { this.toggle('3'); }}
+                            >
+                              <span style={{color:"#fec106", fontWeight:"bold"}}>Production</span>
+                          </NavLink>
+                        </NavItem>
+                        <NavItem>
+                          <NavLink
+                            className={classnames({ active: activeTab === '4' })}
+                            onClick={() => { this.toggle('4'); }}
+                            >
+                              <span style={{color:"#fec106",fontWeight:"bold"}}>Reviews</span>
+                          </NavLink>
+                        </NavItem>
+                      </Nav>
+                      <TabContent activeTab={activeTab}>
+                        <TabPane tabId="1">
+                          <Container>
+                            <div className="backgroundUpcoming" style={{background:"black", maxHeight:"100%", marginTop:"10px"}}>
+                              {overView}
+                            </div>
+                          </Container>
+                        </TabPane>
+                        <TabPane tabId="2">
+                          <Container>
+                            <div className="backgroundUpcoming" style={{background:"black", maxHeight:"100%", marginTop:"10px"}}>
+                              hello 2
+                            </div>
+                          </Container>
+                        </TabPane>
+                        <TabPane tabId="3">
+                          <Container>
+                            <div className="backgroundUpcoming" style={{background:"black", maxHeight:"100%", marginTop:"10px"}}>
+                              hello 3
+                            </div>
+                          </Container>
+                        </TabPane>
+                        <TabPane tabId="4">
+                          <Container>
+                            <div className="backgroundUpcoming" style={{background:"black", maxHeight:"100%", marginTop:"10px"}}>
+                              hello 4
+                            </div>
+                          </Container>
+                        </TabPane>
+                        
+                      </TabContent>
+
+                    </div>
+                  </Container>
+                </div>
             )
 
       }
