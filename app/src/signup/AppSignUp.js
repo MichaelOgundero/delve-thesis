@@ -3,7 +3,7 @@ import { NavLink as Link} from 'react-router-dom';
 
 import AppFooter from '../footer/AppFooter.js'
 import "./AppSignUp.css";
-import cinemaChair from '../images/cinemaChair.jpg';
+import cinemaChair from '../images/collageMovies2.jpg';
 import facebookIcon from '../images/facebookIcon.png';
 import googleIcon from '../images/googleIcon.png';
 
@@ -57,12 +57,12 @@ class AppSignUp extends Component{
                                  left:"0", right:"0", top:"0", bottom:"0", margin:"auto",
                                  maxHeight:"100%", maxWidth:"100%"}}>
                         <div style={{display:"inline-block", position:"relative", width:"300px", background:"black", height:"550px", marginLeft:"20px", marginTop:"25px"}}>
-                            <div style={{maxWidth:"300px", maxHeight:"198.7px", marginTop:"108px"}}>
-                                <img src={cinemaChair}   style={{maxWidth:"300px", maxHeight:"198.7px"}}></img>
+                            <div style={{maxWidth:"300px", maxHeight:"300px", marginTop:"105px"}}>
+                                <img src={cinemaChair}   style={{maxWidth:"300px", maxHeight:"300px"}}></img>
                             </div> 
-                            <div style={{marginLeft:"50px",marginTop:"60px"}}>
+                            <div style={{marginLeft:"50px",marginTop:"62px"}}>
                                 <NavLink tag={Link} activeClassName="current" exact to="/signIn" style={{margin:"0", padding:"0"}}>
-                                    <p style={{color:"white"}}>I'm already a member</p>
+                                    <p style={{color:"white", fontWeight:"bold"}}>I'm already a member</p>
                                 </NavLink>  
                             </div>                          
                         </div>
