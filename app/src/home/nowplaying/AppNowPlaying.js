@@ -10,6 +10,9 @@ import './AppNowPlaying.css';
 import star from '../../images/star.png';
 import see from '../../images/see.png'
 
+let movieIds = []
+let movieId;
+let activeIndex;
 class AppNowPlaying extends Component{
 
   constructor(props){
@@ -17,10 +20,25 @@ class AppNowPlaying extends Component{
     this.state = {
       isLoading: true,
       movies: []
+  
     }
     this._isMounted = false;
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.getIndex = this.getIndex.bind(this);
   }
 
+ getIndex(val){
+    activeIndex = val;
+ }
+  
+  handleSubmit(){
+  
+    this.props.handleSeeMore(movieIds[activeIndex])
+
+  console.log("movie id sent"+ movieIds[activeIndex])
+  
+
+  }
 
   componentDidMount(){
     this._isMounted  = true;
@@ -44,6 +62,7 @@ class AppNowPlaying extends Component{
 
     render() {
       const { movies, isLoading} = this.state;
+    
 
       if(isLoading){
         return(
@@ -53,6 +72,8 @@ class AppNowPlaying extends Component{
 
 
       const columns = movies.map((movie, index) => {
+        movieIds.push(movie.id)
+        console.log(movieIds)
         let movieName = movie.title;
         if(movie.title.length>27){
            movie.title =  movie.title.substring(0,24) + "..." 
@@ -75,7 +96,7 @@ class AppNowPlaying extends Component{
                       
                         <NavLink tag={Link} exact to="/details" style={{ display:"inline-block", height:"100%", fontSize:"0", margin:"0", padding:"0"}}>
                           <div style={{  display:"inline-block"}}>
-                          <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
+                          <Button onClick={this.getIndex(index), this.handleSubmit} color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
                           </div>
                         </NavLink>
                         

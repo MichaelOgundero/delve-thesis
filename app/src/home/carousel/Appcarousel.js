@@ -60,8 +60,9 @@ const items = [
 
 const movieTitles = []
 const movieTrailers = []
+const movieIds = []
 
-
+let movieId;
 
 class Appcarousel extends Component {
 
@@ -73,7 +74,7 @@ class Appcarousel extends Component {
       trailers: [],
       isLoading: true,
       modal: false,
-      playing: true 
+      playing: true
     };
 
     this._isMounted = false;
@@ -86,6 +87,18 @@ class Appcarousel extends Component {
     this.toggle = this.toggle.bind(this);
     this.play = this.play.bind(this);
     this.stop = this.stop.bind(this);
+   
+    //this.setMovieId = this.setMovieId.bind(this);
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(){
+  
+      this.props.handleSeeMore(movieId)
+
+    console.log("movie id sent")
+ 
   }
 
    componentDidMount(){
@@ -150,11 +163,18 @@ class Appcarousel extends Component {
     });
   }
 
+  setMovieId(val){
+    this.setState({
+      movieId: val
+    })
+  }
+
 
 
   getOverviewButton(movie, activeIndex){
     const ytKey = movieTrailers[activeIndex];
-  
+     movieId = movieIds[activeIndex]
+     
     return(
       <div>
         <div>{movie.overview}</div>
@@ -165,7 +185,7 @@ class Appcarousel extends Component {
          
             <NavLink tag={Link} exact to="/details" style={{display:"inline-block", height:"100%", margin:"0", marginLeft:"5px", padding:"0"}}>
                
-                      <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
+                      <Button onClick={this.handleSubmit} color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
              
             </NavLink>
  
@@ -209,6 +229,7 @@ class Appcarousel extends Component {
      
       movieTrailers.push(movie.youtubeKey);
       movieTitles.push(movie.title)
+      movieIds.push(movie.id)
       console.log(movie.id)
       return (
         <CarouselItem

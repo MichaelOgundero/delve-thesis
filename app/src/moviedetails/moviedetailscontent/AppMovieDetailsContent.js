@@ -85,7 +85,7 @@ class  AppMovieDetailsContent extends Component{
         //299536 infinity war
         //1273 tmnt
         //420809 malfic
-        const movieID = 1273
+        const movieID = this.props.seeMoreValue
    
         Promise.all([
             fetch(`api/detail/${movieID}`),
@@ -181,7 +181,7 @@ class  AppMovieDetailsContent extends Component{
               
               moviePoster.forEach((poster, index)=>{
            
-                if(index === 3){
+                if(index === 0){
                   posterPath = poster.file_path
                 }
               })

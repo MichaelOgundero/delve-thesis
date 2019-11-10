@@ -10,6 +10,9 @@ import star from '../../images/star.png';
 import overView from '../../images/overView.png';
 import { instanceOf } from 'prop-types';
 
+let movieId;
+let movieIds = []
+let activeIndex;
 class AppMovieOfTheDay extends Component{
   constructor(props){
     super(props);
@@ -21,6 +24,18 @@ class AppMovieOfTheDay extends Component{
     
 
     this._isMounted = false;
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+
+  getIndex(val){
+    activeIndex = val;
+    
+ }
+  handleSubmit(){
+  
+    this.props.handleSeeMore(movieIds[activeIndex])
+    console.log(movieIds[activeIndex])
   }
 
   componentDidMount(){
@@ -56,8 +71,9 @@ class AppMovieOfTheDay extends Component{
     }
 
     const columns = movies.map((movie, index) => {
-      
-
+      movieIds.push(movie.movieId)
+      console.log(movieIds)
+      movieId = movie.id
       const genre = movie.genres;
       let genreContent
       if(genre.length === 0){
@@ -127,7 +143,7 @@ class AppMovieOfTheDay extends Component{
          
                     <NavLink tag={Link} exact to="/details" style={{display:"inline-block", height:"100%", margin:"0", marginLeft:"5px", padding:"0"}}>
                
-                      <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
+                      <Button onClick={this.getIndex(index),this.handleSubmit} color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
              
                     </NavLink>
  

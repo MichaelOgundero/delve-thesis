@@ -17,7 +17,8 @@ class App extends Component{
     super(props);
     this.state = {
       isLoading: true,
-      searchValue: ""
+      searchValue: "",
+      seeMoreValue: ''
     }
 
     this.getSearchValue = this.getSearchValue.bind(this);
@@ -27,6 +28,7 @@ class App extends Component{
     this.getDetails = this.getDetails.bind(this);
     this.getSignUp = this.getSignUp.bind(this);
     this.getSignIn = this.getSignIn.bind(this);
+    this.getSeeMoreValue = this.getSeeMoreValue.bind(this)
   }
 
   getSearchValue(value){
@@ -34,10 +36,16 @@ class App extends Component{
       searchValue: value
     })
   }
+
+  getSeeMoreValue(value){
+    this.setState({
+      seeMoreValue: value
+    })
+  }
   
   getHome(){
     return (
-        <AppHome getSearchValue={this.getSearchValue}/>
+        <AppHome getSearchValue={this.getSearchValue} getSeeMoreValue={this.getSeeMoreValue}/>
     )
   }
 
@@ -55,7 +63,7 @@ class App extends Component{
 
   getDetails(){
     return(
-      <AppMovieDetails getSearchValue={this.getSearchValue}/>
+      <AppMovieDetails seeMoreValue={this.state.seeMoreValue}  getSearchValue={this.getSearchValue}/>
     )
   }
 

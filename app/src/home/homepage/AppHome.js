@@ -16,10 +16,13 @@ class AppHome extends Component{
     super(props);
     this.state = {
       isLoading: true,
-      searchValue: " "
+      searchValue: " ",
+      seeMoreValue:" "
     }
   
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleSeeMore = this.handleSeeMore.bind(this);
+
   
   }
 
@@ -28,12 +31,19 @@ class AppHome extends Component{
     this.props.getSearchValue(value);
   }
 
+  handleSeeMore(value){
+    this.setState({seeMoreValue: value});
+    this.props.getSeeMoreValue(value);
+  }
+
+ 
+
 
 
   
   render(){
 
-    console.log(this.state.searchValue + " got it")
+    console.log(this.state.seeMoreValue + " got it")
    // this.sendSearchValue()
 
     
@@ -42,10 +52,10 @@ class AppHome extends Component{
       <div className="page-container">
         <div className="content-wrap">
           <Appbar handleSearch={this.handleSearch}/>
-          <Appcarousel/>
-          <AppNowPlaying/>
+          <Appcarousel handleSeeMore={this.handleSeeMore}/>
+          <AppNowPlaying handleSeeMore={this.handleSeeMore}/>
           <AppUpcoming/>
-          <AppMovieOfTheDay/>
+          <AppMovieOfTheDay handleSeeMore={this.handleSeeMore}/>
           <AppTrending/>
         <br></br>
         <br></br>
