@@ -14,6 +14,7 @@ import { Container, Row,NavLink,
   import addDetails from '../../images/addDetails.png';
 
   import detailStar from '../../images/detailStar.png'
+  import noPoster from '../../images/imageUnavailable.png';
   
 
 class  AppMovieDetailsContent extends Component{
@@ -21,7 +22,7 @@ class  AppMovieDetailsContent extends Component{
     constructor(props){
         super(props);
         this.state = {
-            activeTab: '3',
+            activeTab: '1',
             isLoading: true,
             movieDetails: [],   //details
             movieCast:[],       //moreDetails
@@ -61,7 +62,7 @@ class  AppMovieDetailsContent extends Component{
         //299536 infinity war
         //1273 tmnt
         //420809 malfic
-        const movieID = 475557
+        const movieID = 550
    
         Promise.all([
             fetch(`api/detail/${movieID}`),
@@ -99,6 +100,7 @@ class  AppMovieDetailsContent extends Component{
       render(){
 
         let director;
+        let directorPoster;
         let posterPath;
         let finalTrailer;
         const { movieDetails, movieCast,
@@ -111,6 +113,10 @@ class  AppMovieDetailsContent extends Component{
                  movieCrew.forEach(crew => {
                   if(crew.job === "Director"){
                     director = crew.name;
+                    if(!crew.hasOwnProperty('profile_path')){
+                      directorPoster = noPoster
+                    }
+                    directorPoster = `http://image.tmdb.org/t/p/original${crew.profile_path}`;
                   }
               });
 
@@ -450,6 +456,54 @@ class  AppMovieDetailsContent extends Component{
               )
             })
 
+            const Cast = movieCast.map((cast, index)=>{
+              let poster = `http://image.tmdb.org/t/p/original${cast.profile_path}`;
+              if(!cast.hasOwnProperty('profile_path')){
+                  poster = noPoster
+              }
+              return(
+                <div style={{maxHeight:"100%", maxWidth:"100%", background:"black"}} key={index}>
+                  <tbody>
+                  <tr >
+                    <td style={{}}>
+                      <CardImg style={{maxHeight:"68px", maxWidth:"45px",height:"68px", width:"45px"}} src={poster} alt="Card image cap"></CardImg>
+                    </td>
+                    <td style={{ width:"350px", maxWidth:"350px", display:"table-cell", verticalAlign:"middle"}}>
+                      <CardSubtitle style={{color:"#FFFFFF", fontSize:"18px"}}>{cast.name}</CardSubtitle>
+                    </td>
+                    <td  style={{ width:"350px",maxWidth:"350px", display:"table-cell", verticalAlign:"middle"}}>
+                      <CardSubtitle style={{color:"#fec106", fontSize:"18px"}}>{cast.character}</CardSubtitle>
+                    </td>
+                  </tr>
+                  
+                  </tbody>
+    
+
+                </div>
+              )
+            })
+
+            const Crew = movieCrew.map((crew, index)=>{
+
+                return(
+                  <div style={{maxHeight:"100%", maxWidth:"100%", background:"black"}} key={index}>
+                  <tbody>
+                  <tr >
+                    <td style={{ width:"390px", maxWidth:"390px", display:"table-cell", verticalAlign:"middle"}}>
+                      <CardSubtitle style={{color:"#FFFFFF", fontSize:"18px"}}>{crew.name}</CardSubtitle>
+                    </td>
+                    <td  style={{ width:"310px",maxWidth:"310px", display:"table-cell", verticalAlign:"middle"}}>
+                      <CardSubtitle style={{color:"#fec106", fontSize:"18px"}}>{crew.job}</CardSubtitle>
+                    </td>
+                  </tr>
+                  
+                  </tbody>
+    
+
+                </div>
+                )
+            })
+
    
 
 
@@ -488,8 +542,26 @@ class  AppMovieDetailsContent extends Component{
                 </tr>
               </tbody>
 
-        </div>
+              </div>
             )
+           })
+
+           const Reviews = movieReviews.map((review, index)=>{
+             return(
+               <div div style={{maxHeight:"100%", maxWidth:"100%", background:"black"}} key={index}>
+                  <div style={{maxHeight:"100%", maxWidth:"100%", background:"black", marginTop:"50px"}}>
+                    <CardSubtitle style={{color:"#fec106", fontWeight:"bold", fontSize:"20px"}}>Review by {review.author}</CardSubtitle>
+                  </div>
+                  <div style={{maxHeight:"100%", maxWidth:"100%", marginTop:"10px"}}>
+                    <CardSubtitle style={{color:"#FFFFFF", maxWidth:"100%", maxHeight:"100%", background:"black", fontSize:"15px"}}>
+                      {review.content}
+                    </CardSubtitle>
+                  </div>
+                  <div style={{maxheight:"100%", maxWidth:"100%", marginTop:"10px", marginLeft:"590px"}}>
+                  <CardSubtitle style={{color:"#fec106", fontSize:"18px"}}><a style={{color:"#fec106"}} href={review.url} target="_blank">Link to Review</a></CardSubtitle>
+                  </div>
+               </div>
+             )
            })
 
            
@@ -504,7 +576,7 @@ class  AppMovieDetailsContent extends Component{
                     </div>
                   </Container>
                   <Container>
-                    <div className="backgroundUpcoming" style={{background:"black", maxHeight:"100%", border:"1px solid red", marginTop:"10px"}}>
+                    <div className="backgroundUpcoming" style={{background:"black", maxHeight:"100%", border:"1px solid red", marginTop:"10px", marginBottom:"10px"}}>
                       <Nav tabs>
                         <NavItem style={{border:"1px solid red"}}>
                           <NavLink
@@ -542,21 +614,57 @@ class  AppMovieDetailsContent extends Component{
                       <TabContent activeTab={activeTab}>
                         <TabPane tabId="1">
                           <Container>
-                            <div className="backgroundUpcoming" style={{background:"black", maxHeight:"100%", marginTop:"10px"}}>
+                            <div className="backgroundUpcoming" style={{background:"black", maxHeight:"100%", marginTop:"30px"}}>
                               {overView}
                             </div>
                           </Container>
                         </TabPane>
                         <TabPane tabId="2">
                           <Container>
-                            <div className="backgroundUpcoming" style={{background:"black", maxHeight:"100%", marginTop:"10px"}}>
-                              hello 2
+                            <div className="backgroundUpcoming" style={{background:"black", maxHeight:"100%", marginTop:"30px"}}>
+                              <div style={{maxHeight:"100%", maxWidth:"100%", background:"black", borderBottom:"1px solid #fec106"}}>
+                                <CardSubtitle style={{color:"#fec106", fontWeight:"bold", fontSize:"28px"}}>Director</CardSubtitle>
+                              </div>
+                              <div style={{maxHeight:"100%", maxWidth:"100%", marginTop:"10px"}}>
+                                <Table borderless style={{maxWidth:"100%", maxheight:"100px"}}>
+                                <div style={{maxHeight:"100%", maxWidth:"100%", background:"black"}}>
+                                  <tbody>
+                                    <tr >
+                                      <td >
+                                        <CardImg style={{maxHeight:"68px", maxWidth:"45px",height:"68px", width:"45px"}} src={directorPoster} alt="Card image cap"></CardImg>
+                                      </td>
+                                      <td style={{ width:"350px", maxWidth:"350px", display:"table-cell", verticalAlign:"middle"}}>
+                                        <CardSubtitle style={{color:"#FFFFFF", fontSize:"18px"}}>{director}</CardSubtitle>
+                                      </td>
+                                    </tr>
+                                    <br></br>
+                                    </tbody>
+                                </div>
+                                </Table>
+                              </div>
+                              <div style={{maxHeight:"100%", maxWidth:"100%", background:"black", borderBottom:"1px solid #fec106"}}>
+                                <CardSubtitle style={{color:"#fec106", fontWeight:"bold", fontSize:"28px"}}>Cast</CardSubtitle>
+                              </div>
+                              <div style={{maxHeight:"100%", maxWidth:"100%", marginTop:"10px"}}>
+                                <Table  style={{maxWidth:"100%", maxheight:"100px"}}>
+                                  {Cast}
+                                </Table>
+                              </div>
+                              <div style={{maxHeight:"100%", maxWidth:"100%", background:"black", borderBottom:"1px solid #fec106"}}>
+                                <CardSubtitle style={{color:"#fec106", fontWeight:"bold", fontSize:"28px"}}>Crew</CardSubtitle>
+                              </div>
+                              <div style={{maxHeight:"100%", maxWidth:"100%", marginTop:"10px"}}>
+                                <Table  style={{maxWidth:"100%", maxheight:"100px"}}>
+                                  {Crew}
+                                </Table>
+                              </div>
+                             
                             </div>
                           </Container>
                         </TabPane>
                         <TabPane tabId="3">
                           <Container>
-                            <div className="backgroundUpcoming" style={{background:"black", maxHeight:"100%", marginTop:"10px"}}>
+                            <div className="backgroundUpcoming" style={{background:"black", maxHeight:"100%",  marginTop:"30px"}}>
                               <div style={{maxHeight:"100%", maxWidth:"100%", background:"black", borderBottom:"1px solid #fec106"}}>
                                 <CardSubtitle style={{color:"#fec106", fontWeight:"bold", fontSize:"28px"}}>Production Companies</CardSubtitle>
                               </div>
@@ -605,8 +713,13 @@ class  AppMovieDetailsContent extends Component{
                         </TabPane>
                         <TabPane tabId="4">
                           <Container>
-                            <div className="backgroundUpcoming" style={{background:"black", maxHeight:"100%", marginTop:"10px"}}>
-                              hello 4
+                            <div className="backgroundUpcoming" style={{background:"black", maxHeight:"100%", marginTop:"30px"}}>
+                              <div style={{maxHeight:"100%", maxWidth:"100%", background:"black", borderBottom:"1px solid #fec106"}}>
+                                <CardSubtitle style={{color:"#fec106", fontWeight:"bold", fontSize:"28px"}}>Reviews</CardSubtitle>
+                              </div>
+                              <div style={{maxHeight:"100%", maxWidth:"100%", marginTop:"10px"}}>
+                                {Reviews}
+                              </div>
                             </div>
                           </Container>
                         </TabPane>
