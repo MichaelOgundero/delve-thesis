@@ -21,7 +21,7 @@ class  AppMovieDetailsContent extends Component{
     constructor(props){
         super(props);
         this.state = {
-            activeTab: '1',
+            activeTab: '3',
             isLoading: true,
             movieDetails: [],   //details
             movieCast:[],       //moreDetails
@@ -59,7 +59,8 @@ class  AppMovieDetailsContent extends Component{
       async getInformation(){
         //475557 joker
         //299536 infinity war
-        //1273
+        //1273 tmnt
+        //420809 malfic
         const movieID = 475557
    
         Promise.all([
@@ -116,15 +117,34 @@ class  AppMovieDetailsContent extends Component{
               let pcName = []
               movieDetails.forEach(movie=>{
                 for(let i=0;i<movie.productionCompanies.length;i++){
-                  pcName.push(movie.productionCompanies[i].name)
+                  pcName.push(movie.productionCompanies[i])
                 }
               })
+              console.log(pcName)
+  
+              let prodCountry = []
+              movieDetails.forEach(movie=>{
+                for(let i=0;i<movie.productionCountries.length;i++){
+                  prodCountry.push(movie.productionCountries[i])
+                }
+              })
+              console.log(prodCountry)
+              
+              let revenue
+              let budget
+              let revenueColor = "red"
+              let howManyTimes
 
-              /*console.log(pcNameArray)
-              let pcName = []
-              for(let i=0;i<pcNameArray.length;i++){
-                pcName.push(pcNameArray.name)
-              }*/
+              movieDetails.forEach(movie=>{
+                revenue = movie.revenue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                budget = movie.budget.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');;
+
+               howManyTimes = Math.round(movie.revenue/movie.budget) 
+
+                if(movie.revenue> movie.budget){
+                  revenueColor = "green"
+                }
+              })
               
 
               
@@ -430,6 +450,48 @@ class  AppMovieDetailsContent extends Component{
               )
             })
 
+   
+
+
+           const production = pcName.map((company, index)=>{
+              if(company.origin_country===""){
+                company.origin_country = "N/A"
+              }
+              return(
+                <div style={{maxHeight:"100%", maxWidth:"100%", background:"black"}} key={index}>
+
+                      <tbody>
+                        <tr style={{margin:"0", padding:"0" }}>
+                          <td style={{marginLeft:"0", paddingLeft:"0", marginRight:"5px", paddingRight:"5px", maxHeight:"100%", maxWidth:"100%"}}>
+                            <CardSubtitle style={{color:"#FFFFFF", fontSize:"18px"}}>{company.name}</CardSubtitle>
+                          </td>
+                          <td style={{marginLeft:"0", paddingLeft:"0", maxHeight:"100%", maxWidth:"100%"}}>
+                            <CardSubtitle style={{color:"#fec106", fontSize:"18px"}}>({company.origin_country})</CardSubtitle>
+                          </td>
+                        </tr>
+                      </tbody>
+
+                </div>
+              )
+           })
+
+           const countries = prodCountry.map((country, index)=>{
+
+            return(
+              <div style={{maxHeight:"100%", maxWidth:"100%", background:"black"}} key={index}>
+
+              <tbody>
+                <tr style={{margin:"0", padding:"0" }}>
+                  <td style={{marginLeft:"0", paddingLeft:"0", marginRight:"5px", paddingRight:"5px", maxHeight:"100%", maxWidth:"100%"}}>
+                    <CardSubtitle style={{color:"#FFFFFF", fontSize:"18px"}}>{country}</CardSubtitle>
+                  </td>
+                </tr>
+              </tbody>
+
+        </div>
+            )
+           })
+
            
 
         
@@ -457,7 +519,7 @@ class  AppMovieDetailsContent extends Component{
                             className={classnames({ active: activeTab === '2' })}
                             onClick={() => { this.toggle('2'); }}
                             >
-                              <span style={{color:"#fec106",fontWeight:"bold"}}>Cast and Crew</span>
+                              <span style={{color:"#fec106",fontWeight:"bold"}}>Cast & Crew</span>
                           </NavLink>
                         </NavItem>
                         <NavItem>
@@ -495,7 +557,49 @@ class  AppMovieDetailsContent extends Component{
                         <TabPane tabId="3">
                           <Container>
                             <div className="backgroundUpcoming" style={{background:"black", maxHeight:"100%", marginTop:"10px"}}>
-                              hello 3
+                              <div style={{maxHeight:"100%", maxWidth:"100%", background:"black", borderBottom:"1px solid #fec106"}}>
+                                <CardSubtitle style={{color:"#fec106", fontWeight:"bold", fontSize:"28px"}}>Production Companies</CardSubtitle>
+                              </div>
+                                <div style={{maxHeight:"100%", maxWidth:"100%", marginTop:"10px"}}>
+                                 <Table borderless style={{maxWidth:"100%", maxheight:"100px"}}>
+                                   {production}
+                                </Table> 
+                              </div>
+                              <div style={{maxHeight:"100%", maxWidth:"100%", background:"black", borderBottom:"1px solid #fec106", marginBottom:""}}>
+                                <CardSubtitle style={{color:"#fec106", fontWeight:"bold", fontSize:"28px"}}>Production Country(s)</CardSubtitle>
+                              </div>
+
+                                <div style={{maxHeight:"100%", maxWidth:"100%", marginTop:"10px"}}>
+                                 <Table borderless style={{maxWidth:"100%", maxheight:"100px"}}>
+                                   {countries}
+                                </Table>
+                                </div>  
+
+                              <div style={{maxHeight:"100%", maxWidth:"100%", background:"black", borderBottom:"1px solid #fec106", marginBottom:""}}>
+                                <CardSubtitle style={{color:"#fec106", fontWeight:"bold", fontSize:"28px"}}>Box Office</CardSubtitle>
+                              </div>
+                              <div style={{maxHeight:"100%", maxWidth:"100%", marginTop:"10px"}}>
+                                 <Table borderless style={{maxWidth:"100%", maxheight:"100px"}}>
+                                  <tbody>
+                                    <tr style={{margin:"0", padding:"0" }}>
+                                      <td style={{marginLeft:"0", paddingLeft:"0", marginRight:"5px", paddingRight:"5px", maxHeight:"100%", maxWidth:"100%"}}>
+                                        <CardSubtitle style={{color:"#fec106", fontSize:"18px"}}>Budget</CardSubtitle>
+                                      </td>
+                                      <td style={{marginLeft:"0", paddingLeft:"0", maxHeight:"100%", maxWidth:"100%"}}>
+                                        <CardSubtitle style={{color:"#FFFFFF", fontSize:"18px"}}>{budget} USD</CardSubtitle>
+                                      </td>
+                                    </tr>
+                                    <tr style={{margin:"0", padding:"0" }}>
+                                      <td style={{marginLeft:"0", paddingLeft:"0", marginRight:"5px", paddingRight:"5px", maxHeight:"100%", maxWidth:"100%"}}>
+                                        <CardSubtitle style={{color:"#fec106", fontSize:"18px"}}>Revenue</CardSubtitle>
+                                      </td>
+                                      <td style={{marginLeft:"0", paddingLeft:"0", maxHeight:"100%", maxWidth:"100%"}}>
+                                        <CardSubtitle style={{color:`${revenueColor}`, fontSize:"18px"}}>{revenue} USD (x{howManyTimes})</CardSubtitle>
+                                      </td>
+                                    </tr>
+                                    </tbody>
+                                </Table>
+                                </div>  
                             </div>
                           </Container>
                         </TabPane>
