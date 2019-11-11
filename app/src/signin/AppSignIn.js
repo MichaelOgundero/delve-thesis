@@ -93,7 +93,7 @@ class AppSignIn extends Component{
                             <div style={{maxWidth:"300px", maxHeight:"300px", marginTop:"105px"}}>
                                 <img src={cinemaChair}   style={{maxWidth:"300px", maxHeight:"300px"}}></img>
                             </div> 
-                            <div style={{marginLeft:"60px",marginTop:"60px"}}>
+                            <div style={{marginLeft:"75px",marginTop:"60px"}}>
                                 <NavLink tag={Link} activeClassName="current" exact to="/signUp" style={{margin:"0", padding:"0"}}>
                                     <p style={{color:"white", fontWeight:"bold",width:"136px"}}>Create an account</p>
                                 </NavLink>  

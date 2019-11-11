@@ -19,23 +19,35 @@ class AppNowPlaying extends Component{
     super(props);
     this.state = {
       isLoading: true,
-      movies: []
+      movies: [],
+      movieID: ""
   
     }
     this._isMounted = false;
+
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.getIndex = this.getIndex.bind(this);
+    this.getMovieId = this.getMovieId.bind(this);
+
   }
 
- getIndex(val){
-    activeIndex = val;
- }
+  setMovieId(val){
+    this.setState({
+      movieID: val
+    })
+  }
+
+  getMovieId(val){
+    movieId =val
+    
+    console.log(movieId)
+   this.handleSubmit()
+  }
   
   handleSubmit(){
-  
-    this.props.handleSeeMore(movieIds[activeIndex])
+    
+    this.props.handleSeeMore(movieId)
 
-  console.log("movie id sent"+ movieIds[activeIndex])
+  console.log("movie id sent"+ movieId)
   
 
   }
@@ -49,6 +61,8 @@ class AppNowPlaying extends Component{
     this._isMounted = false;
   }
 
+  
+
  
 
   async getInformation(){
@@ -61,17 +75,76 @@ class AppNowPlaying extends Component{
   }
 
     render() {
-      const { movies, isLoading} = this.state;
-    
+      const { movies, isLoading,} = this.state;
+      
+      let xxx;
+
+      
+
+     /* function getMovieId(val){
+        movieId =val
+        
+        console.log(val)
+       
+      }*/
+
+      //this.getMovieIdTop(getMovieId(val))
 
       if(isLoading){
         return(
           <div className="loader"></div>
         )
       }
+      
+
+      
+       const myfunc =()=> {
+
+        let card = []
 
 
-      const columns = movies.map((movie, index) => {
+        for(let i=0;i<movies.length;i++){
+          movieIds.push(movies[i].id)
+          let xxx = movieId
+          let movieName = movies[i].title;
+          if(movies[i].title.length>27){
+            movies[i].title =  movies[i].title.substring(0,24) + "..." 
+          }
+          card.push(
+            <Col xs="6" sm="4" key={i}>
+            <div style={{paddingTop:"25px"}}>
+              <Card style={{maxWidth:"185px", borderColor:" #1c1b1b"}}>
+                <CardImg style={{maxHeight:"278px", maxWidth:"185px",height:"278px", width:"auto",border:"4px solid black"}} src={`http://image.tmdb.org/t/p/original${movies[i].poster_path}`} alt="Card image cap"/>
+                  <CardBody className="paddingCardbody">
+                      <CardTitle className="paddingCardbody" style={{color:"#fec106", textTransform:"capitalize",  fontSize:"13px"}} title={`${movieName}`}>{`${movies[i].title}`}</CardTitle>
+
+                      <CardText className="paddingCardbody" style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}}>{`${movies[i].director}`}</CardText>
+                      <CardText>
+                          <p style={{float: "left", paddingRight:"3.5px"}}><img src={`${star}`} height="20px" width="20px" border="1px" alt=""></img></p>
+                          <p style={{fontSize:"19px", color:"#FFFFFF"}}>{`${movies[i].vote_average}`}</p>
+                      </CardText>
+                      
+                      <NavLink tag={Link} exact to="/details" style={{display:"inline-block", height:"100%", margin:"0", marginLeft:"5px", padding:"0"}}>
+                          <div style={{  display:"inline-block"}}>
+                          <Button onClick={()=>{this.getMovieId(`${movies[i].id}`)}}  color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={`${see}`} alt=""></img></span>See More</Button>{' '}
+                          </div>
+                     </NavLink>
+                        
+
+                      </CardBody>
+                </Card>
+            </div>
+          </Col>
+          )
+        }
+
+
+        
+        return card;
+      }
+      console.log(movieId)
+
+     /* const columns = movies.map((movie, index) => {
         movieIds.push(movie.id)
         console.log(movieIds)
         let movieName = movie.title;
@@ -106,7 +179,7 @@ class AppNowPlaying extends Component{
             </div>
           </Col>
         );
-      });
+      });*/
 
         return (
           
@@ -119,7 +192,7 @@ class AppNowPlaying extends Component{
               </div>
               <div className="imagesNowPlaying"> 
                 <Row noGutters={false} className="paddingFirst">
-                  {columns}
+                  {myfunc()}
                 </Row>
               </div>
             </Container>

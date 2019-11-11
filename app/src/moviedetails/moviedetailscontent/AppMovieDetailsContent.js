@@ -86,6 +86,7 @@ class  AppMovieDetailsContent extends Component{
         //1273 tmnt
         //420809 malfic
         //this.props.seeMoreValue
+        console.log("this is prop" + this.props.seeMoreValue)
         const movieID = this.props.seeMoreValue
    
         Promise.all([
