@@ -85,6 +85,7 @@ class  AppMovieDetailsContent extends Component{
         //299536 infinity war
         //1273 tmnt
         //420809 malfic
+        //this.props.seeMoreValue
         const movieID = this.props.seeMoreValue
    
         Promise.all([
@@ -298,7 +299,7 @@ class  AppMovieDetailsContent extends Component{
                       {director}
                     </CardSubtitle>
                   </div>
-                  <div style={{display:"inline-block", maxWidth:"100%", maxHeight:"100%", float:"right"}}>
+                  <div style={{display:"inline-block", maxWidth:"100%", maxHeight:"100%", float:"right", marginRight:"7px"}}>
                     <div style={{display:"inline-block", maxHeight:"100%", maxWidth:"100%"}}>
                       <CardImg src={detailStar} alt="" style={{width:"32px",height:"32px",padding:"0",marginBottom:"11px",background:"#1c1b1b"}}>
                       </CardImg>

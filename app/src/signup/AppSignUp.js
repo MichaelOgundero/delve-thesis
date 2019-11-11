@@ -38,7 +38,7 @@ class AppSignUp extends Component{
         return (
         <div>
             <div>
-                <Navbar  style={{background:"black", margin: "auto"}} expand="md">
+                <Navbar  style={{background:"#1c1b1b", margin: "auto"}} expand="md">
                 <NavLink className="navBarBrand" tag={Link} activeClassName="current" exact to="/">
                     <NavbarBrand style={{fontSize:"25px"}}  className="navBarBrand" >DELVE</NavbarBrand>
                 </NavLink>
@@ -53,10 +53,10 @@ class AppSignUp extends Component{
             {/*Navigation*/}
                 <Row style={{paddingTop:"20px"}}>
                 
-                    <div style={{ background:"black", height:"600px", width:"700px", position:"absolute",
+                    <div style={{ background:"#1c1b1b", height:"600px", width:"700px", position:"absolute",
                                  left:"0", right:"0", top:"0", bottom:"0", margin:"auto",
                                  maxHeight:"100%", maxWidth:"100%"}}>
-                        <div style={{display:"inline-block", position:"relative", width:"300px", background:"black", height:"550px", marginLeft:"20px", marginTop:"25px"}}>
+                        <div style={{display:"inline-block", position:"relative", width:"300px", background:"#1c1b1b", height:"550px", marginLeft:"20px", marginTop:"25px"}}>
                             <div style={{maxWidth:"300px", maxHeight:"300px", marginTop:"105px"}}>
                                 <img src={cinemaChair}   style={{maxWidth:"300px", maxHeight:"300px"}}></img>
                             </div> 
@@ -66,23 +66,23 @@ class AppSignUp extends Component{
                                 </NavLink>  
                             </div>                          
                         </div>
-                        <div style={{position: "absolute", display:"inline-block", width:"350px", height:"550px",marginLeft:"10px", marginTop:"25px", background:"black"}}>
+                        <div style={{position: "absolute", display:"inline-block", width:"350px", height:"550px",marginLeft:"10px", marginTop:"25px", background:"#1c1b1b"}}>
                             <div style={{ marginTop:"10px", marginLeft:"10px", marginRight:"10px"}}>
                                 <p style={{color:"#fec106", fontWeight:"bold", fontSize:"32px"}}>Sign Up</p>
                             </div>
                             <div style={{ marginTop:"50px", marginLeft:"10px", marginRight:"10px"}}>
                                 <Form>
                                     <FormGroup>
-                                        <Input style={{background:"black", border:"1px solid #fec106", color:"white"}} type="name" placeholder="Username" />
+                                        <Input style={{background:"#1c1b1b", border:"1px solid #fec106", color:"white"}} type="name" placeholder="Username" />
                                     </FormGroup>
                                     <FormGroup>
-                                        <Input style={{background:"black", border:"1px solid #fec106", color:"white"}} type="email" name="email" id="exampleEmail" placeholder="Email@Example.com" />
+                                        <Input style={{background:"#1c1b1b", border:"1px solid #fec106", color:"white"}} type="email" name="email" id="exampleEmail" placeholder="Email@Example.com" />
                                     </FormGroup>
                                     <FormGroup>
-                                        <Input style={{background:"black", border:"1px solid #fec106", color:"white"}} type="password" name="password" id="examplePassword" placeholder="Password" />
+                                        <Input style={{background:"#1c1b1b", border:"1px solid #fec106", color:"white"}} type="password" name="password" id="examplePassword" placeholder="Password" />
                                     </FormGroup>
                                     <FormGroup>
-                                        <Input style={{background:"black", border:"1px solid #fec106", color:"white"}}  name="password" id="examplePassword" placeholder="Repeat Password" />
+                                        <Input style={{background:"#1c1b1b", border:"1px solid #fec106", color:"white"}}  name="password" id="examplePassword" placeholder="Repeat Password" />
                                     </FormGroup>
                                     <div style={{marginTop:"50px"}}>
                                         <Button color="warning" size="lg">Register</Button>
