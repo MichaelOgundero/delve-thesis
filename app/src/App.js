@@ -51,7 +51,7 @@ class App extends Component{
 
   getTodaysFifty(){
     return (
-      <AppTodaysFifty getSearchValue={this.getSearchValue}/>
+      <AppTodaysFifty getSearchValue={this.getSearchValue} getSeeMoreValue={this.getSeeMoreValue} />
     )
   }
 

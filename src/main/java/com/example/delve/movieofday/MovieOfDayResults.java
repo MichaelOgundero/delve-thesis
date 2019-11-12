@@ -60,6 +60,8 @@ private Boolean adult;
 private String overview;
 @JsonProperty("poster_path")
 private String posterPath;
+@JsonProperty("director")
+private String director;
 @JsonIgnore
 private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -101,6 +103,16 @@ return voteCount;
 @JsonProperty("vote_count")
 public void setVoteCount(Integer voteCount) {
 this.voteCount = voteCount;
+}
+
+@JsonProperty("director")
+public String getDirector() {
+return director;
+}
+
+@JsonProperty("director")
+public void setdirector(String director) {
+this.director = director;
 }
 
 @JsonProperty("vote_average")
@@ -215,7 +227,7 @@ this.additionalProperties.put(name, value);
 
 @Override
 public String toString() {
-return new ToStringBuilder(this).append("popularity", popularity).append("id", id).append("video", video).append("voteCount", voteCount).append("voteAverage", voteAverage).append("title", title).append("releaseDate", releaseDate).append("originalLanguage", originalLanguage).append("originalTitle", originalTitle).append("genreIds", genreIds).append("backdropPath", backdropPath).append("adult", adult).append("overview", overview).append("posterPath", posterPath).append("additionalProperties", additionalProperties).toString();
+return new ToStringBuilder(this).append("popularity", popularity).append("id", id).append("video", video).append("voteCount", voteCount).append("director", director).append("voteAverage", voteAverage).append("title", title).append("releaseDate", releaseDate).append("originalLanguage", originalLanguage).append("originalTitle", originalTitle).append("genreIds", genreIds).append("backdropPath", backdropPath).append("adult", adult).append("overview", overview).append("posterPath", posterPath).append("additionalProperties", additionalProperties).toString();
 }
 
 }

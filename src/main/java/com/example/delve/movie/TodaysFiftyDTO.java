@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 public class TodaysFiftyDTO{
     private MovieOfDayExample example;
+    private MovieOfDayExample example1;
     private Credits credits;
     private HashMap<String, Object> movies;
     private String title;
@@ -22,41 +23,63 @@ public class TodaysFiftyDTO{
     private String language;
     private String director;
     private String genreId;
+    private List<MovieOfDayResults> todayFifty;
     
     
   public TodaysFiftyDTO(){}
-    public TodaysFiftyDTO(int genreId, int page, int result) throws InterruptedException {
+    public TodaysFiftyDTO(int genreId) throws InterruptedException {
 
         RestTemplate restTemplate = new RestTemplate();
-        this.movies = new HashMap<>();  
-        
-        
-
-       
-      
-        this.example = restTemplate.getForObject("https://api.themoviedb.org/3/discover/movie?with_genres="+genreId+"&with_original_language=en&api_key=623eeab48528051330ddc3ca73959483&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page="+page, MovieOfDayExample.class);
-     
+        this.example = restTemplate.getForObject("https://api.themoviedb.org/3/discover/movie?with_genres="+genreId+"&with_original_language=en&api_key=623eeab48528051330ddc3ca73959483&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false", MovieOfDayExample.class);
+        int totalPages = this.example.getTotalPages();
         //int resultMax = this.example.getResults().size() - 1;
-      
-  
+        //this.movies = new HashMap<>();  
+        this.todayFifty = new ArrayList<MovieOfDayResults>();
+       
 
-        this.setGenreId(this.translateGenres(String.valueOf(genreId)));
+
+        /*this.setGenreId(this.translateGenres(String.valueOf(genreId)));
         this.setTitle(example.getResults().get(result).getTitle());
         this.setMovieId(example.getResults().get(result).getId());
         this.setPosterPath(example.getResults().get(result).getPosterPath());
        
-        this.setLanguage(example.getResults().get(result).getOriginalLanguage());
+        this.setLanguage(example.getResults().get(result).getOriginalLanguage());*/
+
+        for(int i=0;i<10;i++){
+          Thread.sleep(1150);
+          Random random = new Random();
+          int page = random.nextInt(( totalPages- 1) + 1) + 1;
+
+          RestTemplate restTemplateMovies = new RestTemplate();
+          this.example1 = restTemplateMovies.getForObject("https://api.themoviedb.org/3/discover/movie?with_genres="+genreId+"&with_original_language=en&api_key=623eeab48528051330ddc3ca73959483&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page="+page, MovieOfDayExample.class);
+          
+          int result = random.nextInt(( (this.example1.getResults().size()-1) - 0) + 1) + 0;
+          /*RestTemplate restTemplateDirector = new RestTemplate();
+          this.credits = restTemplateDirector.getForObject("https://api.themoviedb.org/3/movie/"+this.example1.getResults().get(result).getId()+"/credits?api_key=623eeab48528051330ddc3ca73959483", Credits.class);
+          for(int j=0;j<credits.getCrew().size();j++){
+            if(credits.getCrew().get(j).getJob().contains("Director")){
+              this.example1.getResults().get(result).setdirector(credits.getCrew().get(j).getName());
+            }
+          }*/
+
+          this.todayFifty.add(this.example1.getResults().get(result));
+        }
       
-        RestTemplate restTemplateDirector = new RestTemplate();
+        /*RestTemplate restTemplateDirector = new RestTemplate();
         this.credits = restTemplateDirector.getForObject("https://api.themoviedb.org/3/movie/"+example.getResults().get(result).getId()+"/credits?api_key=623eeab48528051330ddc3ca73959483", Credits.class);
         for(int j=0;j<credits.getCrew().size();j++){
             if(credits.getCrew().get(j).getJob().contentEquals("Director")){
                 this.setDirector(credits.getCrew().get(j).getName());
              }
             
-        }
+        }*/
      
     }
+
+    public List<MovieOfDayResults> getToday50(){
+
+      return this.todayFifty;
+  }
 
     public int getPageMax(int genreID){
 

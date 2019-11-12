@@ -18,6 +18,7 @@ import com.example.delve.movie.SearchDTO;
 import com.example.delve.movie.TodaysFiftyDTO;
 import com.example.delve.movie.TrendingDTO;
 import com.example.delve.movie.UpcomingMovieDTO;
+import com.example.delve.movieofday.MovieOfDayResults;
 import com.example.delve.nowplaying.NowPlayingResult;
 import com.example.delve.nowplayingcarousel.NowPlayingCarouselResult;
 import com.example.delve.reviews.ReviewResult;
@@ -194,12 +195,13 @@ public class MovieController {
         return movieOfDayDTO;
     }
 
-    @GetMapping("/todaysfifty")
-    public List<TodaysFiftyDTO> getTodaysFifty() throws InterruptedException {
-       List <TodaysFiftyDTO> todaysFiftyDTO = new ArrayList<TodaysFiftyDTO>();
-
-        
-        if(!this.today().equals(current) || listIds.size() == 0 || pageValues.size() == 0 || resultValues.size() == 0){
+    @GetMapping("/todaysfifty/{genreID}")
+    public List<MovieOfDayResults> getTodaysFifty(@PathVariable int genreID) throws InterruptedException {
+       List <MovieOfDayResults> todaysFiftyDTO = new ArrayList<MovieOfDayResults>();
+        TodaysFiftyDTO asd = new TodaysFiftyDTO(genreID);
+        todaysFiftyDTO = asd.getToday50();
+        return todaysFiftyDTO;
+        /*if(!this.today().equals(current) || listIds.size() == 0 || pageValues.size() == 0 || resultValues.size() == 0){
             current = this.today();
             for(int i=0;i<10;i++){
                
@@ -207,8 +209,8 @@ public class MovieController {
                     Thread.sleep(1500);
                 }
                 TodaysFiftyDTO xxx = new TodaysFiftyDTO();
-                /*int page = xxx.getPageMax(genreIDs[listIds.get(0)]);
-                int result = xxx.getResultMax(genreIDs[listIds.get(0)]);*/
+                //int page = xxx.getPageMax(genreIDs[listIds.get(0)]);
+                //int result = xxx.getResultMax(genreIDs[listIds.get(0)]);
                 //Section 1
                 int x = xxx.getPageMax(genreIDs[listIds.get(0)]);
                 int y = xxx.getResultMax(genreIDs[listIds.get(0)]);
@@ -303,7 +305,7 @@ public class MovieController {
                 todaysFiftyDTO.add(genreSection);
             }
            
-        }else{
+        }*//*else{
             //Section 1
             for(int i=0;i<10;i++){
                 if(i%4 == 0){
@@ -354,10 +356,10 @@ public class MovieController {
                     todaysFiftyDTO.add(movieGenreFive);
             }
                 
-            }
+            }*/
     
     
-        return todaysFiftyDTO;
+        //return todaysFiftyDTO;
     }
 
     public LocalDate today(){
