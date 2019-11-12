@@ -11,6 +11,8 @@ import './AppSearchContent.css';
 import noPoster from '../../images/imageUnavailable.png';
 import see from '../../images/see.png'
 
+
+let movieId;
 class AppSearchContent extends Component{
 
   constructor(props){
@@ -21,6 +23,24 @@ class AppSearchContent extends Component{
       searchValue: " "
     }
     this._isMounted = false;
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.getMovieId = this.getMovieId.bind(this);
+  }
+
+  getMovieId(val){
+    movieId =val
+    
+    console.log(movieId)
+   this.handleSubmit()
+  }
+  
+  handleSubmit(){
+    
+    this.props.handleSeeMore(movieId)
+
+  console.log("movie id sent"+ movieId)
+  
+
   }
 
 
@@ -66,8 +86,44 @@ class AppSearchContent extends Component{
         )
       }
 
+      const movieRow =()=>{
+        let card = []
 
-      const columns = movies.map((movie, index) => {
+      for(let i=0;i<movies.length;i++){
+
+        let movieName = movies[i].title;
+        if(movies[i].title.length>27){
+          movies[i].title =  movies[i].title.substring(0,24) + "..." 
+        }
+        let poster = `http://image.tmdb.org/t/p/original${movies[i].poster_path}`;
+        if(!movies[i].hasOwnProperty("poster_path")){
+          poster = noPoster;
+        }
+        card.push(
+          <Col xs="6" sm="4" key={i}>
+          <div style={{paddingTop:"25px"}}>
+            <Card style={{maxWidth:"185px", borderColor:" #1c1b1b"}}>
+              <CardImg style={{maxHeight:"278px", maxWidth:"185px",height:"278px", width:"auto",border:"4px solid black"}} src={`${poster}`} title={`${movieName}`} alt="Card image cap"/>
+                <CardBody className="paddingCardbody">
+                    <CardTitle style={{color:"#fec106", textTransform:"capitalize",  fontSize:"13px"}} title={`${movieName}`}>{`${movies[i].title}`}</CardTitle>
+                    
+                    <NavLink tag={Link} exact to="/details" style={{display:"inline-block", height:"100%", margin:"0", padding:"0"}}>
+                        <div style={{  display:"inline-block"}}>
+                        <Button onClick={()=>{this.getMovieId(`${movies[i].id}`)}}  color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={`${see}`} alt=""></img></span>See More</Button>{' '}
+                        </div>
+                   </NavLink>
+                      
+
+                    </CardBody>
+              </Card>
+          </div>
+        </Col>
+        )
+      }
+      return card
+    }
+    
+      /*const columns = movies.map((movie, index) => {
         let poster = `http://image.tmdb.org/t/p/original${movie.poster_path}`;
         if(!movie.hasOwnProperty("poster_path")){
           poster = noPoster;
@@ -96,7 +152,7 @@ class AppSearchContent extends Component{
             </div>
           </Col>
         );
-      });
+      });*/
     
         return (
 
@@ -109,7 +165,7 @@ class AppSearchContent extends Component{
               </div>
               <div className="imagesNowPlaying"> 
                 <Row noGutters={false} className="paddingFirst">
-                  {columns}
+                  {movieRow()}
                 </Row>
               </div>
             </Container>

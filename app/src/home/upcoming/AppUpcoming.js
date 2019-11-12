@@ -32,7 +32,7 @@ const responsive = {
     items: 1,
   },
 };
-
+let movieId;
 class AppUpcoming extends Component{
   constructor(props){
     super(props);
@@ -41,6 +41,24 @@ class AppUpcoming extends Component{
       movies: []
     }
     this._isMounted = false;
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.getMovieId = this.getMovieId.bind(this);
+  }
+
+  getMovieId(val){
+    movieId =val
+    
+    console.log(movieId)
+   this.handleSubmit()
+  }
+  
+  handleSubmit(){
+    
+    this.props.handleSeeMore(movieId)
+
+  console.log("movie id sent"+ movieId)
+  
+
   }
 
   componentDidMount(){
@@ -66,6 +84,7 @@ class AppUpcoming extends Component{
 
  
 
+
   
 
   render() {
@@ -76,7 +95,45 @@ class AppUpcoming extends Component{
         <div className="loader"></div>
       )
     }
-    const columns = movies.map((movie, index) => {
+
+
+    const movieRow =()=>{
+      let card = []
+    
+    for(let i=0;i<movies.length;i++){
+      let movieName = movies[i].title;
+      if(movies[i].title.length>27){
+        movies[i].title =  movies[i].title.substring(0,24) + "..." 
+      }
+      let poster = `http://image.tmdb.org/t/p/original${movies[i].poster_path}`;
+      if(!movies[i].hasOwnProperty("poster_path")){
+        poster = noPoster;
+      }
+      card.push(
+        <div style={{paddingTop:"25px"}} key={i}>
+          <Card style={{maxWidth:"185px", borderColor:" #1c1b1b"}}>
+            <CardImg style={{maxHeight:"278px", maxWidth:"185px",height:"278px", width:"185px",border:"4px solid black"}} src={`${poster}`} alt="Card image cap"/>
+              <CardBody className="paddingCardbody">
+                  <CardTitle className="paddingCardbody" style={{color:"#fec106", textTransform:"capitalize",  fontSize:"13px"}} title={`${movieName}`}>{`${movies[i].title}`}</CardTitle>
+                  <CardText className="paddingCardbody" style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}}>{`${movies[i].director}`}</CardText>
+                  <CardText  style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}}>{`${movies[i].release_date}`}</CardText>
+                  
+                  <NavLink tag={Link} exact to="/details" style={{ display:"inline-block", height:"100%", fontSize:"0", margin:"0", padding:"0"}}>
+                    <div style={{  display:"inline-block"}}>
+                        <Button onClick={()=>{this.getMovieId(`${movies[i].id}`)}}  color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={`${see}`} alt=""></img></span>See More</Button>{' '}
+                      </div>
+                  </NavLink>      
+                    
+
+                  </CardBody>
+            </Card>
+        </div>
+    
+      )
+    }
+      return card
+  }
+    /*const columns = movies.map((movie, index) => {
 
         let movieName = movie.title;
         if(movie.title.length>27){
@@ -106,7 +163,7 @@ class AppUpcoming extends Component{
           </Card>
       </div>
       );
-    });
+    });*/
     return (
           
       <div className="containerDiv">
@@ -120,7 +177,7 @@ class AppUpcoming extends Component{
         <div className="backgroundUpcoming">
           <div className="imagesUpcoming" > 
            <Carousel arrows={false} infinite={true} responsive={responsive}  autoPlay={this.props.deviceType !== "mobile" ? true : false} autoPlaySpeed={3000}>
-            {columns}
+            {movieRow()}
             </Carousel>;
           </div>
         </div>

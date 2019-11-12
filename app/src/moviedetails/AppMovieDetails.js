@@ -14,6 +14,7 @@ class AppMovieDetails extends Component{
     }
 
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleSeeMore = this.handleSeeMore.bind(this);
   }
 
   handleSearch(value){
@@ -21,7 +22,10 @@ class AppMovieDetails extends Component{
     this.props.getSearchValue(value);
   }
 
-
+  handleSeeMore(value){
+    this.setState({seeMoreValue: value});
+    this.props.getSeeMoreValue(value);
+  }
 
   render(){
 
@@ -29,7 +33,7 @@ class AppMovieDetails extends Component{
       <div className="page-container">
         <div className="content-wrap">
           <Appbar handleSearch={this.handleSearch}/>
-          <AppMovieDetailsContent seeMoreValue = {this.props.seeMoreValue}/>
+          <AppMovieDetailsContent handleSeeMore={this.handleSeeMore} seeMoreValue = {this.props.seeMoreValue}/>
           <br></br>
           <br></br>
           <AppFooter/>

@@ -5,6 +5,9 @@ import classnames from 'classnames';
 import './AppMovieDetailsContent.css';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+import see from '../../images/see.png'
+import noPoster from '../../images/imageUnavailable.png';
+
 
 import { Container, Row,NavLink,
   Col,Card, CardImg, 
@@ -16,8 +19,8 @@ import { Container, Row,NavLink,
   import addDetails from '../../images/addDetails.png';
 
   import detailStar from '../../images/detailStar.png'
-  import noPoster from '../../images/imageUnavailable.png';
-  import see from '../../images/see.png'
+
+
 
   const responsive = {
     superLargeDesktop: {
@@ -39,7 +42,7 @@ import { Container, Row,NavLink,
     },
   };
   
-
+  let movieId;
 class  AppMovieDetailsContent extends Component{
 
     constructor(props){
@@ -59,6 +62,25 @@ class  AppMovieDetailsContent extends Component{
           }
           this._isMounted = false;
           this.toggle = this.toggle.bind(this);
+
+          this.handleSubmit = this.handleSubmit.bind(this);
+          this.getMovieId = this.getMovieId.bind(this);
+    }
+
+    getMovieId(val){
+      movieId =val
+      
+      console.log(movieId)
+     this.handleSubmit()
+    }
+    
+    handleSubmit(){
+      
+      this.props.handleSeeMore(movieId)
+  
+    console.log("movie id sent"+ movieId)
+    
+  
     }
 
     toggle(tab){
@@ -72,13 +94,22 @@ class  AppMovieDetailsContent extends Component{
 
 
     componentDidMount(){
+      this._isMounted  = true;
+      this._isMounted && this.getInformation();
+  
+    }
+  
+    componentWillUnmount(){
+      this._isMounted = false;
+    }
+  
+    
+    componentDidUpdate(prevProps){
+      if(this.props.seeMoreValue != prevProps.seeMoreValue){
         this._isMounted  = true;
         this._isMounted && this.getInformation();
       }
-    
-      componentWillUnmount(){
-        this._isMounted = false;
-      }
+    }
 
       async getInformation(){
         //475557 joker
@@ -447,7 +478,7 @@ class  AppMovieDetailsContent extends Component{
                             <CardSubtitle style={{color:"#FFFFFF", fontSize:"18px"}}>Spoken Language(s)</CardSubtitle>
                           </td>
                           <td style={{ maxHeight:"100%",display:"table-cell", verticalAlign:"middle"}}>
-                            <CardSubtitle style={{color:"#fec106", fontSize:"18px"}}>{movie.spokenLanguages}</CardSubtitle>
+                            <CardSubtitle style={{color:"#fec106", fontSize:"18px"}}>{movie.spokenLanguages.join(", ")}</CardSubtitle>
                           </td>
                         </tr>
                  
@@ -618,7 +649,41 @@ class  AppMovieDetailsContent extends Component{
              )
            })
 
-           const Similar = similarMovies.map((movie, index)=>{
+           const Similar =()=>{
+            let card = []
+          
+          for(let i=0;i<similarMovies.length;i++){
+            let movieName = similarMovies[i].title;
+            if(similarMovies[i].title.length>27){
+              similarMovies[i].title =  similarMovies[i].title.substring(0,24) + "..." 
+            }
+            let poster = `http://image.tmdb.org/t/p/original${similarMovies[i].poster_path}`;
+            if(!similarMovies[i].hasOwnProperty("poster_path")){
+              poster = noPoster;
+            }
+            card.push(
+              <div style={{paddingTop:"25px"}} key={i}>
+                <Card style={{maxWidth:"185px", borderColor:" #1c1b1b"}}>
+                  <CardImg style={{maxHeight:"278px", maxWidth:"185px",height:"278px", width:"185px",border:"4px solid black"}} src={`${poster}`} alt="Card image cap"/>
+                    <CardBody className="paddingCardbody">
+                        <CardTitle  style={{color:"#fec106", textTransform:"capitalize",  fontSize:"13px"}} title={`${movieName}`}>{`${similarMovies[i].title}`}</CardTitle>
+                        
+                        <NavLink tag={Link} exact to="/details" style={{ display:"inline-block", height:"100%", fontSize:"0", margin:"0", padding:"0"}}>
+                          <div style={{  display:"inline-block"}}>
+                              <Button onClick={()=>{this.getMovieId(`${similarMovies[i].id}`)}}  color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={`${see}`} alt=""></img></span>See More</Button>{' '}
+                            </div>
+                        </NavLink>      
+                          
+      
+                        </CardBody>
+                  </Card>
+              </div>
+          
+            )
+          }
+            return card
+        }
+           /*const Similar = similarMovies.map((movie, index)=>{
             let movieName = movie.title;
             if(movie.title.length>27){
                movie.title =  movie.title.substring(0,24) + "..." 
@@ -639,7 +704,7 @@ class  AppMovieDetailsContent extends Component{
                 </Card>
               </div>
              )
-           })
+           })*/
 
            
 
@@ -802,7 +867,7 @@ class  AppMovieDetailsContent extends Component{
                         <div style={{maxHeight:"100%", maxWidth:"97.5%", marginTop:"10px",background:"#1c1b1b"}}>
                           <div  style={{background:"#1c1b1b", maxHeight:"100%", maxWidth:"100%", marginLeft:"20px"}}> 
                             <Carousel arrows={false}  infinite={true} responsive={responsive}  autoPlay={this.props.deviceType !== "mobile" ? true : false} autoPlaySpeed={3000}>
-                              {Similar}
+                              {Similar()}
                             </Carousel>;
                           </div>
                         </div>

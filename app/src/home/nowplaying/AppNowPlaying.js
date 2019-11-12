@@ -10,17 +10,16 @@ import './AppNowPlaying.css';
 import star from '../../images/star.png';
 import see from '../../images/see.png'
 
-let movieIds = []
+
 let movieId;
-let activeIndex;
+
 class AppNowPlaying extends Component{
 
   constructor(props){
     super(props);
     this.state = {
       isLoading: true,
-      movies: [],
-      movieID: ""
+      movies: []
   
     }
     this._isMounted = false;
@@ -28,12 +27,6 @@ class AppNowPlaying extends Component{
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getMovieId = this.getMovieId.bind(this);
 
-  }
-
-  setMovieId(val){
-    this.setState({
-      movieID: val
-    })
   }
 
   getMovieId(val){
@@ -104,8 +97,7 @@ class AppNowPlaying extends Component{
 
 
         for(let i=0;i<movies.length;i++){
-          movieIds.push(movies[i].id)
-          let xxx = movieId
+
           let movieName = movies[i].title;
           if(movies[i].title.length>27){
             movies[i].title =  movies[i].title.substring(0,24) + "..." 

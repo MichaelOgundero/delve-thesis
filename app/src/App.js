@@ -57,13 +57,13 @@ class App extends Component{
 
   getSearch(){
     return (
-      <AppSearch searchvalue = {this.state.searchValue}  getSearchValue={this.getSearchValue} />
+      <AppSearch searchvalue = {this.state.searchValue}  getSearchValue={this.getSearchValue} getSeeMoreValue={this.getSeeMoreValue}/>
     )
   }
 
   getDetails(){
     return(
-      <AppMovieDetails seeMoreValue={this.state.seeMoreValue}  getSearchValue={this.getSearchValue}/>
+      <AppMovieDetails getSeeMoreValue={this.getSeeMoreValue}  seeMoreValue={this.state.seeMoreValue}  getSearchValue={this.getSearchValue}/>
     )
   }
 

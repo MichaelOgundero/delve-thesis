@@ -54,9 +54,9 @@ class AppHome extends Component{
           <Appbar handleSearch={this.handleSearch}/>
           <Appcarousel handleSeeMore={this.handleSeeMore}/>
           <AppNowPlaying handleSeeMore={this.handleSeeMore}/>
-          <AppUpcoming/>
+          <AppUpcoming handleSeeMore={this.handleSeeMore}/>
           <AppMovieOfTheDay handleSeeMore={this.handleSeeMore}/>
-          <AppTrending/>
+          <AppTrending handleSeeMore={this.handleSeeMore}/>
         <br></br>
         <br></br>
         <br></br>
