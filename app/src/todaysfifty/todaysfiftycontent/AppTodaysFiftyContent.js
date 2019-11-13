@@ -181,9 +181,9 @@ class AppTodaysFiftyContent extends Component{
       let rand = Math.random()
       let todaysDate = this.getDate()      
 
-      if(localStorage.getItem("currentDate")===null){
+      /*if(localStorage.getItem("currentDate")===null){
         localStorage.setItem("currentDate", JSON.stringify(todaysDate))
-      }
+      }*/
       if(todaysDate === JSON.parse(localStorage.getItem("currentDate"))){
         if(localStorage.getItem("dbGenreOne")===null){
 
