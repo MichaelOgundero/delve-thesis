@@ -10,6 +10,7 @@ CardTitle, Button} from 'reactstrap';
 import './AppSearchContent.css';
 import noPoster from '../../images/imageUnavailable.png';
 import see from '../../images/see.png'
+import loading from '../../images/theFlashLoading.gif'
 
 
 let movieId;
@@ -82,7 +83,19 @@ class AppSearchContent extends Component{
 
       if(isLoading){
         return(
-          <div className="loader"></div>
+          <div style={{width:"100%", height:"900px", background:"#1c1b1b", border:"1px solid #1c1b1b"}}>
+            <div style={{display:"block", marginLeft:"auto", marginRight:"auto", width:"200px", height:"150px", marginTop:"300px"}}>
+              <div style={{marginLeft:"0",width:"150px", height:"150px"}}>
+                <img src={loading} alt="this slowpoke moves"  width="150px" height="150px"/>
+              </div>
+              <div style={{marginLeft:"53px"}}>
+               <span style={{color:"#FFFFFF"}}>Loading data...</span>
+              </div>
+            </div>
+  
+  
+          </div>
+         
         )
       }
 

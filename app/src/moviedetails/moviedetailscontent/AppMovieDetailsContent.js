@@ -7,6 +7,7 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import see from '../../images/see.png'
 import noPoster from '../../images/imageUnavailable.png';
+import loading from '../../images/theFlashLoading.gif'
 
 
 import { Container, Row,NavLink,
@@ -159,6 +160,7 @@ class  AppMovieDetailsContent extends Component{
         let director;
         let directorPoster;
         let posterPath;
+        let posterPathValue
         let finalTrailer;
         const { movieDetails, movieCast,
                 movieCrew, movieBackdrops,
@@ -166,7 +168,7 @@ class  AppMovieDetailsContent extends Component{
                 movieReviews, movieVideos,
                  isLoading, activeTab} = this.state;
         
-
+console.log(movieCast)
                  movieCrew.forEach(crew => {
                   if(crew.job === "Director"){
                     directorArr.push(crew.name);
@@ -210,14 +212,27 @@ class  AppMovieDetailsContent extends Component{
                 }
               })
               
+              let xxx
+            
 
-              
-              moviePoster.forEach((poster, index)=>{
-           
-                if(index === 0){
-                  posterPath = poster.file_path
-                }
-              })
+              if(moviePoster.length === 0){
+                  movieDetails.forEach((movie)=>{
+                    if(movie.posterPath === null){
+                      posterPathValue = noPoster
+                  }else{
+                    posterPath = movie.posterPath
+                    posterPathValue = `http://image.tmdb.org/t/p/original${posterPath}`
+                  }
+
+                  })
+              }else{
+                  moviePoster.forEach((poster, index)=>{
+                    if(index === 1){
+                    posterPath = poster.file_path  
+                    posterPathValue = `http://image.tmdb.org/t/p/original${posterPath}` 
+                    }
+                  })
+            }
 
               movieVideos.forEach((video)=>{
                 if(video.type === "Trailer"){
@@ -272,11 +287,23 @@ class  AppMovieDetailsContent extends Component{
               }
         
 
-            if(isLoading){
-              return(
-                <div className="loader"></div>
-              )
-            }
+              if(isLoading){
+                return(
+                  <div style={{width:"100%", height:"900px", background:"#1c1b1b", border:"1px solid #1c1b1b"}}>
+                    <div style={{display:"block", marginLeft:"auto", marginRight:"auto", width:"200px", height:"150px", marginTop:"300px"}}>
+                      <div style={{marginLeft:"0",width:"150px", height:"150px"}}>
+                        <img src={loading} alt="this slowpoke moves"  width="150px" height="150px"/>
+                      </div>
+                      <div style={{marginLeft:"53px"}}>
+                       <span style={{color:"#FFFFFF"}}>Loading data...</span>
+                      </div>
+                    </div>
+          
+          
+                  </div>
+                 
+                )
+              }
 
             const firstRow = movieDetails.map((movie, index)=>{
 
@@ -299,7 +326,7 @@ class  AppMovieDetailsContent extends Component{
                genreContent = movie.genres[0]
               }
               else if(movie.genres.length === 2){
-                 genreContent = movie.genres[0] + " ," + movie.genres[1]
+                 genreContent = movie.genres[0] + ", " + movie.genres[1]
               }
               else {
                 genreContent = movie.genres[0] + ", " + movie.genres[1] + ", " + movie.genres[2];
@@ -346,7 +373,7 @@ class  AppMovieDetailsContent extends Component{
                 </div>
                 <div style={{ maxHeight:"285px", maxWidth:"100%", overflow:"hidden"}}>
                   <div style={{overflow:"hidden", float:"left", maxHeight:"100%", maxWidth:"100%", marginRight:"10px"}}>
-                    <CardImg src={`http://image.tmdb.org/t/p/original${posterPath}`} alt="" title={movie.title} style={{height:"278px", width:"185px", maxHeight:"278px", maxWidth:"185px",border:"4px solid black"}}/>
+                    <CardImg src={posterPathValue} alt="" title={movie.title} style={{height:"278px", width:"185px", maxHeight:"278px", maxWidth:"185px",border:"4px solid black"}}/>
                   </div>
                   <div  className="player-wrapper" style={{overflow:"hidden", maxHeight:"300px", maxWidth:"100%"}}>
                     <ReactPlayer

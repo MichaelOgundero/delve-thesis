@@ -2,7 +2,7 @@ import React,  {Component} from 'react';
 import { NavLink as Link} from 'react-router-dom';
 
 import { Container,Card, CardImg, CardText, CardBody,NavLink,
-  CardTitle, Button, Alert } from 'reactstrap';
+  CardTitle, Button, Alert} from 'reactstrap';
 
 import './AppTodaysFiftyContent.css';
 
@@ -12,6 +12,7 @@ import 'react-multi-carousel/lib/styles.css';
 import see from '../../images/see.png';
 import add from '../../images/addIcon.png';
 import noPoster from '../../images/imageUnavailable.png';
+import loading from '../../images/theFlashLoading.gif'
 
 
 const responsive = {
@@ -58,6 +59,13 @@ let arr
 
 let movieId;
 
+let todayDate = null;
+let dbGenre1 = []
+let dbGenre2 = []
+let dbGenre3 = []
+let dbGenre4 = []
+let dbGenre5 = []
+
 class AppTodaysFiftyContent extends Component{
   constructor(props){
     super(props);
@@ -77,6 +85,17 @@ class AppTodaysFiftyContent extends Component{
     this._isMounted = false;
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getMovieId = this.getMovieId.bind(this);
+  }
+
+  getDate(){
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = mm + '/' + dd + '/' + yyyy;
+    console.log(today)
+    return today
   }
 
 
@@ -139,7 +158,6 @@ class AppTodaysFiftyContent extends Component{
 
   console.log("movie id sent"+ movieId)
   
-
   }
 
   componentDidMount(){
@@ -156,63 +174,276 @@ class AppTodaysFiftyContent extends Component{
 
   async getInformation(){
 
-    const genreIds = [ 28, 12, 16, 35, 80, 99, 18, 10751, 14, 36, 27, 10402, 9648, 10749, 878, 10770,
+    let genreIds = [ 28, 12, 16, 35, 80, 99, 18, 10751, 14, 36, 27, 10402, 9648, 10749, 878, 10770,
                       53, 10752, 37 ];
+      let min = 0
+      let max = 19
+      let rand = Math.random()
+      let todaysDate = this.getDate()      
 
-  
-      arr = []
-      for(let i=0;i<5;i++){
-       let genre =  Math.round(Math.random() * genreIds.length-1);
-       if(!arr.includes(genreIds[genre])){
-        
-         arr.push(genreIds[genre])
-       }
+      if(localStorage.getItem("currentDate")===null){
+        localStorage.setItem("currentDate", JSON.stringify(todaysDate))
       }
-      /*arr.push(12)
-      arr.push(28)
-      arr.push(99)
-      arr.push(878)
-      arr.push(37)*/
-      console.log(arr)
-      for(let i=0;i<5;i++){
-        if(arr[i] === undefined){
-          let genre =  Math.round(Math.random() * genreIds.length-1);
-          if(!arr.includes(genreIds[genre])){
-        
-            arr.push(genreIds[genre])
+      if(todaysDate === JSON.parse(localStorage.getItem("currentDate"))){
+        if(localStorage.getItem("dbGenreOne")===null){
+
+          arr = []
+          for(let i=0;i<5;i++){
+            console.log("here" +i)
+           let genre =  Math.floor(Math.random() * genreIds.length)
+           if(!arr.includes(genreIds[genre])){
+            
+             arr.push(genreIds[genre])
+           }
           }
-        }
-      }
-     let genreOne = arr[0];
-     let genreTwo= arr[1];
-     let genreThree= arr[2];
-     let genreFour= arr[3];
-     let genreFive= arr[4];
-   
-    Promise.all([
-      fetch(`/api/todaysfifty/${genreOne}`),
-      fetch(`/api/todaysfifty/${genreTwo}`),
-      fetch(`/api/todaysfifty/${genreThree}`),
-      fetch(`/api/todaysfifty/${genreFour}`),
-      fetch(`/api/todaysfifty/${genreFive}`)
-     
-    ]).
-    then(([firstSection, secondSection, thirdSection, fourthSection, fifthSection])=>{
-      return Promise.all([firstSection.json(), secondSection.json(), thirdSection.json(),fourthSection.json(), fifthSection.json()])
-      
-    }).
-    then(([firstSection, secondSection, thirdSection, fourthSection, fifthSection])=>{
-      this._isMounted && this.setState({
-        sectionOne: firstSection,
-        sectionTwo: secondSection,
-        sectionThree: thirdSection,
-        sectionFour: fourthSection,
-        sectionFive: fifthSection,
-        isLoading: false
-      })
-    })
 
-  }
+          if(typeof arr[0] === undefined || arr[0] === null || JSON.stringify(this.genreTitles(arr[0]))===" "){
+            for(let i=0;i<genreIds.length;i++){
+              if(!arr.includes(genreIds[i])){
+                arr[0] = genreIds[i]
+              }
+            }
+          }
+          if(typeof arr[1] === undefined || arr[1] === null || JSON.stringify(this.genreTitles(arr[1]))===" "){
+            for(let i=0;i<genreIds.length;i++){
+              if(!arr.includes(genreIds[i])){
+                arr[1] = genreIds[i]
+              }
+            }
+          }
+          if(typeof arr[2] === undefined || arr[2] === null || JSON.stringify(this.genreTitles(arr[2]))===" "){
+            for(let i=0;i<genreIds.length;i++){
+              if(!arr.includes(genreIds[i])){
+                arr[2] = genreIds[i]
+              }
+            }
+          }
+          if(typeof arr[3] === undefined || arr[3] === null || JSON.stringify(this.genreTitles(arr[3]))===" "){
+            for(let i=0;i<genreIds.length;i++){
+              if(!arr.includes(genreIds[i])){
+                arr[3] = genreIds[i]
+              }
+            }
+          }
+          if(typeof arr[4] === undefined || arr[4] === null || JSON.stringify(this.genreTitles(arr[4]))===" "){
+            for(let i=0;i<genreIds.length;i++){
+              if(!arr.includes(genreIds[i])){
+                arr[4] = genreIds[i]
+              }
+            }
+          }
+    
+          let genreOne = arr[0];
+          let genreTwo= arr[1];
+          let genreThree= arr[2];
+          let genreFour= arr[3];
+          let genreFive= arr[4];
+    
+    
+          localStorage.setItem("sectionOneTitle", JSON.stringify(this.genreTitles(genreOne)))
+          localStorage.setItem("sectionTwoTitle", JSON.stringify(this.genreTitles(genreTwo)))
+          localStorage.setItem("sectionThreeTitle", JSON.stringify(this.genreTitles(genreThree)))
+          localStorage.setItem("sectionFourTitle", JSON.stringify(this.genreTitles(genreFour)))
+          localStorage.setItem("sectionFiveTitle", JSON.stringify(this.genreTitles(genreFive)))
+    
+          sectionOneTitle = JSON.parse(localStorage.getItem("sectionOneTitle"))
+          sectionTwoTitle = JSON.parse(localStorage.getItem("sectionTwoTitle"))
+          sectionThreeTitle = JSON.parse(localStorage.getItem("sectionThreeTitle"))
+          sectionFourTitle = JSON.parse(localStorage.getItem("sectionFourTitle"))
+          sectionFiveTitle = JSON.parse(localStorage.getItem("sectionFiveTitle"))
+    
+          Promise.all([
+            fetch(`/api/todaysfifty/${genreOne}`),
+            fetch(`/api/todaysfifty/${genreTwo}`),
+            fetch(`/api/todaysfifty/${genreThree}`),
+            fetch(`/api/todaysfifty/${genreFour}`),
+            fetch(`/api/todaysfifty/${genreFive}`)
+           
+          ]).
+          then(([firstSection, secondSection, thirdSection, fourthSection, fifthSection])=>{
+            return Promise.all([firstSection.json(), secondSection.json(), thirdSection.json(),fourthSection.json(), fifthSection.json()])
+            
+          }).
+          then(([firstSection, secondSection, thirdSection, fourthSection, fifthSection])=>{
+            console.log(firstSection)
+            localStorage.setItem("dbGenreOne", JSON.stringify(firstSection))
+            localStorage.setItem("dbGenreTwo", JSON.stringify(secondSection))
+            localStorage.setItem("dbGenreThree", JSON.stringify(thirdSection))
+            localStorage.setItem("dbGenreFour", JSON.stringify(fourthSection))
+            localStorage.setItem("dbGenreFive", JSON.stringify(fifthSection))
+    
+            this._isMounted && this.setState({
+              sectionOne: JSON.parse(localStorage.getItem("dbGenreOne")),
+              sectionTwo: JSON.parse(localStorage.getItem("dbGenreTwo")),
+              sectionThree: JSON.parse(localStorage.getItem("dbGenreThree")),
+              sectionFour: JSON.parse(localStorage.getItem("dbGenreFour")),
+              sectionFive: JSON.parse(localStorage.getItem("dbGenreFive")),
+              isLoading: false
+            })
+    
+            
+    
+            /*this._isMounted && this.setState({
+              sectionOne: firstSection,
+              sectionTwo: secondSection,
+              sectionThree: thirdSection,
+              sectionFour: fourthSection,
+              sectionFive: fifthSection,
+              isLoading: false
+            })*/
+          })
+         }else{
+    
+          sectionOneTitle = JSON.parse(localStorage.getItem("sectionOneTitle"))
+          sectionTwoTitle = JSON.parse(localStorage.getItem("sectionTwoTitle"))
+          sectionThreeTitle = JSON.parse(localStorage.getItem("sectionThreeTitle"))
+          sectionFourTitle = JSON.parse(localStorage.getItem("sectionFourTitle"))
+          sectionFiveTitle = JSON.parse(localStorage.getItem("sectionFiveTitle"))
+    
+          this._isMounted && this.setState({
+            sectionOne: JSON.parse(localStorage.getItem("dbGenreOne")),
+            sectionTwo: JSON.parse(localStorage.getItem("dbGenreTwo")),
+            sectionThree: JSON.parse(localStorage.getItem("dbGenreThree")),
+            sectionFour: JSON.parse(localStorage.getItem("dbGenreFour")),
+            sectionFive: JSON.parse(localStorage.getItem("dbGenreFive")),
+            isLoading: false
+          })
+         }
+      }else{
+          localStorage.setItem("currentDate", JSON.stringify(todaysDate))
+          localStorage.removeItem("dbGenreOne")
+          if(localStorage.getItem("dbGenreOne")===null){
+
+            arr = []
+            for(let i=0;i<5;i++){
+              let genre =  Math.floor(Math.random() * genreIds.length)
+              if(!arr.includes(genreIds[genre])){
+               
+                arr.push(genreIds[genre])
+              }
+             }
+            
+            if(typeof arr[0] === undefined || arr[0] === null || JSON.stringify(this.genreTitles(arr[0]))===" "){
+              for(let i=0;i<genreIds.length;i++){
+                if(!arr.includes(genreIds[i])){
+                  arr[0] = genreIds[i]
+                }
+              }
+            }
+            if(typeof arr[1] === undefined || arr[1] === null || JSON.stringify(this.genreTitles(arr[1]))===" "){
+              for(let i=0;i<genreIds.length;i++){
+                if(!arr.includes(genreIds[i])){
+                  arr[1] = genreIds[i]
+                }
+              }
+            }
+            if(typeof arr[2] === undefined || arr[2] === null || JSON.stringify(this.genreTitles(arr[2]))===" "){
+              for(let i=0;i<genreIds.length;i++){
+                if(!arr.includes(genreIds[i])){
+                  arr[2] = genreIds[i]
+                }
+              }
+            }
+            if(typeof arr[3] === undefined || arr[3] === null || JSON.stringify(this.genreTitles(arr[3]))===" "){
+              for(let i=0;i<genreIds.length;i++){
+                if(!arr.includes(genreIds[i])){
+                  arr[3] = genreIds[i]
+                }
+              }
+            }
+            if(typeof arr[4] === undefined || arr[4] === null || JSON.stringify(this.genreTitles(arr[4]))===" "){
+              for(let i=0;i<genreIds.length;i++){
+                if(!arr.includes(genreIds[i])){
+                  arr[4] = genreIds[i]
+                }
+              }
+            }
+      
+            let genreOne = arr[0];
+            let genreTwo= arr[1];
+            let genreThree= arr[2];
+            let genreFour= arr[3];
+            let genreFive= arr[4];
+      
+      
+            localStorage.setItem("sectionOneTitle", JSON.stringify(this.genreTitles(genreOne)))
+            localStorage.setItem("sectionTwoTitle", JSON.stringify(this.genreTitles(genreTwo)))
+            localStorage.setItem("sectionThreeTitle", JSON.stringify(this.genreTitles(genreThree)))
+            localStorage.setItem("sectionFourTitle", JSON.stringify(this.genreTitles(genreFour)))
+            localStorage.setItem("sectionFiveTitle", JSON.stringify(this.genreTitles(genreFive)))
+      
+            sectionOneTitle = JSON.parse(localStorage.getItem("sectionOneTitle"))
+            sectionTwoTitle = JSON.parse(localStorage.getItem("sectionTwoTitle"))
+            sectionThreeTitle = JSON.parse(localStorage.getItem("sectionThreeTitle"))
+            sectionFourTitle = JSON.parse(localStorage.getItem("sectionFourTitle"))
+            sectionFiveTitle = JSON.parse(localStorage.getItem("sectionFiveTitle"))
+      
+            Promise.all([
+              fetch(`/api/todaysfifty/${genreOne}`),
+              fetch(`/api/todaysfifty/${genreTwo}`),
+              fetch(`/api/todaysfifty/${genreThree}`),
+              fetch(`/api/todaysfifty/${genreFour}`),
+              fetch(`/api/todaysfifty/${genreFive}`)
+             
+            ]).
+            then(([firstSection, secondSection, thirdSection, fourthSection, fifthSection])=>{
+              return Promise.all([firstSection.json(), secondSection.json(), thirdSection.json(),fourthSection.json(), fifthSection.json()])
+              
+            }).
+            then(([firstSection, secondSection, thirdSection, fourthSection, fifthSection])=>{
+              console.log(firstSection)
+              localStorage.setItem("dbGenreOne", JSON.stringify(firstSection))
+              localStorage.setItem("dbGenreTwo", JSON.stringify(secondSection))
+              localStorage.setItem("dbGenreThree", JSON.stringify(thirdSection))
+              localStorage.setItem("dbGenreFour", JSON.stringify(fourthSection))
+              localStorage.setItem("dbGenreFive", JSON.stringify(fifthSection))
+      
+              this._isMounted && this.setState({
+                sectionOne: JSON.parse(localStorage.getItem("dbGenreOne")),
+                sectionTwo: JSON.parse(localStorage.getItem("dbGenreTwo")),
+                sectionThree: JSON.parse(localStorage.getItem("dbGenreThree")),
+                sectionFour: JSON.parse(localStorage.getItem("dbGenreFour")),
+                sectionFive: JSON.parse(localStorage.getItem("dbGenreFive")),
+                isLoading: false
+              })
+      
+              
+      
+              /*this._isMounted && this.setState({
+                sectionOne: firstSection,
+                sectionTwo: secondSection,
+                sectionThree: thirdSection,
+                sectionFour: fourthSection,
+                sectionFive: fifthSection,
+                isLoading: false
+              })*/
+            })
+           }else{
+      
+            sectionOneTitle = JSON.parse(localStorage.getItem("sectionOneTitle"))
+            sectionTwoTitle = JSON.parse(localStorage.getItem("sectionTwoTitle"))
+            sectionThreeTitle = JSON.parse(localStorage.getItem("sectionThreeTitle"))
+            sectionFourTitle = JSON.parse(localStorage.getItem("sectionFourTitle"))
+            sectionFiveTitle = JSON.parse(localStorage.getItem("sectionFiveTitle"))
+      
+            this._isMounted && this.setState({
+              sectionOne: JSON.parse(localStorage.getItem("dbGenreOne")),
+              sectionTwo: JSON.parse(localStorage.getItem("dbGenreTwo")),
+              sectionThree: JSON.parse(localStorage.getItem("dbGenreThree")),
+              sectionFour: JSON.parse(localStorage.getItem("dbGenreFour")),
+              sectionFive: JSON.parse(localStorage.getItem("dbGenreFive")),
+              isLoading: false
+            })
+           }
+
+      }
+
+
+     
+
+    
+
+    }
 
   addedMovie(){
     return(
@@ -302,9 +533,6 @@ class AppTodaysFiftyContent extends Component{
             sectionFive} = this.state;
 
 
-  
-
-
     sectionOne.forEach((element)=>{
       console.log(element.title)
     })
@@ -317,13 +545,25 @@ class AppTodaysFiftyContent extends Component{
       sectionFive.forEach((element)=>{
         console.log(element.title)      })
 
-    if(isLoading){
-      return(
-        <div className="loader"></div>
-      )
-    }
+        if(isLoading){
+          return(
+            <div style={{width:"100%", height:"900px", background:"#1c1b1b", border:"1px solid #1c1b1b"}}>
+              <div style={{display:"block", marginLeft:"auto", marginRight:"auto", width:"200px", height:"150px", marginTop:"300px"}}>
+                <div style={{marginLeft:"0",width:"150px", height:"150px"}}>
+                  <img src={loading} alt="this slowpoke moves"  width="150px" height="150px"/>
+                </div>
+                <div style={{marginLeft:"53px"}}>
+                 <span style={{color:"#FFFFFF"}}>Loading data...</span>
+                </div>
+              </div>
+    
+    
+            </div>
+           
+          )
+        }
 
-    sectionOneTitle = this.genreTitles(arr[0])
+    
     const genreOne =()=>{
       let card = []
     
@@ -351,7 +591,7 @@ class AppTodaysFiftyContent extends Component{
                   </NavLink>
 
                   <div style={{  display:"inline-block", marginRight:"0px", float:"right"}}>
-                    <Button  onClick={ ()=>{this.sectionOneOnclick(i)}}   color="warning" size="sm"><span> <img max-width="10px" max-height="15px" style={{paddingBottom:"3.5px", paddingRight:"2px"}} src={`${add}`}alt=""></img></span>Add</Button>{' '} 
+                    <Button  onClick={ ()=>{this.sectionOneOnclick(i)}}   color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={`${add}`}alt=""></img></span>Add</Button>{' '} 
                   </div>
 
                 </div>      
@@ -411,7 +651,7 @@ class AppTodaysFiftyContent extends Component{
       );
     });*/
 
-    sectionTwoTitle = this.genreTitles(arr[1])
+    
     const genreTwo =()=>{
       let card = []
     
@@ -434,7 +674,7 @@ class AppTodaysFiftyContent extends Component{
                   <div style={{}}>
                   <NavLink tag={Link} exact to="/details" style={{display:"inline-block", height:"100%", margin:"0", padding:"0"}}>
                
-                    <Button onClick={()=>{this.sectionTwo(`${sectionTwo[i].id}`)}} color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={`${see}`} alt=""></img></span>See More</Button>{' '}
+                    <Button onClick={()=>{this.getMovieId(`${sectionTwo[i].id}`)}} color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={`${see}`} alt=""></img></span>See More</Button>{' '}
              
                   </NavLink>
 
@@ -494,7 +734,7 @@ class AppTodaysFiftyContent extends Component{
     );
   });*/
 
-    sectionThreeTitle = this.genreTitles(arr[2])
+    
     const genreThree =()=>{
       let card = []
     
@@ -580,7 +820,7 @@ class AppTodaysFiftyContent extends Component{
   });*/
   
 
-  sectionFourTitle = this.genreTitles(arr[3])
+  
   const genreFour =()=>{
     let card = []
   
@@ -665,7 +905,7 @@ class AppTodaysFiftyContent extends Component{
     );
   });*/
 
-  sectionFiveTitle = this.genreTitles(arr[4])
+  
   const genreFive =()=>{
     let card = []
   
