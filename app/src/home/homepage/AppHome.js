@@ -18,6 +18,7 @@ import {
 } from 'reactstrap';
 
 
+import ErrorBoundary from '../../errorhandling/ErrorBoundary.js' 
 
 import './AppHome.css';
 import '../carousel/Appcarousel.css';
@@ -264,6 +265,11 @@ class AppHome extends Component{
   getOverviewButton(movie, activeIndex){
     const ytKey = movieTrailers[activeIndex];
      const asd = movieIds[activeIndex]
+
+     const externalCloseBtn = <div style={{position:"relative"}}>
+                              <CardSubtitle style={{display:"inline-block", position: 'absolute', top: '15px', left: '15px', color:"#FFFFFF", fontSize:"32px"}}>{movieTitles[activeIndex]} Trailer</CardSubtitle>
+                              <button className="close"  style={{display:"inline-block", position: 'absolute', top: '15px', right: '15px', }} onClick={()=>{this.toggle()}}><span style={{color:"#FFFFFF"}}>&times;</span></button>
+                              </div>
      
     return(
       <div>
@@ -283,16 +289,16 @@ class AppHome extends Component{
         
         </div>
         <div>
-          <Modal size="lg" isOpen={this.state.modal} >
-          <ModalHeader toggle={this.toggle}>{movieTitles[activeIndex] + " Trailer"}</ModalHeader>
-          <ModalBody >
+          <Modal size="lg" isOpen={this.state.modal} external={externalCloseBtn} style={{ position:"relative", top:"20%"}}>
+          
+          <ModalBody style={{maxHeight:"100%", maxWidth:"100%",height:"100%", width:"100%", margin:"0", padding:"0", boxSizing:"border-box"}}>
           <div className="player-wrapper">
             <ReactPlayer
             url= {`https://www.youtube.com/watch?v=${ytKey}`}
             className='react-player'
             playing = {true}
             width='100%'
-            height='430px'
+            height='100%'
             controls ={true}
             light = {true}
             loop = {true}
@@ -362,6 +368,7 @@ class AppHome extends Component{
       movieIds.push(movie.id)
       console.log(movie.id)
       return (
+ 
         <CarouselItem
           className="custom-tag"
           tag="div"
@@ -374,6 +381,7 @@ class AppHome extends Component{
           <img className = "centerImage"  src={`http://image.tmdb.org/t/p/w780${movie.backdrop_path}`} alt="" />
           <CarouselCaption  className="content"  captionText={this.getOverviewButton(movie, activeIndex)} captionHeader={movie.title} />
         </CarouselItem>
+
       );
     });
 
@@ -597,6 +605,7 @@ class AppHome extends Component{
     
 
     return(
+
       <div className="page-container" style={{background:"#fec106"}}>
         <div className="content-wrap">
           <Appbar handleSearch={this.handleSearch}/>
@@ -701,6 +710,7 @@ class AppHome extends Component{
           <AppFooter/>
         </div>
       </div>
+
     )
   }
   

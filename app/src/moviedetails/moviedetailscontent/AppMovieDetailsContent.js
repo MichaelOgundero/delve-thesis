@@ -220,10 +220,12 @@ class  AppMovieDetailsContent extends Component{
               director = directorArr.join(", ")
 
               let pcName = []
+              let movieName;
               movieDetails.forEach(movie=>{
                 for(let i=0;i<movie.productionCompanies.length;i++){
                   pcName.push(movie.productionCompanies[i])
                 }
+                movieName = movie.title
               })
               console.log(pcName)
   
@@ -740,7 +742,10 @@ class  AppMovieDetailsContent extends Component{
 
         const Stills =()=>{
           let card = []
-          const externalCloseBtn = <button className="close"  style={{ position: 'absolute', top: '15px', right: '15px' }} onClick={()=>{this.toggleImg()}}><span style={{color:"#FFFFFF"}}>&times;</span></button>;
+          const externalCloseBtn = <div style={{position:"relative"}}>
+                                      <CardSubtitle style={{display:"inline-block", position: 'absolute', top: '15px', left: '15px', color:"#FFFFFF", fontSize:"32px"}}>{movieName} Images</CardSubtitle>
+                                      <button className="close"  style={{display:"inline-block", position: 'absolute', top: '15px', right: '15px', }} onClick={()=>{this.toggleImg()}}><span style={{color:"#FFFFFF"}}>&times;</span></button>
+                                    </div>
         
         for(let i=0;i<movieBackdrops.length;i++){
          
