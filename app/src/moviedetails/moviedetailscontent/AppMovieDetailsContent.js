@@ -737,7 +737,7 @@ class  AppMovieDetailsContent extends Component{
 
         const Stills =()=>{
           let card = []
-          const externalCloseBtn = <button className="close"  style={{ position: 'absolute', top: '15px', right: '15px' }} onClick={()=>{this.toggleImg()}}><span style={{color:"#fec106"}}>&times;</span></button>;
+          const externalCloseBtn = <button className="close"  style={{ position: 'absolute', top: '15px', right: '15px' }} onClick={()=>{this.toggleImg()}}><span style={{color:"#FFFFFF"}}>&times;</span></button>;
         
         for(let i=0;i<movieBackdrops.length;i++){
          

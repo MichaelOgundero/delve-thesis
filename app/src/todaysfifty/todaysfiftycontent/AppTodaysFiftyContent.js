@@ -586,12 +586,12 @@ class AppTodaysFiftyContent extends Component{
                   <div style={{}}>
                   <NavLink tag={Link} exact to="/details" style={{display:"inline-block", height:"100%", margin:"0", padding:"0"}}>
                
-                    <Button onClick={()=>{this.getMovieId(`${sectionOne[i].id}`)}} color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={`${see}`} alt=""></img></span>See More</Button>{' '}
+                    <Button onClick={()=>{this.getMovieId(`${sectionOne[i].id}`)}} color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={`${see}`} alt=""></img></span><span style={{}}>See More</span></Button>{' '}
              
                   </NavLink>
 
-                  <div style={{  display:"inline-block", marginRight:"0px", float:"right"}}>
-                    <Button  onClick={ ()=>{this.sectionOneOnclick(i)}}   color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={`${add}`}alt=""></img></span>Add</Button>{' '} 
+                  <div style={{  display:"inline-block", margin:"0px", padding:"0", float:"right"}}>
+                    <Button  onClick={ ()=>{this.sectionOneOnclick(i)}}   color="warning" size="sm"><span> <img max-width="12px" max-height="12px" style={{paddingBottom:"1px", paddingRight:"2px", paddingTop:"2px"}} src={`${add}`}alt=""></img></span><span style={{margin:"0",padding:"0", position:"relative", top:"1px"}}>Add</span></Button>{' '} 
                   </div>
 
                 </div>      
@@ -605,51 +605,7 @@ class AppTodaysFiftyContent extends Component{
     }
       return card
   }
-     //sectionOne = movies.slice(0,10);
-    /*const genreOne = sectionOne.map((movie, index) => {
-     
-        
-        let movieName = movie.title;
-        if(movie.title.length>27){
-          movieName =  movieName.substring(0,24) + "..." 
-        }
-        if(movie.director === null){
-          movie.director = "N/A"
-        }
-        let poster = `http://image.tmdb.org/t/p/original${movie.poster_path}`;
-        if(movie.poster_path === null || !movie.hasOwnProperty("poster_path")){
-          poster = noPoster;
-        }
 
-      return(
-
-        <div style={{paddingTop:"25px"}} key={index}>
-
-        <Card style={{maxWidth:"185px", borderColor:" #1c1b1b"}}>
-          <CardImg  
-            src={poster} alt="Card image cap" style={{border:"4px solid black", height:"278px", width:"185px",maxHeight:"278px", maxWidth:"185px",}} />
-            <CardBody className="paddingCardbody">
-                <CardTitle className="paddingCardbody" style={{color:"#fec106", textTransform:"capitalize", fontSize:"13px"}} title={movie.title}>{movieName}</CardTitle>
-                <CardText  style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}} title={movie.director}>{movie.director}</CardText>
-                <div style={{}}>
-                  <NavLink tag={Link} exact to="/details" style={{display:"inline-block", height:"100%", margin:"0", padding:"0"}}>
-               
-                    <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
-             
-                  </NavLink>
-
-                  <div style={{  display:"inline-block", marginRight:"0px", float:"right"}}>
-                    <Button  onClick={ ()=>{this.sectionOneOnclick(index)}}   color="warning" size="sm"><span> <img max-width="10px" max-height="15px" style={{paddingBottom:"3.5px", paddingRight:"2px"}} src={add} alt=""></img></span>Add</Button>{' '} 
-                  </div>
-
-                </div>   
-
-            </CardBody>
-
-          </Card>
-      </div>
-      );
-    });*/
 
     
     const genreTwo =()=>{
@@ -679,7 +635,7 @@ class AppTodaysFiftyContent extends Component{
                   </NavLink>
 
                   <div style={{  display:"inline-block", marginRight:"0px", float:"right"}}>
-                    <Button  onClick={ ()=>{this.sectionTwoOnclick(i)}}   color="warning" size="sm"><span> <img max-width="10px" max-height="15px" style={{paddingBottom:"3.5px", paddingRight:"2px"}} src={`${add}`}alt=""></img></span>Add</Button>{' '} 
+                    <Button  onClick={ ()=>{this.sectionTwoOnclick(i)}}   color="warning" size="sm"><span> <img max-width="12px" max-height="12px" style={{paddingBottom:"1px", paddingRight:"2px", paddingTop:"2px"}} src={`${add}`}alt=""></img></span><span style={{margin:"0",padding:"0", position:"relative", top:"1px"}}>Add</span></Button>{' '} 
                   </div>
 
                 </div>      
@@ -693,46 +649,7 @@ class AppTodaysFiftyContent extends Component{
     }
       return card
   }
-    //sectionTwo  = movies.slice(10,21);
-   /* const genreTwo = sectionTwo.map((movie, index) => {
-      
-      let movieName = movie.title;
-      if(movie.title.length>27){
-        movieName =  movieName.substring(0,24) + "..." 
-      }
-      if(movie.director === null){
-        movie.director = "N/A"
-      }
-      let poster = `http://image.tmdb.org/t/p/original${movie.poster_path}`;
-      if(movie.poster_path === null || !movie.hasOwnProperty("poster_path")){
-        poster = noPoster;
-      }
-    return(
 
-      <div style={{paddingTop:"25px"}} key={index}>
-      <Card style={{maxWidth:"185px", borderColor:" #1c1b1b"}}>
-        <CardImg  
-          src={poster} alt="Card image cap" style={{border:"4px solid black", height:"278px", width:"185px",maxHeight:"278px", maxWidth:"185px",}} />
-          <CardBody className="paddingCardbody">
-              <CardTitle className="paddingCardbody" style={{color:"#fec106", textTransform:"capitalize", fontSize:"13px"}} title={movie.title}>{movieName}</CardTitle>
-              <CardText style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}} title={movie.director}>{movie.director}</CardText>
-              <div style={{}}>
-                  <NavLink tag={Link} exact to="/details" style={{display:"inline-block", height:"100%", margin:"0", padding:"0"}}>
-               
-                    <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
-             
-                  </NavLink>
-
-                  <div style={{  display:"inline-block", marginRight:"0px", float:"right"}}>
-                    <Button  onClick={()=>{this.sectionTwoOnclick(index)}}    color="warning" size="sm"><span> <img max-width="10px" max-height="10px" style={{paddingBottom:"3.5px", paddingRight:"2px"}} src={add} alt=""></img></span>Add</Button>{' '} 
-                  </div>
-
-                </div>   
-          </CardBody>
-        </Card>
-    </div>
-    );
-  });*/
 
     
     const genreThree =()=>{
@@ -762,7 +679,7 @@ class AppTodaysFiftyContent extends Component{
                   </NavLink>
 
                   <div style={{  display:"inline-block", marginRight:"0px", float:"right"}}>
-                    <Button  onClick={ ()=>{this.sectionThreeOnclick(i)}}   color="warning" size="sm"><span> <img max-width="10px" max-height="15px" style={{paddingBottom:"3.5px", paddingRight:"2px"}} src={`${add}`}alt=""></img></span>Add</Button>{' '} 
+                    <Button  onClick={ ()=>{this.sectionThreeOnclick(i)}}   color="warning" size="sm"><span> <img max-width="12px" max-height="12px" style={{paddingBottom:"1px", paddingRight:"2px", paddingTop:"2px"}} src={`${add}`}alt=""></img></span><span style={{margin:"0",padding:"0", position:"relative", top:"1px"}}>Add</span></Button>{' '} 
                   </div>
 
                 </div>      
@@ -776,48 +693,7 @@ class AppTodaysFiftyContent extends Component{
     }
       return card
   }
-    //sectionThree = movies.slice(20,31)
-    /*const genreThree = sectionThree.map((movie, index) => {
-      
-      let movieName = movie.title;
-      if(movie.title.length>27){
-        movieName =  movieName.substring(0,24) + "..." 
-      }
-      if(movie.director === null){
-        movie.director = "N/A"
-      }
-      let poster = `http://image.tmdb.org/t/p/original${movie.poster_path}`;
-      if(movie.poster_path === null || !movie.hasOwnProperty("poster_path")){
-        poster = noPoster;
-      }
-
-    return(
-
-      <div style={{paddingTop:"25px"}} key={index}>
-      <Card style={{maxWidth:"185px", borderColor:" #1c1b1b"}}>
-        <CardImg  
-          src={poster} alt="Card image cap" style={{border:"4px solid black", height:"278px", width:"185px",maxHeight:"278px", maxWidth:"185px",}} />
-          <CardBody className="paddingCardbody">
-              <CardTitle className="paddingCardbody" style={{color:"#fec106", textTransform:"capitalize", fontSize:"13px"}} title={movie.title}>{movieName}</CardTitle>
-              <CardText  style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}} title={movie.director}>{movie.director}</CardText>
-              <div style={{}}>
-                  <NavLink tag={Link} exact to="/details" style={{display:"inline-block", height:"100%", margin:"0", padding:"0"}}>
-               
-                    <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
-             
-                  </NavLink>
-
-                  <div style={{  display:"inline-block", marginRight:"0px", float:"right"}}>
-                    <Button  onClick={ ()=>{this.sectionThreeOnclick(index)}}   color="warning" size="sm"><span> <img max-width="10px" max-height="10px" style={{paddingBottom:"3.5px", paddingRight:"2px"}} src={add} alt=""></img></span>Add</Button>{' '} 
-                  </div>
-
-                </div>   
-
-              </CardBody>
-        </Card>
-    </div>
-    );
-  });*/
+  
   
 
   
@@ -848,7 +724,7 @@ class AppTodaysFiftyContent extends Component{
                 </NavLink>
 
                 <div style={{  display:"inline-block", marginRight:"0px", float:"right"}}>
-                  <Button  onClick={ ()=>{this.sectionFourOnclick(i)}}   color="warning" size="sm"><span> <img max-width="10px" max-height="15px" style={{paddingBottom:"3.5px", paddingRight:"2px"}} src={`${add}`}alt=""></img></span>Add</Button>{' '} 
+                  <Button  onClick={ ()=>{this.sectionFourOnclick(i)}}   color="warning" size="sm"><span> <img max-width="12px" max-height="12px" style={{paddingBottom:"1px", paddingRight:"2px", paddingTop:"2px"}} src={`${add}`}alt=""></img></span><span style={{margin:"0",padding:"0", position:"relative", top:"1px"}}>Add</span></Button>{' '} 
                 </div>
 
               </div>      
@@ -862,48 +738,7 @@ class AppTodaysFiftyContent extends Component{
   }
     return card
 }
-  //sectionFour = movies.slice(30,41);
-  /*const genreFour = sectionFour.map((movie, index) => {
-    
-    let movieName = movie.title;
-    if(movie.title.length>27){
-      movieName = movieName.substring(0,24) + "..." 
-    }
-    if(movie.director === null){
-      movie.director = "N/A"
-    }
-
-    let poster = `http://image.tmdb.org/t/p/original${movie.poster_path}`;
-    if(movie.poster_path === null || !movie.hasOwnProperty("poster_path")){
-      poster = noPoster;
-    }
-
-  return(
-
-    <div style={{paddingTop:"25px"}} key={index}>
-    <Card style={{maxWidth:"185px", borderColor:" #1c1b1b"}}>
-      <CardImg  
-        src={poster} alt="Card image cap" style={{border:"4px solid black", height:"278px", width:"185px",maxHeight:"278px", maxWidth:"185px",}} />
-        <CardBody className="paddingCardbody">
-            <CardTitle className="paddingCardbody" style={{color:"#fec106", textTransform:"capitalize", fontSize:"13px"}} title={movie.title}>{movieName}</CardTitle>
-            <CardText  style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}} title={movie.director}>{movie.director}</CardText>
-            <div style={{}}>
-                  <NavLink tag={Link} exact to="/details" style={{display:"inline-block", height:"100%", margin:"0", padding:"0"}}>
-               
-                    <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
-             
-                  </NavLink>
-
-                  <div style={{  display:"inline-block", marginRight:"0px", float:"right"}}>
-                    <Button  onClick={ ()=>{this.sectionFourOnclick(index)}}   color="warning" size="sm"><span> <img max-width="10px" max-height="10px" style={{paddingBottom:"3.5px", paddingRight:"2px"}} src={add} alt=""></img></span>Add</Button>{' '} 
-                  </div>
-
-                </div>   
-          </CardBody>
-      </Card>
-    </div>
-    );
-  });*/
+ 
 
   
   const genreFive =()=>{
@@ -933,7 +768,7 @@ class AppTodaysFiftyContent extends Component{
                 </NavLink>
 
                 <div style={{  display:"inline-block", marginRight:"0px", float:"right"}}>
-                  <Button  onClick={ ()=>{this.sectionFiveOnclick(i)}}   color="warning" size="sm"><span> <img max-width="10px" max-height="15px" style={{paddingBottom:"3.5px", paddingRight:"2px"}} src={`${add}`}alt=""></img></span>Add</Button>{' '} 
+                  <Button  onClick={ ()=>{this.sectionFiveOnclick(i)}}   color="warning" size="sm"><span> <img max-width="12px" max-height="12px" style={{paddingBottom:"1px", paddingRight:"2px", paddingTop:"2px"}} src={`${add}`}alt=""></img></span><span style={{margin:"0",padding:"0", position:"relative", top:"1px"}}>Add</span></Button>{' '} 
                 </div>
 
               </div>      
@@ -947,49 +782,7 @@ class AppTodaysFiftyContent extends Component{
   }
     return card
 }
-  //sectionFive = movies.slice(40,51);
- /* const genreFive = sectionFive.map((movie, index) => {
-    
-    let movieName = movie.title;
-    if(movie.title.length>27){
-      movieName =  movieName.substring(0,24) + "..." 
-    }
-    if(movie.director === null ){
-      movie.director = "N/A"
-    }
 
-    let poster = `http://image.tmdb.org/t/p/original${movie.poster_path}`;
-    if(movie.poster_path === null || !movie.hasOwnProperty("poster_path")){
-      poster = noPoster;
-    }
-
-  return(
-
-    <div style={{paddingTop:"25px"}} key={index}>
-    <Card style={{maxWidth:"185px", borderColor:" #1c1b1b"}}>
-      <CardImg  
-        src={poster} alt="Card image cap" style={{border:"4px solid black", height:"278px", width:"185px",maxHeight:"278px", maxWidth:"185px",}} />
-        <CardBody className="paddingCardbody">
-            <CardTitle className="paddingCardbody" style={{color:"#fec106", textTransform:"capitalize", fontSize:"13px"}} title={movie.title}>{movieName}</CardTitle>
-            <CardText style={{color:"#FFFFFF", textTransform:"capitalize",  fontSize:"12px"}} title={movie.director}>{movie.director}</CardText>
-            <div style={{}}>
-                  <NavLink tag={Link} exact to="/details" style={{display:"inline-block", height:"100%", margin:"0", padding:"0"}}>
-               
-                    <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
-             
-                  </NavLink>
-
-                  <div style={{  display:"inline-block", marginRight:"0px", float:"right"}}>
-                    <Button  onClick={ ()=>{this.sectionFiveOnclick(index)}}   color="warning" size="sm"><span> <img max-width="10px" max-height="10px" style={{paddingBottom:"3.5px", paddingRight:"2px"}} src={add} alt=""></img></span>Add</Button>{' '} 
-                  </div>
-
-                </div>   
-
-       </CardBody>
-      </Card>
-    </div>
-    );
-  });*/
 
     return (
     
