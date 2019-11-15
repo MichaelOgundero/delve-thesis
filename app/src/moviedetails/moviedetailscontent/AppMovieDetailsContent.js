@@ -339,6 +339,9 @@ class  AppMovieDetailsContent extends Component{
               if(movie.movieRating==="PG-13"){
                 textColor = "#9500ff"
               }
+              if(movie.movieRating==="G"){
+                textColor = "#087fff"
+              }
 
               let genreContent = "";
               if(movie.genres.length === 0){

@@ -43,7 +43,7 @@ public class NowPlayingDTO{
                 this.setYoutubeKey(trailerExample.getResults().get(j).getKey());
             }
         }*/
-        for(int i=0;i<nowPlayingExample.getResults().size()-2;i++){
+        for(int i=0;i<5;i++){
             this.trailerExample = restTemplateYtKey.getForObject("https://api.themoviedb.org/3/movie/"+nowPlayingExample.getResults().get(i).getId()+"/videos?api_key=623eeab48528051330ddc3ca73959483&language=en-US", Trailer.class);
             for(int j=0;j<trailerExample.getResults().size();j++){
                 if(trailerExample.getResults().get(j).getType().contentEquals("Trailer")){
