@@ -7,7 +7,7 @@ import AppUpcoming from '../upcoming/AppUpcoming.js';
 import AppMovieOfTheDay from '../movieofday/AppMovieOfTheDay.js';
 import AppTrending from '../trending/AppTrending.js'
 import AppFooter from '../../footer/AppFooter.js'
-
+import loading from '../../images/theFlashLoading.gif'
 
 
 
@@ -22,7 +22,7 @@ class AppHome extends Component{
   
     this.handleSearch = this.handleSearch.bind(this);
     this.handleSeeMore = this.handleSeeMore.bind(this);
-
+    this.handleLoading = this.handleLoading.bind(this);
   
   }
 
@@ -36,7 +36,11 @@ class AppHome extends Component{
     this.props.getSeeMoreValue(value);
   }
 
- 
+  handleLoading(val){
+    this.setState({
+      isLoading: val
+    })
+  }
 
 
 
@@ -46,17 +50,19 @@ class AppHome extends Component{
     console.log(this.state.seeMoreValue + " got it")
    // this.sendSearchValue()
 
+
+  
     
 
     return(
-      <div className="page-container">
+      <div className="page-container" style={{background:"#fec106"}}>
         <div className="content-wrap">
           <Appbar handleSearch={this.handleSearch}/>
-          <Appcarousel handleSeeMore={this.handleSeeMore}/>
-          <AppNowPlaying handleSeeMore={this.handleSeeMore}/>
-          <AppUpcoming handleSeeMore={this.handleSeeMore}/>
-          <AppMovieOfTheDay handleSeeMore={this.handleSeeMore}/>
-          <AppTrending handleSeeMore={this.handleSeeMore}/>
+          <Appcarousel handleSeeMore={this.handleSeeMore} />
+          <AppNowPlaying handleSeeMore={this.handleSeeMore} />
+          <AppUpcoming handleSeeMore={this.handleSeeMore} />
+          <AppMovieOfTheDay handleSeeMore={this.handleSeeMore} />
+          <AppTrending handleSeeMore={this.handleSeeMore} />
         <br></br>
         <br></br>
         <br></br>

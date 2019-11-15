@@ -30,7 +30,7 @@ class AppMovieDetails extends Component{
   render(){
 
     return(
-      <div className="page-container">
+      <div className="page-container" style={{background:"#fec106"}}>
         <div className="content-wrap">
           <Appbar handleSearch={this.handleSearch}/>
           <AppMovieDetailsContent handleSeeMore={this.handleSeeMore} seeMoreValue = {this.props.seeMoreValue}/>

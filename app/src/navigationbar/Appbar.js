@@ -34,7 +34,7 @@ import {
     this.state = {
       isOpen: false,
       value: '',
-      loginNum: 0
+      loginNum: 1
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -102,7 +102,7 @@ import {
               <DropdownToggle nav caret style={{color:"#FFFFFF"}}>
                 Hi, Ava
               </DropdownToggle>
-              <DropdownMenu right style={{background:"#1c1b1b"}}>
+              <DropdownMenu right style={{background:"#1c1b1b",border:"1px solid #FFFFFF"}}>
                 <DropdownItem >
                   <NavLink tag={Link} style={{color:"#fec106"}}  exact to="/">My Page</NavLink>
                 </DropdownItem>

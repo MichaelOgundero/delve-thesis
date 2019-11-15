@@ -47,7 +47,7 @@ public class MoreDetailsDTO{
         this.setCrewList(credits.getCrew());
 
         RestTemplate restTemplateImages = new RestTemplate();
-        this.imagesExample = restTemplateImages.getForObject("https://api.themoviedb.org/3/movie/"+movieID+"/images?api_key=623eeab48528051330ddc3ca73959483&language=en-US&include_image_language=en", ImagesExample.class);
+        this.imagesExample = restTemplateImages.getForObject("https://api.themoviedb.org/3/movie/"+movieID+"/images?api_key=623eeab48528051330ddc3ca73959483&language=en-US&include_image_language=en,null", ImagesExample.class);
         this.setBackdropList(imagesExample.getBackdrops());
         this.setPosterList(imagesExample.getPosters());
 

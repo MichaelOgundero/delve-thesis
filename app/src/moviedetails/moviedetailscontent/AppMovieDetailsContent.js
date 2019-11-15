@@ -13,8 +13,8 @@ import loading from '../../images/theFlashLoading.gif'
 import { Container, Row,NavLink,
   Col,Card, CardImg, 
   CardText, CardBody,Table,
-  CardTitle,CardSubtitle, Button,
-  Nav, NavItem, TabContent, TabPane} from 'reactstrap';
+  CardTitle,CardSubtitle, Button,Modal, ModalHeader, ModalBody, ModalFooter,
+  Nav, NavItem, TabContent, TabPane,CardDeck} from 'reactstrap';
 
   import ReactPlayer from 'react-player';
   import addDetails from '../../images/addDetails.png';
@@ -44,12 +44,15 @@ import { Container, Row,NavLink,
   };
   
   let movieId;
+  let imageModal;
 class  AppMovieDetailsContent extends Component{
 
     constructor(props){
         super(props);
         this.state = {
             activeTab: '1',
+            modal: false,
+            autoPlay:true,
             isLoading: true,
             movieDetails: [],   //details
             movieCast:[],       //moreDetails
@@ -63,6 +66,7 @@ class  AppMovieDetailsContent extends Component{
           }
           this._isMounted = false;
           this.toggle = this.toggle.bind(this);
+          this.toggleImg = this.toggleImg.bind(this);
 
           this.handleSubmit = this.handleSubmit.bind(this);
           this.getMovieId = this.getMovieId.bind(this);
@@ -92,6 +96,15 @@ class  AppMovieDetailsContent extends Component{
         })
       }
     }
+
+    toggleImg(){
+      const {modal, autoPlay} = this.state;
+      this.setState({
+        modal: !modal,
+        autoPlay: !autoPlay
+      })
+    };
+
 
 
     componentDidMount(){
@@ -151,6 +164,11 @@ class  AppMovieDetailsContent extends Component{
     
       }
 
+      getActive(val){
+        const {movieBackdrops} = this.state
+        imageModal = `http://image.tmdb.org/t/p/original${movieBackdrops[val].file_path}`
+        this.toggleImg()
+      }
  
 
 
@@ -167,14 +185,35 @@ class  AppMovieDetailsContent extends Component{
                 moviePoster, similarMovies,
                 movieReviews, movieVideos,
                  isLoading, activeTab} = this.state;
+                
+            
+
+            
+            if(isLoading){
+              return(
+                <div style={{width:"100%", height:"900px", background:"#1c1b1b", border:"1px solid #1c1b1b"}}>
+                  <div style={{display:"block", marginLeft:"auto", marginRight:"auto", width:"200px", height:"150px", marginTop:"300px"}}>
+                    <div style={{marginLeft:"0",width:"150px", height:"150px"}}>
+                      <img src={loading} alt="this slowpoke moves"  width="150px" height="150px"/>
+                    </div>
+                    <div style={{marginLeft:"53px"}}>
+                     <span style={{color:"#FFFFFF"}}>Loading data...</span>
+                    </div>
+                  </div>
         
-console.log(movieCast)
-                 movieCrew.forEach(crew => {
-                  if(crew.job === "Director"){
-                    directorArr.push(crew.name);
-                    if(!crew.hasOwnProperty('profile_path')){
-                      directorPoster = noPoster
-                    }
+        
+                </div>
+               
+              )
+            }
+        
+              console.log(movieCast)
+              movieCrew.forEach(crew => {
+                if(crew.job === "Director"){
+                  directorArr.push(crew.name);
+                  if(!crew.hasOwnProperty('profile_path')){
+                    directorPoster = noPoster
+                  }
                     directorPoster = `http://image.tmdb.org/t/p/original${crew.profile_path}`;
                   }
               });
@@ -287,23 +326,6 @@ console.log(movieCast)
               }
         
 
-              if(isLoading){
-                return(
-                  <div style={{width:"100%", height:"900px", background:"#1c1b1b", border:"1px solid #1c1b1b"}}>
-                    <div style={{display:"block", marginLeft:"auto", marginRight:"auto", width:"200px", height:"150px", marginTop:"300px"}}>
-                      <div style={{marginLeft:"0",width:"150px", height:"150px"}}>
-                        <img src={loading} alt="this slowpoke moves"  width="150px" height="150px"/>
-                      </div>
-                      <div style={{marginLeft:"53px"}}>
-                       <span style={{color:"#FFFFFF"}}>Loading data...</span>
-                      </div>
-                    </div>
-          
-          
-                  </div>
-                 
-                )
-              }
 
             const firstRow = movieDetails.map((movie, index)=>{
 
@@ -710,29 +732,38 @@ console.log(movieCast)
           }
             return card
         }
-           /*const Similar = similarMovies.map((movie, index)=>{
-            let movieName = movie.title;
-            if(movie.title.length>27){
-               movie.title =  movie.title.substring(0,24) + "..." 
-            }   
-             return(
-              <div div style={{maxHeight:"100%", maxWidth:"100%", background:"#1c1b1b"}} key={index}>
-                <Card style={{maxWidth:"185px", borderColor:" #1c1b1b"}}>
-                  <CardImg  
-                    src={`http://image.tmdb.org/t/p/original${movie.poster_path}`} alt="Card image cap" style={{border:"4px solid black", height:"278px", width:"185px",maxHeight:"278px", maxWidth:"185px",}} />
-                  <CardBody className="paddingCardbody" style={{background:"#1c1b1b"}}>
-                  <CardTitle  style={{color:"#fec106", textTransform:"capitalize", fontSize:"13px"}} title={movieName}>{movie.title.substring(0,27)}</CardTitle>
-                  <NavLink tag={Link} exact to="/details" style={{ display:"inline-block", height:"100%", fontSize:"0", margin:"0", padding:"0"}}>
-                    <div style={{ display:"inline-block"}}>
-                      <Button color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={see} alt=""></img></span>See More</Button>{' '}
-                    </div>
-                  </NavLink>             
-                  </CardBody>
-                </Card>
-              </div>
-             )
-           })*/
 
+        const {modal,autoPlay} = this.state
+
+        const Stills =()=>{
+          let card = []
+          const externalCloseBtn = <button className="close"  style={{ position: 'absolute', top: '15px', right: '15px' }} onClick={()=>{this.toggleImg()}}><span style={{color:"#fec106"}}>&times;</span></button>;
+        
+        for(let i=0;i<movieBackdrops.length;i++){
+         
+          card.push(
+            
+            <div style={{paddingTop:"10px"}} key={i}>
+              
+                <CardImg onClick={()=>{this.getActive(i)}} style={{cursor:"pointer",maxHeight:"104px", maxWidth:"185px",height:"104px", width:"185px",border:"2px solid black", paddingLeft:"5px", paddingRight:"5px"}} src={`http://image.tmdb.org/t/p/original${movieBackdrops[i].file_path}`} alt="Card image cap"/>
+                
+                <div >
+            
+                  <Modal isOpen={modal} toggle={this.toggleImg} external={externalCloseBtn} style={{ position:"relative", top:"20%"}} size="lg">
+                  
+                    <ModalBody style={{maxHeight:"100%", maxWidth:"100%",height:"100%", width:"100%", margin:"0", padding:"0", boxSizing:"border-box"}}>
+                    <CardImg  style={{maxHeight:"100%", maxWidth:"100%",height:"100%", width:"100%", margin:"0", padding:"0", boxSizing:"border-box"}} src={imageModal}/>
+
+                    </ModalBody>
+                  </Modal>
+                </div>
+            
+            </div>
+
+          )
+        }
+          return card
+      }
            
 
         
@@ -889,11 +920,29 @@ console.log(movieCast)
                     <div className="backgroundUpcoming" style={{maxHeight:"100%"}}>
                       <div className="backgroundUpcoming" style={{background:"#1c1b1b", maxHeight:"100%",  marginTop:"30px"}}>
                         <div style={{maxHeight:"100%", maxWidth:"95%", background:"#1c1b1b", borderBottom:"1px solid #fec106", marginLeft:"20px"}}>
+                          <CardSubtitle style={{color:"#fec106", fontWeight:"bold", fontSize:"28px"}}>Gallery</CardSubtitle>
+                        </div>
+                        <div style={{maxHeight:"100%", maxWidth:"94.9%", marginTop:"10px",background:"#1c1b1b", marginLeft:"3%"}}>
+                          <div  style={{background:"#1c1b1b", maxHeight:"100%", maxWidth:"100%", margin:"auto"}}> 
+                            <Carousel  centerMode={true} arrows={true}  infinite={true} responsive={responsive} autoPlay={this.props.deviceType !== "mobile" ? true : false}  autoPlaySpeed={3500} autoPlay={autoPlay}>
+                         
+                              {Stills()}
+                            
+                            </Carousel>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Container>
+                  <Container>
+                    <div className="backgroundUpcoming" style={{maxHeight:"100%"}}>
+                      <div className="backgroundUpcoming" style={{background:"#1c1b1b", maxHeight:"100%",  marginTop:"30px"}}>
+                        <div style={{maxHeight:"100%", maxWidth:"95%", background:"#1c1b1b", borderBottom:"1px solid #fec106", marginLeft:"20px"}}>
                           <CardSubtitle style={{color:"#fec106", fontWeight:"bold", fontSize:"28px"}}>Similar Movies</CardSubtitle>
                         </div>
                         <div style={{maxHeight:"100%", maxWidth:"97.5%", marginTop:"10px",background:"#1c1b1b"}}>
                           <div  style={{background:"#1c1b1b", maxHeight:"100%", maxWidth:"100%", marginLeft:"20px"}}> 
-                            <Carousel arrows={false}  infinite={true} responsive={responsive}  autoPlay={this.props.deviceType !== "mobile" ? true : false} autoPlaySpeed={3000}>
+                            <Carousel  arrows={false}  infinite={true} responsive={responsive}  autoPlay={this.props.deviceType !== "mobile" ? true : false} autoPlaySpeed={3000}>
                               {Similar()}
                             </Carousel>;
                           </div>

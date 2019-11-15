@@ -31,7 +31,7 @@ class AppTodaysFifty extends Component{
   render(){
 
     return(
-      <div className="page-container">
+      <div className="page-container" style={{background:"#fec106"}}>
         <div className="content-wrap">
           <Appbar handleSearch={this.handleSearch}/>
           <AppTodaysFiftyContent handleSeeMore={this.handleSeeMore}/>

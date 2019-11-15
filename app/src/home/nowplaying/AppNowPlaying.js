@@ -116,7 +116,7 @@ class AppNowPlaying extends Component{
                           <p style={{fontSize:"19px", color:"#FFFFFF"}}>{`${movies[i].vote_average}`}</p>
                       </CardText>
                       
-                      <NavLink tag={Link} exact to="/details" style={{display:"inline-block", height:"100%", margin:"0", marginLeft:"5px", padding:"0"}}>
+                      <NavLink tag={Link} exact to="/details" style={{display:"inline-block", height:"100%", fontSize:"0", margin:"0", padding:"0"}}>
                           <div style={{  display:"inline-block"}}>
                           <Button onClick={()=>{this.getMovieId(`${movies[i].id}`)}}  color="warning" size="sm"><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={`${see}`} alt=""></img></span>See More</Button>{' '}
                           </div>
