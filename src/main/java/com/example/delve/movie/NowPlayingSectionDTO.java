@@ -55,7 +55,7 @@ public class NowPlayingSectionDTO{
         }*/
       
 
-        for(int i=0;i<9;i++){
+        for(int i=0;i<nowPlayingExample.getResults().size();i++){
             this.credits = restTemplateDirector.getForObject("https://api.themoviedb.org/3/movie/"+nowPlayingExample.getResults().get(i).getId()+"/credits?api_key=623eeab48528051330ddc3ca73959483", Credits.class);
             for(int j=0;j<credits.getCrew().size();j++){
                 if(credits.getCrew().get(j).getJob().contentEquals("Director")){
