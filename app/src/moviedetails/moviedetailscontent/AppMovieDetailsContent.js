@@ -45,6 +45,7 @@ import { Container, Row,NavLink,
   
   let movieId;
   let imageModal;
+  let videoModalSrc
 class  AppMovieDetailsContent extends Component{
 
     constructor(props){
@@ -52,7 +53,9 @@ class  AppMovieDetailsContent extends Component{
         this.state = {
             activeTab: '1',
             modal: false,
+            modalVid:false,
             autoPlay:true,
+            autoPlayVid:true,
             isLoading: true,
             movieDetails: [],   //details
             movieCast:[],       //moreDetails
@@ -67,6 +70,7 @@ class  AppMovieDetailsContent extends Component{
           this._isMounted = false;
           this.toggle = this.toggle.bind(this);
           this.toggleImg = this.toggleImg.bind(this);
+          this.toggleVid = this.toggleVid.bind(this);
 
           this.handleSubmit = this.handleSubmit.bind(this);
           this.getMovieId = this.getMovieId.bind(this);
@@ -104,6 +108,16 @@ class  AppMovieDetailsContent extends Component{
         autoPlay: !autoPlay
       })
     };
+
+    toggleVid(){
+      const {modalVid, autoPlayVid} = this.state;
+      this.setState({
+        modalVid: !modalVid,
+        autoPlayVid: !autoPlayVid
+      })
+    };
+
+
 
 
 
@@ -168,6 +182,12 @@ class  AppMovieDetailsContent extends Component{
         const {movieBackdrops} = this.state
         imageModal = `http://image.tmdb.org/t/p/original${movieBackdrops[val].file_path}`
         this.toggleImg()
+      }
+
+      getActiveVideo(val){
+        const {movieVideos} = this.state
+        videoModalSrc = `https://www.youtube.com/watch?v=${movieVideos[val].key}`
+        this.toggleVid()
       }
  
 
@@ -738,7 +758,7 @@ class  AppMovieDetailsContent extends Component{
             return card
         }
 
-        const {modal,autoPlay} = this.state
+        const {modal,autoPlay, autoPlayVid, modalVid} = this.state
 
         const Stills =()=>{
           let card = []
@@ -746,7 +766,6 @@ class  AppMovieDetailsContent extends Component{
                                       <CardSubtitle style={{display:"inline-block", position: 'absolute', top: '15px', left: '15px', color:"#FFFFFF", fontSize:"32px"}}>{movieName} Images</CardSubtitle>
                                       <button className="close"  style={{display:"inline-block", position: 'absolute', top: '15px', right: '15px', }} onClick={()=>{this.toggleImg()}}><span style={{color:"#FFFFFF"}}>&times;</span></button>
                                     </div>
-        
         for(let i=0;i<movieBackdrops.length;i++){
          
           card.push(
@@ -772,6 +791,66 @@ class  AppMovieDetailsContent extends Component{
         }
           return card
       }
+
+      const Videos =()=>{
+        let card = []
+        const externalCloseBtn = <div style={{position:"relative"}}>
+                                  <CardSubtitle style={{display:"inline-block", position: 'absolute', top: '15px', left: '15px', color:"#FFFFFF", fontSize:"32px"}}>{movieName} Videos</CardSubtitle>
+                                  <button className="close"  style={{display:"inline-block", position: 'absolute', top: '15px', right: '15px', }} onClick={()=>{this.toggleVid()}}><span style={{color:"#FFFFFF"}}>&times;</span></button>
+                                </div>
+        for(let i=0;i<movieVideos.length;i++){
+          let ytKey = movieVideos[i].key;
+         
+          card.push(
+            
+            <div style={{paddingTop:"10px"}} key={i}>
+              
+              <div  className="player-wrapper" style={{overflow:"hidden", maxHeight:"104px", maxWidth:"185px", height:"104px", width:"185px"}}>
+                    <ReactPlayer
+                      url= {`https://www.youtube.com/watch?v=${ytKey}`}
+                      class="react-player"
+                      playing = {false}
+                      width="100%"
+                      height = "100%"
+                      light = {true}  //auto play
+                      style={{border:"2px solid black", paddingLeft:"5px", paddingRight:"5px"}}
+                      onReady={()=>{this.getActiveVideo(i)}}
+                    />
+              </div>  
+
+              <div >
+            
+                  <Modal isOpen={modalVid} toggle={this.toggleImgVid} external={externalCloseBtn} style={{ position:"relative", top:"20%"}} size="lg">
+                  
+                    <ModalBody style={{maxHeight:"100%", maxWidth:"100%",height:"100%", width:"100%", margin:"0", padding:"0", boxSizing:"border-box"}}>
+                    
+                    <div  className="player-wrapper" style={{overflow:"hidden", maxHeight:"100%", maxWidth:"100%"}}>
+                    <ReactPlayer
+                      url= {videoModalSrc}
+                      class="react-player"
+                      playing = {true}
+                      width="100%"
+                      height = "100%"
+                      controls = {true}
+                      muted = {true}
+                      light = {false}  //auto play
+                      loop = {false}
+                      style={{border:"4px solid black"}}
+                      onEnded={()=>{this.toggleVid()}}
+                    />
+                    </div>  
+
+                    </ModalBody>
+                  </Modal>
+              </div>              
+            </div>
+          )
+        }
+          return card
+        
+      }
+
+
            
 
         
@@ -935,6 +1014,24 @@ class  AppMovieDetailsContent extends Component{
                             <Carousel  centerMode={true} arrows={true}  infinite={true} responsive={responsive} autoPlay={this.props.deviceType !== "mobile" ? true : false}  autoPlaySpeed={3500} autoPlay={autoPlay}>
                          
                               {Stills()}
+                            
+                            </Carousel>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Container>
+                  <Container>
+                    <div className="backgroundUpcoming" style={{maxHeight:"100%"}}>
+                      <div className="backgroundUpcoming" style={{background:"#1c1b1b", maxHeight:"100%",  marginTop:"30px"}}>
+                        <div style={{maxHeight:"100%", maxWidth:"95%", background:"#1c1b1b", borderBottom:"1px solid #fec106", marginLeft:"20px"}}>
+                          <CardSubtitle style={{color:"#fec106", fontWeight:"bold", fontSize:"28px"}}>Videos</CardSubtitle>
+                        </div>
+                        <div style={{maxHeight:"100%", maxWidth:"94.9%", marginTop:"10px",background:"#1c1b1b", marginLeft:"3%"}}>
+                          <div  style={{background:"#1c1b1b", maxHeight:"100%", maxWidth:"100%", margin:"auto"}}> 
+                            <Carousel  centerMode={true} arrows={true}  infinite={true} responsive={responsive} autoPlay={this.props.deviceType !== "mobile" ? true : false}  autoPlaySpeed={3250} autoPlay={autoPlayVid}>
+                         
+                              {Videos()}
                             
                             </Carousel>
                           </div>

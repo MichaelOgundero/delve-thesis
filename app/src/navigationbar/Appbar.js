@@ -34,7 +34,7 @@ import {
     this.state = {
       isOpen: false,
       value: '',
-      loginNum: 1
+      loginNum: 0
     };
 
     this.handleChange = this.handleChange.bind(this);
