@@ -182,8 +182,9 @@ class AppTodaysFiftyContent extends Component{
       let max = 19
       let rand = Math.random()
       let todaysDate = this.getDate()      
-
-      /*if(localStorage.getItem("currentDate")===null){
+      
+      /*localStorage.clear();
+      if(localStorage.getItem("currentDate")===null){
         localStorage.setItem("currentDate", JSON.stringify(todaysDate))
       }*/
       if(todaysDate === JSON.parse(localStorage.getItem("currentDate"))){
@@ -282,17 +283,6 @@ class AppTodaysFiftyContent extends Component{
               sectionFive: JSON.parse(localStorage.getItem("dbGenreFive")),
               isLoading: false
             })
-    
-            
-    
-            /*this._isMounted && this.setState({
-              sectionOne: firstSection,
-              sectionTwo: secondSection,
-              sectionThree: thirdSection,
-              sectionFour: fourthSection,
-              sectionFive: fifthSection,
-              isLoading: false
-            })*/
           })
          }else{
     
@@ -408,17 +398,6 @@ class AppTodaysFiftyContent extends Component{
                 sectionFive: JSON.parse(localStorage.getItem("dbGenreFive")),
                 isLoading: false
               })
-      
-              
-      
-              /*this._isMounted && this.setState({
-                sectionOne: firstSection,
-                sectionTwo: secondSection,
-                sectionThree: thirdSection,
-                sectionFour: fourthSection,
-                sectionFive: fifthSection,
-                isLoading: false
-              })*/
             })
            }else{
       
@@ -439,12 +418,6 @@ class AppTodaysFiftyContent extends Component{
            }
 
       }
-
-
-     
-
-    
-
     }
 
   addedMovie(){

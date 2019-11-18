@@ -1,4 +1,4 @@
-package com.example.delve.movieweb;
+package com.example.delve.controllers.movieweb;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+
 
 import com.example.delve.movie.MoreDetailsDTO;
 import com.example.delve.movie.MovieDTO;
@@ -201,166 +202,9 @@ public class MovieController {
         TodaysFiftyDTO asd = new TodaysFiftyDTO(genreID);
         todaysFiftyDTO = asd.getToday50();
         return todaysFiftyDTO;
-        /*if(!this.today().equals(current) || listIds.size() == 0 || pageValues.size() == 0 || resultValues.size() == 0){
-            current = this.today();
-            for(int i=0;i<10;i++){
-               
-                if(i%4 == 0){
-                    Thread.sleep(1500);
-                }
-                TodaysFiftyDTO xxx = new TodaysFiftyDTO();
-                //int page = xxx.getPageMax(genreIDs[listIds.get(0)]);
-                //int result = xxx.getResultMax(genreIDs[listIds.get(0)]);
-                //Section 1
-                int x = xxx.getPageMax(genreIDs[listIds.get(0)]);
-                int y = xxx.getResultMax(genreIDs[listIds.get(0)]);
-                int page = random.nextInt(( x- 1) + 1) + 1;
-                int result = random.nextInt((y-0)+1) + 0;
-                
-                pageValues.add(page);
-                resultValues.add(result);
-
-                genreSection = new TodaysFiftyDTO(genreIDs[listIds.get(0)], page, result);
-                todaysFiftyDTO.add(genreSection);
-            }
-
-            //Thread.sleep(1000);
-
-            for(int i=0;i<10;i++){
-                if(i%4 == 0){
-                    Thread.sleep(1500);
-                }
-               
-                //Section 2
-                TodaysFiftyDTO xxx = new TodaysFiftyDTO();
-                int x = xxx.getPageMax(genreIDs[listIds.get(1)]);
-                int y = xxx.getResultMax(genreIDs[listIds.get(1)]);
-                int page = random.nextInt(( x- 1) + 1) + 1;
-                int result = random.nextInt((y-0)+1) + 0;
-                //Thread.sleep(1000);
-                pageValues.add(page);
-                resultValues.add(result);
-
-                genreSection = new TodaysFiftyDTO(genreIDs[listIds.get(1)], page, result);
-                todaysFiftyDTO.add(genreSection);
-            }
-
-            //Thread.sleep(1000);
-
-            for(int i=0;i<10;i++){
-                if(i%4 == 0){
-                    Thread.sleep(1500);
-                }
-                //Section 3
-                TodaysFiftyDTO xxx = new TodaysFiftyDTO();
-                int x = xxx.getPageMax(genreIDs[listIds.get(2)]);
-                int y = xxx.getResultMax(genreIDs[listIds.get(2)]);
-                int page = random.nextInt(( x- 1) + 1) + 1;
-                int result = random.nextInt((y-0)+1) + 0;
-                //Thread.sleep(1000);
-                pageValues.add(page);
-                resultValues.add(result);
-
-                genreSection = new TodaysFiftyDTO(genreIDs[listIds.get(2)], page, result);
-                todaysFiftyDTO.add(genreSection);
-            }
-
-            //Thread.sleep(1000);
-
-            for(int i=0;i<10;i++){
-                if(i%4 == 0){
-                    Thread.sleep(1500);
-                }
-                //Section 4
-                TodaysFiftyDTO xxx = new TodaysFiftyDTO();
-                int x = xxx.getPageMax(genreIDs[listIds.get(3)]);
-                int y = xxx.getResultMax(genreIDs[listIds.get(3)]);
-                int page = random.nextInt(( x- 1) + 1) + 1;
-                int result = random.nextInt((y-0)+1) + 0;
-                //Thread.sleep(1000);
-                pageValues.add(page);
-                resultValues.add(result);
-
-                genreSection = new TodaysFiftyDTO(genreIDs[listIds.get(3)],page,result);
-                todaysFiftyDTO.add(genreSection);
-            }
-
-            //Thread.sleep(1000);
-
-            for(int i=0;i<10;i++){
-                if(i%4 == 0){
-                    Thread.sleep(1500);
-                }
-                //Section 5
-                TodaysFiftyDTO xxx = new TodaysFiftyDTO();
-                int x = xxx.getPageMax(genreIDs[listIds.get(4)]);
-                int y = xxx.getResultMax(genreIDs[listIds.get(4)]);
-                int page = random.nextInt(( x- 1) + 1) + 1;
-                int result = random.nextInt((y-0)+1) + 0;
-                //Thread.sleep(1000);
-                pageValues.add(page);
-                resultValues.add(result);
-
-                genreSection = new TodaysFiftyDTO(genreIDs[listIds.get(4)], page, result);
-                todaysFiftyDTO.add(genreSection);
-            }
-           
-        }*//*else{
-            //Section 1
-            for(int i=0;i<10;i++){
-                if(i%4 == 0){
-                    Thread.sleep(1500);
-                }
-
-                    TodaysFiftyDTO movieGenreOne = new TodaysFiftyDTO(genreIDs[listIds.get(0)], pageValues.get(i), resultValues.get(i));
-                    todaysFiftyDTO.add(movieGenreOne);
-            }
-           //Thread.sleep(1000);
-            //Section 2
-            for(int i=0;i<10;i++){
-                if(i%4 == 0){
-                    Thread.sleep(1500);
-                }
-
-                    TodaysFiftyDTO movieGenreTwo = new TodaysFiftyDTO(genreIDs[listIds.get(1)], pageValues.get(i+10), resultValues.get(i+10));
-                    todaysFiftyDTO.add(movieGenreTwo);
-            }
-            //Thread.sleep(1000);
-            //Section 3
-            for(int i=0;i<10;i++){
-                if(i%4 == 0){
-                    Thread.sleep(1500);
-                }
-
-                    TodaysFiftyDTO movieGenreThree = new TodaysFiftyDTO(genreIDs[listIds.get(2)], pageValues.get(i+20), resultValues.get(i+20));
-                    todaysFiftyDTO.add(movieGenreThree);
-            }
-            //Thread.sleep(1000);
-            //Section 4
-            for(int i=0;i<10;i++){
-                if(i%4 == 0){
-                    Thread.sleep(1500);
-                }
-
-                    TodaysFiftyDTO movieGenreFour = new TodaysFiftyDTO(genreIDs[listIds.get(3)], pageValues.get(i+30), resultValues.get(i+30));
-                    todaysFiftyDTO.add(movieGenreFour);
-            }
-            //Thread.sleep(1000);
-            //Section 5
-            for(int i=0;i<10;i++){
-                if(i%4 == 0){
-                    Thread.sleep(1500);
-                }
-
-                    TodaysFiftyDTO movieGenreFive = new TodaysFiftyDTO(genreIDs[listIds.get(4)], pageValues.get(i+40), resultValues.get(i+40));
-                    todaysFiftyDTO.add(movieGenreFive);
-            }
-                
-            }*/
-    
-    
-        //return todaysFiftyDTO;
     }
+
+
 
     public LocalDate today(){
         return LocalDate.now();
