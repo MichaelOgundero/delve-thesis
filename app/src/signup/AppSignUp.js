@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { NavLink as Link} from 'react-router-dom';
+import { NavLink as Link, withRouter} from 'react-router-dom';
 
 import AppFooter from '../footer/AppFooter.js'
 import "./AppSignUp.css";
@@ -13,19 +13,46 @@ import {
     NavbarToggler,
     NavbarBrand,
     Nav,
-    NavItem,
-     NavLink,
-     Row,
-     Container, Col, Button, Form, FormGroup, Label, Input
+    NavItem,UncontrolledAlert ,
+    NavLink, Input,Alert,
+    Row,FormFeedback, Button, Form,
+    Container, FormGroup
    } from 'reactstrap';
 
-
+   let vld
+   let passwordMatch
+   let alertSignup
 class AppSignUp extends Component{
+
+    emptyUser = {
+        username: "",
+        email: "",
+        password: ""
+    }
 
     constructor(props) {
         super(props);
-        this.state = {isOpen: false};
+        this.state = {
+            isOpen: false,
+            user: this.emptyUser,
+            usernameVal: "",
+            emailVal: "",
+            passwordVal: "",
+            passwordRptVal: "",
+            signUpAlert:""
+        };
         this.toggle = this.toggle.bind(this);
+        this.handleChangeUsername = this.handleChangeUsername.bind(this);
+        this.handleChangeEmail = this.handleChangeEmail.bind(this);
+        this.handleChangePassword = this.handleChangePassword.bind(this);
+        this.handleChangePasswordRpt = this.handleChangePasswordRpt.bind(this);
+        this.handleSubmit  = this.handleSubmit.bind(this);
+        this.routeChange = this.routeChange.bind(this);
+      }
+
+      routeChange(){
+          let path = "/";
+          this.props.history.push(path);
       }
     
       toggle() {
@@ -33,8 +60,103 @@ class AppSignUp extends Component{
           isOpen: !this.state.isOpen
         });
       }
+
+      handleChangeUsername(event){
+        this.setState({
+            usernameVal: event.target.value,
+          });
+      }
+      handleChangeEmail(event){
+        this.setState({
+            emailVal: event.target.value
+          });
+      }
+      handleChangePassword(event){
+        this.setState({
+            passwordVal: event.target.value
+          });
+      }
+      handleChangePasswordRpt(event){
+        this.setState({
+            passwordRptVal: event.target.value
+          });
+      }
+
+      async handleSubmit(event){
+        event.preventDefault();
+        const {user,usernameVal,emailVal,passwordVal,passwordRptVal} = this.state;
+        user.username = usernameVal;
+        user.email = emailVal;
+        if(passwordRptVal === passwordVal){
+            user.password = passwordVal;
+        }else{
+            alert("password not the same!!!")
+        }
+        
+        if(user.username!==""&&user.email!==""&&user.password!==""){
+            await fetch('api/user', {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json; charset=UTF-8"
+                },
+                body: JSON.stringify(user)
+            })
+            this.setState({
+                signUpAlert:       <UncontrolledAlert color="success">
+                                    Registration successfull
+                                   </UncontrolledAlert>
+            })
+
+            //localStorage.setItem("currentUsername", JSON.stringify(user.username))
+            this.props.getUsername(user.username);
+            this.routeChange()
+
+        }else{
+            this.setState({
+                signUpAlert:       <UncontrolledAlert color="danger">
+                                    Fields can't be empty
+                                   </UncontrolledAlert>
+            })
+        }
+
+
+      }
     
       render() {
+          const {usernameVal, emailVal, passwordVal, passwordRptVal, signUpAlert} = this.state;
+          console.log(usernameVal)
+          console.log(emailVal)
+          console.log(passwordVal)
+          console.log(passwordRptVal)
+
+          let username =  <Input style={{background:"#1c1b1b", border:"1px solid #fec106", color:"white"}} 
+                        type="name" placeholder="Username" 
+                         value={usernameVal} onChange={this.handleChangeUsername}/>
+
+          vld = <Input style={{background:"#1c1b1b", border:"1px solid #fec106", color:"white"}}  
+          type="password" name="password" id="examplePassword" placeholder="Repeat Password" 
+          value={passwordRptVal} onChange={this.handleChangePasswordRpt}/>;
+
+            if(passwordVal!==""){
+            if(passwordRptVal !== passwordVal){
+                vld = <div><Input invalid ={true} style={{background:"#1c1b1b", border:"1px solid #fec106", color:"white"}}  
+                            type="password" name="password" id="examplePassword" placeholder="Repeat Password" 
+                            value={passwordRptVal} onChange={this.handleChangePasswordRpt}/>
+                            
+                      </div> 
+            }
+            if(passwordRptVal === passwordVal){
+                passwordMatch = ""
+                vld = <div><Input valid style={{background:"#1c1b1b", border:"1px solid #fec106", color:"white"}}  
+                            type="password" name="password" id="examplePassword" placeholder="Repeat Password" 
+                            value={passwordRptVal} onChange={this.handleChangePasswordRpt}/>
+                            <FormFeedback valid>{passwordMatch}</FormFeedback>
+                      </div> 
+            }
+        }
+
+          
         return (
         <div>
             <div>
@@ -48,6 +170,7 @@ class AppSignUp extends Component{
                 </Collapse>
                 </Navbar>
             </div>
+            {signUpAlert}
         
             <Container>
             {/*Navigation*/}
@@ -71,21 +194,25 @@ class AppSignUp extends Component{
                                 <p style={{color:"#fec106", fontWeight:"bold", fontSize:"32px"}}>Sign Up</p>
                             </div>
                             <div style={{ marginTop:"50px", marginLeft:"10px", marginRight:"10px"}}>
-                                <Form>
+                                <Form onSubmit={this.handleSubmit}>
                                     <FormGroup>
-                                        <Input style={{background:"#1c1b1b", border:"1px solid #fec106", color:"white"}} type="name" placeholder="Username" />
+                                    {username}
                                     </FormGroup>
                                     <FormGroup>
-                                        <Input style={{background:"#1c1b1b", border:"1px solid #fec106", color:"white"}} type="email" name="email" id="exampleEmail" placeholder="Email@Example.com" />
+                                        <Input style={{background:"#1c1b1b", border:"1px solid #fec106", color:"white"}} 
+                                        type="email" name="email" id="exampleEmail" placeholder="Email@Example.com" 
+                                        value={emailVal} onChange={this.handleChangeEmail}/>
                                     </FormGroup>
                                     <FormGroup>
-                                        <Input style={{background:"#1c1b1b", border:"1px solid #fec106", color:"white"}} type="password" name="password" id="examplePassword" placeholder="Password" />
+                                        <Input  style={{background:"#1c1b1b", border:"1px solid #fec106", color:"white"}} 
+                                        type="password" name="password" id="examplePassword" placeholder="Password" 
+                                        value={passwordVal} onChange={this.handleChangePassword}/>
                                     </FormGroup>
                                     <FormGroup>
-                                        <Input style={{background:"#1c1b1b", border:"1px solid #fec106", color:"white"}}  name="password" id="examplePassword" placeholder="Repeat Password" />
+                                    {vld}
                                     </FormGroup>
                                     <div style={{marginTop:"50px"}}>
-                                        <Button color="warning" size="lg">Register</Button>
+                                        <Button color="warning" size="lg" type="submit">Register</Button>
                                     </div>
                                 </Form>
                             </div>
@@ -124,4 +251,4 @@ class AppSignUp extends Component{
 }
 
 
-export default AppSignUp;
+export default withRouter(AppSignUp);

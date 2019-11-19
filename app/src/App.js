@@ -5,6 +5,7 @@ import AppTodaysFifty from './todaysfifty/AppTodaysFifty.js'
 import AppMovieDetails from './moviedetails/AppMovieDetails.js'
 import AppSignUp from './signup/AppSignUp.js'
 import AppSignIn from './signin/AppSignIn.js'
+import UserPage from './userpage/UserPage.js'
 
 import { Switch, Route } from 'react-router-dom';
 
@@ -18,7 +19,8 @@ class App extends Component{
     this.state = {
       isLoading: true,
       searchValue: "",
-      seeMoreValue: ''
+      seeMoreValue: '',
+      username: ""
     }
 
     this.getSearchValue = this.getSearchValue.bind(this);
@@ -28,7 +30,9 @@ class App extends Component{
     this.getDetails = this.getDetails.bind(this);
     this.getSignUp = this.getSignUp.bind(this);
     this.getSignIn = this.getSignIn.bind(this);
-    this.getSeeMoreValue = this.getSeeMoreValue.bind(this)
+    this.getSeeMoreValue = this.getSeeMoreValue.bind(this);
+    this.getUsername = this.getUsername.bind(this);
+    this.getUserPage = this.getUserPage.bind(this);
   }
 
   getSearchValue(value){
@@ -42,40 +46,52 @@ class App extends Component{
       seeMoreValue: value
     })
   }
+
+  getUsername(value){
+    this.setState({
+      username: value
+    })
+  }
   
   getHome(){
     return (
-        <AppHome getSearchValue={this.getSearchValue} getSeeMoreValue={this.getSeeMoreValue}/>
+        <AppHome getSearchValue={this.getSearchValue} getSeeMoreValue={this.getSeeMoreValue} username={this.state.username}/>
     )
   }
 
   getTodaysFifty(){
     return (
-      <AppTodaysFifty getSearchValue={this.getSearchValue} getSeeMoreValue={this.getSeeMoreValue} />
+      <AppTodaysFifty getSearchValue={this.getSearchValue} getSeeMoreValue={this.getSeeMoreValue} username={this.state.username}/>
     )
   }
 
   getSearch(){
     return (
-      <AppSearch searchvalue = {this.state.searchValue}  getSearchValue={this.getSearchValue} getSeeMoreValue={this.getSeeMoreValue}/>
+      <AppSearch searchvalue = {this.state.searchValue}  getSearchValue={this.getSearchValue} getSeeMoreValue={this.getSeeMoreValue} username={this.state.username}/>
     )
   }
 
   getDetails(){
     return(
-      <AppMovieDetails getSeeMoreValue={this.getSeeMoreValue}  seeMoreValue={this.state.seeMoreValue}  getSearchValue={this.getSearchValue}/>
+      <AppMovieDetails getSeeMoreValue={this.getSeeMoreValue}  seeMoreValue={this.state.seeMoreValue}  getSearchValue={this.getSearchValue} username={this.state.username}/>
     )
   }
 
   getSignUp(){
     return(
-      <AppSignUp   />
+      <AppSignUp   getUsername={this.getUsername}/>
     )
   }
 
   getSignIn(){
     return(
       <AppSignIn/>
+    )
+  }
+
+  getUserPage(){
+    return(
+      <UserPage getSearchValue={this.getSearchValue}/>
     )
   }
   
@@ -94,6 +110,7 @@ class App extends Component{
           <Route exact path= "/signIn" component={this.getSignIn} ></Route>
           <Route exact path= "/signUp" component = {this.getSignUp}></Route>
           <Route exact path= "/details" component={this.getDetails} ></Route>
+          <Route exact path= "/userpage" component={this.getUserPage}></Route>
         </Switch>
       </div>
     )

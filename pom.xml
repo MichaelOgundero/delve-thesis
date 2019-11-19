@@ -50,22 +50,13 @@
 			<scope>test</scope>
 		</dependency>
 
+
+
 		<dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-	
-   		<dependency>
-     		<groupId>org.springframework.security</groupId>
-     		<artifactId>spring-security-core</artifactId>
-     		<version>5.1.6.RELEASE</version>
-		</dependency>
-		   
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-		</dependency>
 
  </dependencies>
 

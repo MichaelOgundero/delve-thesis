@@ -1,6 +1,5 @@
 package com.example.delve.entity;
 
-import java.io.Serializable;
 import java.util.regex.Pattern;
 
 import javax.persistence.Column;

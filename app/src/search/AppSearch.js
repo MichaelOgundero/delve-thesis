@@ -34,7 +34,7 @@ class AppSearch extends Component{
     return(
       <div className="page-container" style={{background:"#fec106"}}>
         <div className="content-wrap">
-          <Appbar handleSearch={this.handleSearch}/>
+          <Appbar handleSearch={this.handleSearch} username={this.props.username}/>
           <AppSearchContent handleSeeMore = {this.handleSeeMore} searchvalue = {this.props.searchvalue}/>
           <br></br>
           <br></br>

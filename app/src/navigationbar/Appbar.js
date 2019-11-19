@@ -1,7 +1,13 @@
 import React, {Component} from 'react';
 
+import AppSignUp from '../signup/AppSignUp.js'
+import AppSignIn from '../signin/AppSignIn.js'
+import cinemaChair from '../images/collageMovies2.jpg';
+import facebookIcon from '../images/facebookIcon.png';
+import googleIcon from '../images/googleIcon.png';
+import "../signup/AppSignUp.css";
 
-import { NavLink as Link} from 'react-router-dom';
+import { NavLink as Link,Switch, Route} from 'react-router-dom';
 
 import {
   Collapse,
@@ -12,10 +18,10 @@ import {
   NavItem,
    NavLink ,
    CardTitle,
-   Col,
-   Button,
+   Col,Form,FormFeedback,FormGroup,UncontrolledAlert,
+   Button,Modal, ModalHeader, ModalBody, ModalFooter,
    InputGroupAddon,UncontrolledDropdown,
-   DropdownToggle,
+   DropdownToggle,Container,
    DropdownMenu,
    DropdownItem,
   Input,
@@ -24,23 +30,66 @@ import {
 
   import './Appbar.css';
   
-
+  let xxx="";
+  let vld
+  let passwordMatch
 
  class Appbar extends Component{
+
+  emptyUser = {
+    username: "",
+    email: "",
+    password: ""
+}
   constructor(props) {
     super(props);
+
+    //localStorage.setItem("currentUsername", "")
 
     this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,
       value: '',
-      loginNum: 0
+      username:"",
+      modal: false,
+      signInModal: false,
+      user: this.emptyUser,
+      usernameVal: "",
+      emailVal: "",
+      passwordVal: "",
+      passwordRptVal: "",
+      signUpAlert:"",
+      signInAlert:""
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this); 
     this.handleKeyPress = this.handleKeyPress.bind(this);
+
+    this.handleChangeUsername = this.handleChangeUsername.bind(this);
+    this.handleChangeEmail = this.handleChangeEmail.bind(this);
+    this.handleChangePassword = this.handleChangePassword.bind(this);
+    this.handleChangePasswordRpt = this.handleChangePasswordRpt.bind(this);
+    this.handleSubmitForm = this.handleSubmitForm.bind(this);
+    this.handleSubmitSignIn = this.handleSubmitSignIn.bind(this);
+
+    this.toggle = this.toggle.bind(this);
+
+    this.toggleSignIn = this.toggleSignIn.bind(this)
+    this.toggleSignUp = this.toggleSignUp.bind(this)
+
   }
+
+  toggleSignUp(){
+    const{modal} = this.state
+    this.setState({modal:!modal})
+  }
+
+  toggleSignIn(){
+    const{signInModal} = this.state;
+    this.setState({signInModal: !signInModal})
+  }
+
 
   handleChange(event){
     this.setState({
@@ -56,6 +105,113 @@ import {
       
     }
   }
+
+  handleChangeUsername(event){
+    this.setState({
+        usernameVal: event.target.value,
+      });
+  }
+  handleChangeEmail(event){
+    this.setState({
+        emailVal: event.target.value
+      });
+  }
+  handleChangePassword(event){
+    this.setState({
+        passwordVal: event.target.value
+      });
+  }
+  handleChangePasswordRpt(event){
+    this.setState({
+        passwordRptVal: event.target.value
+      });
+  }
+
+  async handleSubmitSignIn(event){
+    event.preventDefault();
+    const {user, usernameVal, passwordVal} = this.state;
+    user.username = usernameVal;
+    user.password = passwordVal;
+
+    const response = await fetch(`api/user/${user.username}`);
+    const body = await response.json();
+
+    console.log(body);
+    if(body.username===user.username && body.password===user.password){
+      localStorage.setItem("user", JSON.stringify(user.username))
+      this.setState({
+        username: JSON.parse(localStorage.getItem("user")),
+        user: this.emptyUser,
+        usernameVal: "",
+        emailVal: "",
+        passwordVal: "",
+        passwordRptVal: ""
+      })
+    }else{
+        this.setState({
+          signInAlert:  <UncontrolledAlert color="danger" style={{zIndex:"10"}}>
+                        Incorrect Credentials
+                      </UncontrolledAlert>
+        })
+    }
+
+  }
+  
+  async handleSubmitForm(event){
+    event.preventDefault();
+    const {user,usernameVal,emailVal,passwordVal,passwordRptVal} = this.state;
+    user.username = usernameVal;
+    user.email = emailVal;
+    if(passwordRptVal === passwordVal){
+        user.password = passwordVal;
+    }else{
+        alert("password not the same!!!")
+    }
+    
+    if(user.username!==""&&user.email!==""&&user.password!==""){
+        await fetch('api/user', {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json; charset=UTF-8"
+            },
+            body: JSON.stringify(user)
+        })
+        this.setState({
+            signUpAlert:       <UncontrolledAlert color="success" style={{zIndex:"10"}}>
+                                Registration successfull
+                               </UncontrolledAlert>
+        })
+
+        //localStorage.setItem("currentUsername", JSON.stringify(user.username))
+      
+        localStorage.setItem("user", JSON.stringify(user.username))
+        this.setState({
+          username: JSON.parse(localStorage.getItem("user")),
+          user: this.emptyUser,
+          usernameVal: "",
+          emailVal: "",
+          passwordVal: "",
+          passwordRptVal: ""
+
+        })
+
+    }else{
+        this.setState({
+            signUpAlert:       <UncontrolledAlert color="danger" style={{zIndex:"10"}}>
+                                Fields can't be empty
+                               </UncontrolledAlert>,
+            user: this.emptyUser,
+            usernameVal: "",
+            emailVal: "",
+            passwordVal: "",
+            passwordRptVal: ""
+        })
+    }
+
+
+  }
+
  
 
   handleSubmit(event){
@@ -82,8 +238,14 @@ import {
 
   render() {
     console.log(this.state.value)
-    const {loginNum} = this.state
-    if(loginNum === 1){
+    console.log(this.props.username)
+    const{username, modal,signInModal,usernameVal, emailVal, passwordVal, passwordRptVal,signUpAlert,signInAlert} = this.state
+    //this.setUsername();
+    console.log(username)
+
+    //localStorage.setItem("currentUsername", JSON.stringify(""))
+
+    if(localStorage.getItem("user")!== null){
       return(
         <div>
          <div style={{height:"85px", maxHeight:"100px", background: "black"}} className="topNavbarDiv">
@@ -100,15 +262,15 @@ import {
 
               <UncontrolledDropdown nav inNavbar style={{paddingTop:"50px", fontWeight:"bold", background:"black"}}>
               <DropdownToggle nav caret style={{color:"#FFFFFF"}}>
-                Hi, Ava
+               {JSON.parse(localStorage.getItem("user"))}
               </DropdownToggle>
               <DropdownMenu right style={{background:"#1c1b1b",border:"1px solid #FFFFFF"}}>
                 <DropdownItem >
-                  <NavLink tag={Link} style={{color:"#fec106"}}  exact to="/">My Page</NavLink>
+                  <NavLink tag={Link} style={{color:"#fec106"}}  exact to="/userpage">My Page</NavLink>
                 </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem >
-                  <NavLink tag={Link} style={{color:"#fec106"}}  exact to="/">Sign Out</NavLink>
+                  <NavLink tag={Link} style={{color:"#fec106"}} exact to="/" onClick={()=>{localStorage.removeItem("user")}}>Sign Out</NavLink>
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
@@ -148,8 +310,42 @@ import {
       </div>
       )
     }else{
-      return (
+      const externalCloseBtn = <div style={{position:"relative"}}>
+                                <button className="close"  style={{display:"inline-block", position: 'absolute', top: '15px', right: '15px', }} onClick={()=>this.setState({modal: !modal})}><span style={{color:"#FFFFFF"}}>&times;</span></button>
+                              </div>
+      const extCloseBtn = <div style={{position:"relative"}}>
+                                <button className="close"  style={{display:"inline-block", position: 'absolute', top: '15px', right: '15px', }} onClick={()=>this.setState({signInModal: !signInModal})}><span style={{color:"#FFFFFF"}}>&times;</span></button>
+                          </div>
+
       
+      let username =  <Input style={{background:"#1c1b1b", border:"1px solid #fec106", color:"white"}} 
+      type="name" placeholder="Username" 
+      value={usernameVal} onChange={this.handleChangeUsername}/>
+
+      vld = <Input style={{background:"#1c1b1b", border:"1px solid #fec106", color:"white"}}  
+      type="password" name="password" id="examplePassword" placeholder="Repeat Password" 
+      value={passwordRptVal} onChange={this.handleChangePasswordRpt}/>;
+
+      if(passwordVal!==""){
+      if(passwordRptVal !== passwordVal){
+        vld = <div><Input invalid ={true} style={{background:"#1c1b1b", border:"1px solid #fec106", color:"white"}}  
+                type="password" name="password" id="examplePassword" placeholder="Repeat Password" 
+                value={passwordRptVal} onChange={this.handleChangePasswordRpt}/>
+              </div> 
+      }
+      if(passwordRptVal === passwordVal){
+        passwordMatch = ""
+        vld = <div><Input valid style={{background:"#1c1b1b", border:"1px solid #fec106", color:"white"}}  
+                type="password" name="password" id="examplePassword" placeholder="Repeat Password" 
+                value={passwordRptVal} onChange={this.handleChangePasswordRpt}/>
+                <FormFeedback valid>{passwordMatch}</FormFeedback>
+              </div> 
+      }
+      }
+
+
+      return (
+        
         <div>
          <div style={{height:"85px", maxHeight:"100px", background: "black"}} className="topNavbarDiv">
           <Navbar  className="topNavbar" style={{background:"black",height:"85px", width: "800px", margin: "auto"}} expand="md">
@@ -164,12 +360,155 @@ import {
               </NavItem>
 
             <NavItem style={{paddingTop:"50px", fontWeight:"bold"}}>
-                <NavLink tag={Link} activeClassName="current" className="navLink" exact to="/signIn">Sign In</NavLink>
+                <NavLink tag={Link}  className="navLink" exact to="/" onClick={()=>this.setState({signInModal: !signInModal})}>Sign In</NavLink>
             </NavItem>
+            <div style={{background:"#1c1b1b"}}>
+                <Modal isOpen={signInModal} toggle={this.toggleSignIn} external={extCloseBtn} style={{ position:"relative", top:"20%", background:"#1c1b1b"}} size="lg">
+                  
+                <ModalBody style={{maxHeight:"600px", maxWidth:"100%",height:"600px", width:"100%", margin:"0", padding:"0", boxSizing:"border-box", background:"#1c1b1b"}}>
+                
+                <Container>
+            {/*Navigation*/}
+                <Row style={{paddingTop:"20px"}}>
+                {signInAlert}
+                    <div style={{background:"#1c1b1b", height:"600px", width:"700px", position:"absolute",
+                                 left:"0", right:"0", top:"0", bottom:"0", margin:"auto",
+                                 maxHeight:"100%", maxWidth:"100%"}}>
+                        <div style={{position: "relative",display:"inline-block", width:"350px", height:"550px", marginLeft:"20px", marginTop:"25px", background:"#1c1b1b"}}>
+                            <div style={{ marginTop:"10px", marginLeft:"10px", marginRight:"10px"}}>
+                                <p style={{color:"#fec106", fontWeight:"bold", fontSize:"32px"}}>Sign In</p>
+                            </div>
+                            <div style={{ marginTop:"50px", marginLeft:"10px", marginRight:"10px"}}>
+                                <Form onSubmit={this.handleSubmitSignIn}>
+                                    <FormGroup>
+                                        <Input style={{background:"#1c1b1b", border:"1px solid #fec106", color:"white"}} 
+                                        type="name" placeholder="Username" 
+                                        value={usernameVal} onChange={this.handleChangeUsername}/>
+                                    </FormGroup>
+
+                                    <FormGroup>
+                                        <Input style={{background:"#1c1b1b", border:"1px solid #fec106", color:"white"}} 
+                                        type="password" name="password" id="examplePassword" placeholder="Password" 
+                                        value={passwordVal} onChange={this.handleChangePassword}/>
+
+                                    </FormGroup>
+
+                                    <div style={{marginTop:"50px"}}>
+                                        <Button color="warning" size="lg" type="submit">Log in</Button>
+                                    </div>
+                                </Form>
+                            </div>
+                            
+                            <div style={{marginTop:"155px", marginLeft:"10px", marginRight:"10px"}}>
+                                <div style={{display:"inline-block"}}>
+                                    <p style={{color:"white", fontWeight:"bold", fontSize:"15px"}}>Or Login with</p>
+                                </div>
+                                <div style={{display:"inline-block", background:"white", padding:"0", margin:"0", marginLeft:"15px"}}>
+                                    <img src={facebookIcon} style={{height:"50px", width:"50px"}}></img>
+                                </div>
+                                <div style={{display:"inline-block", background:"white", padding:"0", margin:"0", marginLeft:"15px"}}>
+                                    <img src={googleIcon} style={{height:"50px", width:"50px"}}></img>
+                                </div>
+                            </div>
+                        </div>
+                        <div style={{position: "absolute",display:"inline-block", width:"300px", height:"550px",marginLeft:"10px", marginTop:"25px", background:"#1c1b1b"}}>
+                        
+                            <div style={{maxWidth:"300px", maxHeight:"300px", marginTop:"105px"}}>
+                                <img src={cinemaChair}   style={{maxWidth:"300px", maxHeight:"300px"}}></img>
+                            </div> 
+                            <div style={{marginLeft:"75px",marginTop:"60px"}}>
+                                <NavLink tag={Link} exact to="/" onClick={()=>this.setState({signInModal: !signInModal, modal:!modal})} style={{margin:"0", padding:"0"}}>
+                                    <p style={{color:"white", fontWeight:"bold",width:"136px"}}>Create an account</p>
+                                </NavLink>  
+                            </div>    
+                        </div>
+                    </div>
+               
+                </Row>
+            </Container>
+                </ModalBody>
+                  
+                </Modal>
+            </div>
+
+
 
             <NavItem style={{paddingTop:"50px", fontWeight:"bold"}}>
-              <NavLink tag={Link} activeClassName="current" className="navLink" exact to="/signUp">Sign Up</NavLink>
+              <NavLink tag={Link}  className="navLink" exact to="/" onClick={()=>this.setState({modal:!modal})}>Sign Up</NavLink>
             </NavItem>
+            <div style={{background:"#1c1b1b"}}>
+                <Modal isOpen={modal} toggle={this.toggleSignUp} external={externalCloseBtn} style={{ position:"relative", top:"20%", background:"#1c1b1b"}} size="lg">
+                  
+                <ModalBody style={{maxHeight:"600px", maxWidth:"100%",height:"600px", width:"100%", margin:"0", padding:"0", boxSizing:"border-box", background:"#1c1b1b"}}>
+                
+                <Container>
+                  {/*Navigation*/}
+                <Row style={{paddingTop:"20px"}}>
+                {signUpAlert}
+                
+                    <div style={{ background:"#1c1b1b", height:"600px", width:"700px", position:"absolute",
+                                 left:"0", right:"0", top:"0", bottom:"0", margin:"auto",
+                                 maxHeight:"100%", maxWidth:"100%"}}>
+                        <div style={{display:"inline-block", position:"relative", width:"300px", background:"#1c1b1b", height:"550px", marginLeft:"20px", marginTop:"25px"}}>
+                            <div style={{maxWidth:"300px", maxHeight:"300px", marginTop:"105px"}}>
+                                <img src={cinemaChair}   style={{maxWidth:"300px", maxHeight:"300px"}}></img>
+                            </div> 
+                            <div style={{marginLeft:"50px",marginTop:"62px"}}>
+                                <NavLink tag={Link} exact to="/" onClick={()=>this.setState({modal:!modal,signInModal: !signInModal})} style={{margin:"0", padding:"0"}}>
+                                    <p style={{color:"white", fontWeight:"bold"}}>I'm already a member</p>
+                                </NavLink>  
+                            </div>                          
+                        </div>
+                        <div style={{position: "absolute", display:"inline-block", width:"350px", height:"550px",marginLeft:"10px", marginTop:"25px", background:"#1c1b1b"}}>
+                            <div style={{ marginTop:"10px", marginLeft:"10px", marginRight:"10px"}}>
+                                <p style={{color:"#fec106", fontWeight:"bold", fontSize:"32px"}}>Sign Up</p>
+                            </div>
+                            <div style={{ marginTop:"50px", marginLeft:"10px", marginRight:"10px"}}>
+                                <Form onSubmit={this.handleSubmitForm}>
+                                    <FormGroup>
+                                    {username}
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Input style={{background:"#1c1b1b", border:"1px solid #fec106", color:"white"}} 
+                                        type="email" name="email" id="exampleEmail" placeholder="Email@Example.com" 
+                                        value={emailVal} onChange={this.handleChangeEmail}/>
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Input  style={{background:"#1c1b1b", border:"1px solid #fec106", color:"white"}} 
+                                        type="password" name="password" id="examplePassword" placeholder="Password" 
+                                        value={passwordVal} onChange={this.handleChangePassword}/>
+                                    </FormGroup>
+                                    <FormGroup>
+                                    {vld}
+                                    </FormGroup>
+                                    <div style={{marginTop:"50px"}}>
+                                        <Button color="warning" size="lg" type="submit">Register</Button>
+                                    </div>
+                                </Form>
+                            </div>
+                            
+                            <div style={{marginTop:"50px", marginLeft:"10px", marginRight:"10px"}}>
+                                <div style={{display:"inline-block"}}>
+                                    <p style={{color:"white", fontWeight:"bold", fontSize:"15px"}}>Or Login with</p>
+                                </div>
+                                <div style={{display:"inline-block", background:"white", padding:"0", margin:"0", marginLeft:"15px"}}>
+                                    <img src={facebookIcon} style={{height:"50px", width:"50px"}}></img>
+                                </div>
+                                <div style={{display:"inline-block", background:"white", padding:"0", margin:"0", marginLeft:"15px"}}>
+                                    <img src={googleIcon} style={{height:"50px", width:"50px"}}></img>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+               
+                </Row>
+            </Container>
+                </ModalBody>
+                  
+                </Modal>
+            </div>
               
             </Nav>
           </Collapse>
@@ -203,8 +542,14 @@ import {
         </div>
 
         </div>
+ 
       </div>
+
+
+    
    
+    
+        
     );
     }
    
