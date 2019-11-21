@@ -1,78 +1,68 @@
 package com.example.delve.entity;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
-@Entity(name = "Users")
+@Data
+@Entity
+@Table(name = "Users")
 public class UserEntity{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @NonNull
+   
+    @NotNull
     private String username;
+
+    @NotNull
     private String email;
+
+    @NotNull
     private String password;
 
+    //@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userEntity")
+    //@Column(nullable = true)
+   // @JsonManagedReference
+   // private Set<MovieList> movieList = new HashSet<>();
 
+    
     public UserEntity(){}
+
 
     public UserEntity(String username, String email, String password){
         this.username = username;
         this.email = email;
         this.password = password;
+        
     }
 
-
-
-    @Override
-    public String toString(){
-        return String.format(
-            "Customer[id=%d, username='%s', email='%s', password='%s']",
-            id, username, email, password);
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-  
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword(){
-        return password;
-    }
-
-    public void setPassword(String password){
-        this.password = password;
-    }
 
     public boolean isValid(String email) 
     { 

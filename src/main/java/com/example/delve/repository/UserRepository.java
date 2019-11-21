@@ -1,14 +1,11 @@
 package com.example.delve.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.example.delve.entity.User;
+import org.springframework.stereotype.Repository;
 import com.example.delve.entity.UserEntity;
 
-
+@Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long>{
-    
-      UserEntity findUserByUsername(String userName);
-      
-      UserEntity findById(long id);
-   }
+
+
+}

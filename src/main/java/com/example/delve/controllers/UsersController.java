@@ -5,6 +5,10 @@ import com.example.delve.repository.UserRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,19 +25,22 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api")
 public class UsersController{
-    
+   
+    @Autowired
     private UserRepository userRepository;
 
-    public UsersController(UserRepository userRepository){
-        this.userRepository = userRepository;
-    }
-
+  
     @GetMapping("/users")
-    Collection<UserEntity> users(){
-        return userRepository.findAll();
+    public Page<UserEntity> getAllUsers(Pageable pageable){
+        return userRepository.findAll(pageable);
     }
 
-  @GetMapping("/user/{username}")
+    @PostMapping("/user")
+    public UserEntity createUser(@Valid @RequestBody UserEntity userEntity){
+        return userRepository.save(userEntity);
+    }
+
+ /* @GetMapping("/user/{username}")
     ResponseEntity<UserEntity> getUser(@PathVariable String username){
 
         List<String> empty = new ArrayList<String>();
@@ -43,14 +50,18 @@ public class UsersController{
             usernames.add(existingUsernames.getUsername());
         }
         if(usernames.contains(username)){
-            /*Optional<UserEntity> user = Optional.of(userRepository.findUserByUsername(username));
-            return user.map(response -> ResponseEntity.ok().body(response));*/
+
             UserEntity user = userRepository.findUserByUsername(username);
-            return ResponseEntity.status(HttpStatus.FOUND).body(user);
+            UserEntity responseUser = new UserEntity();
+            responseUser.setId(user.getId());
+            responseUser.setEmail(user.getEmail());
+            responseUser.setPassword(user.getPassword());
+            responseUser.setUsername(user.getUsername());
+            return ResponseEntity.status(HttpStatus.FOUND).body(responseUser);
         }
         return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(new UserEntity());
-    }
-
+    }*/
+/*
    @PostMapping("/user")
    ResponseEntity<UserEntity> createUser(@Valid @RequestBody UserEntity userEntity){
        UserEntity emailValid = new UserEntity();
@@ -70,5 +81,5 @@ public class UsersController{
 
         }
                 return ResponseEntity.status(HttpStatus.CONFLICT).build();
-   } 
+   } */
 }

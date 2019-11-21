@@ -1,9 +1,18 @@
 
 package com.example.delve;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.transaction.Transactional;
+
+import com.example.delve.entity.MovieList;
 import com.example.delve.entity.UserEntity;
+import com.example.delve.repository.MovieListRepository;
 import com.example.delve.repository.UserRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,25 +31,6 @@ public class DelveApplication {
 		SpringApplication.run(DelveApplication.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner demo(UserRepository userRepository){
-		return(args) -> {
-			//save 
-			userRepository.save(new UserEntity("kronus", "bob@bobmail.com", "password"));
-			userRepository.save(new UserEntity("slaydatPussy", "xxx@xxx.com", "password123"));
-			
-			//fetch
-			log.info("Customers found");
-			log.info("****************");
-			for(UserEntity userEntity : userRepository.findAll()){
-				log.info(userEntity.toString());
-			}
 
-			//fetch by username
-			log.info("Customer found with findByUsername('kronus'):");
-			log.info("************************************");
-			userRepository.findUserByUsername("kronus").toString();
-		};
-	}
 
 }
