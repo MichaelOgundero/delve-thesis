@@ -40,19 +40,44 @@ public class MovieListController{
     }*/
 
     @GetMapping("users/{userId}/movies")
-    public Page<MovieList> getAllMovies(@PathVariable Long userId, Pageable pageable){
-        return movieListRepository.findByUserEntityId(userId, pageable);
+    public Collection<MovieList> getAllMovies(@PathVariable Long userId){
+        return movieListRepository.findByUserEntityId(userId);
     }
 
 
     @PostMapping("/users/{userId}/movieList")
     public MovieList createMovieList(@PathVariable  Long userId,
                                     @Valid @RequestBody MovieList movieList){
-        return userRepository.findById(userId).map(user -> {
-            movieList.setUserEntity(user);
-            return movieListRepository.save(movieList);
+        return userRepository.findById(userId).map(user -> {    //find user by the id in the userRepository save it to a variable "user"
+            movieList.setUserEntity(user);                      //then set the saved "user" to be the userEntity of the movieList class ur creating, basiccally adding the movie the the movielist of the user
+            return movieListRepository.save(movieList);         //then save the movieList to the repo
         }).orElseThrow(() -> new ResourceNotFoundException("userID "+ userId + " not found"));
 
+    }
+
+    @PutMapping("users/{userId}/movieList/{movieListId}")
+    public MovieList updateMovie(@PathVariable Long userId, @PathVariable Long movieListId,
+                                @Valid @RequestBody MovieList movieRequest){
+        if(!userRepository.existsById(userId)){
+            throw new ResourceNotFoundException("UserId "+ userId + " not found");  
+        }
+
+        return movieListRepository.findById(movieListId).map(movie -> {     //find by the movieId then modify the contents of the movie by the movie passed(created) as a parameter.
+            movie.setMovieRating(movieRequest.getMovieRating());
+            movie.setMovieDescription(movieRequest.getMovieDescription());
+            return movieListRepository.save(movie);
+        }).orElseThrow(() -> new ResourceNotFoundException("Movie with " + movieListId + " not found"));
+    }
+    
+
+    @DeleteMapping("/users/{userId}/movieList/{movieListId}")
+    public ResponseEntity<?> deleteMovieFromList(@PathVariable Long userId, 
+                                                 @PathVariable Long movieListId){
+        return movieListRepository.findByIdAndUserEntityId(movieListId, userId).map(movie -> {  //find the movie by the userid and the movieId, then delete from the movieList repo
+            movieListRepository.delete(movie);
+            return ResponseEntity.ok().build();
+            
+        }).orElseThrow(() -> new ResourceNotFoundException("movie not found with id " + movieListId + "and postId " + userId));
     }
 
 

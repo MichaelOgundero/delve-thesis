@@ -1,6 +1,6 @@
 package com.example.delve.repository;
 
-
+import java.util.Collection;
 import java.util.Optional;
 
 import com.example.delve.entity.MovieList;
@@ -13,8 +13,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MovieListRepository extends JpaRepository<MovieList, Long>{
 
-	Page<MovieList> findByUserEntityId(Long userId, Pageable pageable);
-
+	Collection<MovieList> findByUserEntityId(Long userId);
+    Optional<MovieList> findByIdAndUserEntityId(Long id, Long userId);
  
     
     //Page<MovieList> findByUserId(Long id, Pageable pageable);

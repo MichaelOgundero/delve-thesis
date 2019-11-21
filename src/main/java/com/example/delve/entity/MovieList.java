@@ -41,6 +41,11 @@ public class MovieList{
     @NotNull
     private String movieId;
 
+    private Double movieRating;
+    private String movieDescription;
+
+
+
    
   
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -63,6 +68,21 @@ public class MovieList{
          
     }
 
+    public void setMovieRating(Double movieRating){
+        this.movieRating = movieRating;
+    }
+
+    public Double getMovieRating(){
+        return movieRating;
+    }
+
+    public void setMovieDescription(String movieDescription){
+        this.movieDescription = movieDescription;
+    }
+
+    public String getMovieDescription(){
+        return movieDescription;
+    }
     
 
     public void setId(Long id){

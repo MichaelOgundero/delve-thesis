@@ -31,8 +31,14 @@ public class UsersController{
 
   
     @GetMapping("/users")
-    public Page<UserEntity> getAllUsers(Pageable pageable){
-        return userRepository.findAll(pageable);
+    public Collection<UserEntity> getAllUsers(){
+        return userRepository.findAll();
+    }
+
+    @GetMapping("/user/{username}")
+    public ResponseEntity<UserEntity> getByUsername(@PathVariable String username){
+            UserEntity user = userRepository.findByUsername(username);
+            return ResponseEntity.status(HttpStatus.FOUND).body(user);
     }
 
     @PostMapping("/user")
