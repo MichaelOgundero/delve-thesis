@@ -127,7 +127,7 @@ class  AppMovieDetailsContent extends Component{
       const movieContent = {
         movieTitle: movieDetails[0].title,
         movieId: movieDetails[0].movieId,
-        movieImage: "http://image.tmdb.org/t/p/original"+movieDetails[0].posterPath
+        movieImage: movieDetails[0].posterPath
 
       }
 

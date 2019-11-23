@@ -101,17 +101,62 @@ class AppTodaysFiftyContent extends Component{
   }
 
 
-  sectionOneOnclick(movie){
+  async sectionOneOnclick(movie){
     const {sectionOne} = this.state
+
+    const movieContent = {
+      movieTitle: sectionOne[movie].title,
+      movieId: sectionOne[movie].id,
+      movieImage: sectionOne[movie].poster_path
+    }
+    
+    const username = JSON.parse(localStorage.getItem("user"))
+    const responseOne = await fetch("api/user/"+username);
+    const body = await responseOne.json();
+    const userId = body.id
+    await fetch(`api/users/${userId}/movieList`,{
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: JSON.stringify(movieContent)
+
+    })
+
+
     this.setState({visibleOne:true},()=>{
       window.setTimeout(()=>{
         this.setState({visibleOne:false})
       },3000)
     });
     currentIndexOne = sectionOne[movie].title;
+
+    
   }
-  sectionTwoOnclick(movie){
+  async sectionTwoOnclick(movie){
     const {sectionTwo} = this.state
+
+    const movieContent = {
+      movieTitle: sectionTwo[movie].title,
+      movieId: sectionTwo[movie].id,
+      movieImage: sectionTwo[movie].poster_path
+    }
+    
+    const username = JSON.parse(localStorage.getItem("user"))
+    const responseTwo = await fetch("api/user/"+username);
+    const body = await responseTwo.json();
+    const userId = body.id
+    await fetch(`api/users/${userId}/movieList`,{
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: JSON.stringify(movieContent)
+
+    })
+
     this.setState({visibleTwo:true},()=>{
       window.setTimeout(()=>{
         this.setState({visibleTwo:false})
@@ -119,8 +164,29 @@ class AppTodaysFiftyContent extends Component{
     });
     currentIndexTwo = sectionTwo[movie].title;
   }
-  sectionThreeOnclick(movie){
+  async sectionThreeOnclick(movie){
     const {sectionThree} = this.state
+
+    const movieContent = {
+      movieTitle: sectionThree[movie].title,
+      movieId: sectionThree[movie].id,
+      movieImage: sectionThree[movie].poster_path
+    }
+    
+    const username = JSON.parse(localStorage.getItem("user"))
+    const response = await fetch("api/user/"+username);
+    const body = await response.json();
+    const userId = body.id
+    await fetch(`api/users/${userId}/movieList`,{
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: JSON.stringify(movieContent)
+
+    })
+
     this.setState({visibleThree:true},()=>{
       window.setTimeout(()=>{
         this.setState({visibleThree:false})
@@ -128,8 +194,29 @@ class AppTodaysFiftyContent extends Component{
     });
     currentIndexThree = sectionThree[movie].title;
   }
-  sectionFourOnclick(movie){
+  async sectionFourOnclick(movie){
     const {sectionFour} = this.state
+
+    const movieContent = {
+      movieTitle: sectionFour[movie].title,
+      movieId: sectionFour[movie].id,
+      movieImage: sectionFour[movie].poster_path
+    }
+    
+    const username = JSON.parse(localStorage.getItem("user"))
+    const response = await fetch("api/user/"+username);
+    const body = await response.json();
+    const userId = body.id
+    await fetch(`api/users/${userId}/movieList`,{
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: JSON.stringify(movieContent)
+
+    })
+
     this.setState({visibleFour:true},()=>{
       window.setTimeout(()=>{
         this.setState({visibleFour:false})
@@ -137,14 +224,36 @@ class AppTodaysFiftyContent extends Component{
     });
     currentIndexFour = sectionFour[movie].title;
   }
-  sectionFiveOnclick(movie){
+  async sectionFiveOnclick(movie){
     const {sectionFive} = this.state
+    
+    const movieContent = {
+      movieTitle: sectionFive[movie].title,
+      movieId: sectionFive[movie].id,
+      movieImage: sectionFive[movie].poster_path
+    }
+    
+    const username = JSON.parse(localStorage.getItem("user"))
+    const response = await fetch("api/user/"+username);
+    const body = await response.json();
+    const userId = body.id
+    await fetch(`api/users/${userId}/movieList`,{
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: JSON.stringify(movieContent)
+
+    })
+    
     this.setState({visibleFive:true},()=>{
       window.setTimeout(()=>{
         this.setState({visibleFive:false})
       },3000)
     });
     currentIndexFive = sectionFive[movie].title;
+
   }
 
   getMovieId(val){
