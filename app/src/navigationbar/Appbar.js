@@ -33,7 +33,7 @@ import {
   let xxx="";
   let vld
   let passwordMatch
-
+ 
  class Appbar extends Component{
 
   emptyUser = {
@@ -59,7 +59,8 @@ import {
       passwordVal: "",
       passwordRptVal: "",
       signUpAlert:"",
-      signInAlert:""
+      signInAlert:"",
+     
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -78,7 +79,39 @@ import {
     this.toggleSignIn = this.toggleSignIn.bind(this)
     this.toggleSignUp = this.toggleSignUp.bind(this)
 
+    this._isMounted = false;
+
   }
+
+  componentDidMount(){
+    this._isMounted  = true;
+    this._isMounted && this.getInformation();
+   
+  }
+
+  componentWillUnmount(){
+    this._isMounted = false;
+  }
+
+  async getInformation(){
+    Promise.all([
+        fetch(`api/users`)
+    ]).
+    then(([Usernames]) => {
+        return Promise.all([Usernames.json()])
+    }).
+    then(([Usernames])=>{
+        
+      this.setState({
+        usernames: Usernames
+      })
+  })
+
+  
+
+  }
+  
+  
 
   toggleSignUp(){
     const{modal} = this.state
@@ -167,6 +200,9 @@ import {
     }else{
         alert("password not the same!!!")
     }
+
+    
+  
     
     if(user.username!==""&&user.email!==""&&user.password!==""){
         await fetch('api/user', {
@@ -198,7 +234,7 @@ import {
 
     }else{
         this.setState({
-            signUpAlert:       <UncontrolledAlert color="danger" style={{zIndex:"10"}}>
+            signUpAlert:       <UncontrolledAlert style={{position:"fixed", top:"0px", zIndex:"10", width:"100%"}} color="danger" style={{zIndex:"10"}}>
                                 Fields can't be empty
                                </UncontrolledAlert>,
             user: this.emptyUser,
@@ -237,6 +273,7 @@ import {
 
 
   render() {
+    console.log(this.state.usernames)
     console.log(this.state.value)
     console.log(this.props.username)
     const{username, modal,signInModal,usernameVal, emailVal, passwordVal, passwordRptVal,signUpAlert,signInAlert} = this.state

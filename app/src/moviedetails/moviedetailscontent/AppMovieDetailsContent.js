@@ -14,7 +14,7 @@ import { Container, Row,NavLink,
   Col,Card, CardImg, 
   CardText, CardBody,Table,
   CardTitle,CardSubtitle, Button,Modal, ModalHeader, ModalBody, ModalFooter,
-  Nav, NavItem, TabContent, TabPane,CardDeck} from 'reactstrap';
+  Nav, NavItem, TabContent, TabPane,CardDeck,UncontrolledAlert} from 'reactstrap';
 
   import ReactPlayer from 'react-player';
   import addDetails from '../../images/addDetails.png';
@@ -64,7 +64,8 @@ class  AppMovieDetailsContent extends Component{
             movieBackdrops:[],
             similarMovies:[],   //moreDetails
             movieReviews:[],    //reviews
-            movieVideos:[]      //videos
+            movieVideos:[] ,     //videos
+            movieAddedAlert: []
            
           }
           this._isMounted = false;
@@ -74,6 +75,7 @@ class  AppMovieDetailsContent extends Component{
 
           this.handleSubmit = this.handleSubmit.bind(this);
           this.getMovieId = this.getMovieId.bind(this);
+          this.handleAddMovie = this.handleAddMovie.bind(this);
     }
 
     getMovieId(val){
@@ -118,7 +120,37 @@ class  AppMovieDetailsContent extends Component{
     };
 
 
+    async handleAddMovie(){
 
+      const { movieDetails } = this.state
+      
+      const movieContent = {
+        movieTitle: movieDetails[0].title,
+        movieId: movieDetails[0].movieId,
+        movieImage: "http://image.tmdb.org/t/p/original"+movieDetails[0].posterPath
+
+      }
+
+      const username = JSON.parse(localStorage.getItem("user"))
+      const response = await fetch("api/user/"+username);
+      const body = await response.json();
+      const userId = body.id
+      await fetch(`api/users/${userId}/movieList`,{
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+        body: JSON.stringify(movieContent)
+
+      })
+
+      this.setState({
+        movieAddedAlert:  <UncontrolledAlert color="success" style={{zIndex:"10"}}>
+                            <span style={{fontWeight:"bold"}}>{movieDetails[0].title}</span> Added
+                          </UncontrolledAlert>
+      })
+    }
 
 
     componentDidMount(){
@@ -204,7 +236,7 @@ class  AppMovieDetailsContent extends Component{
                 movieCrew, movieBackdrops,
                 moviePoster, similarMovies,
                 movieReviews, movieVideos,
-                 isLoading, activeTab} = this.state;
+                 isLoading, activeTab, movieAddedAlert} = this.state;
                 
             
 
@@ -439,7 +471,7 @@ class  AppMovieDetailsContent extends Component{
                 </div>
                 <div style={{maxHeight:"100%", maxWidth:"100%", overflow:"hidden",marginTop:"5px"}}>
                   <div style={{maxheight:"100%", maxWidth:"100%",display:"inline-block"}}>
-                      <Button color="warning" size="lg" style={{width:"185px"}}><span><img src={addDetails} width="15px" height="15px" alt="" style={{marginBottom:"2px"}}></img><span style={{ fontWeight:"bold", fontSize:"15px",marginLeft:"5px"}}>Add to Watchlist</span></span></Button>
+                      <Button onClick={()=>{this.handleAddMovie()}} color="warning" size="lg" style={{width:"185px"}}><span><img src={addDetails} width="15px" height="15px" alt="" style={{marginBottom:"2px"}}></img><span style={{ fontWeight:"bold", fontSize:"15px",marginLeft:"5px"}}>Add to Watchlist</span></span></Button>
                   </div>
                   
                   <div style={{maxHeight:"100%", maxWidth:"100%", display:"inline-block", marginLeft:"12px"}}>
@@ -856,7 +888,9 @@ class  AppMovieDetailsContent extends Component{
         
 
             return(
+
                 <div className="containerDiv" style={{background:"#1c1b1b" ,maxHeight:"100%"}}>
+                  {movieAddedAlert}
                   <Container>
                     <div className="backgroundUpcoming" style={{maxHeight:"100%"}}>
                       {firstRow}

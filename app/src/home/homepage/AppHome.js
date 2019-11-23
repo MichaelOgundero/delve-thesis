@@ -608,7 +608,9 @@ class AppHome extends Component{
 
       <div className="page-container" style={{background:"#fec106"}}>
         <div className="content-wrap">
+
           <Appbar handleSearch={this.handleSearch} username={this.props.username}/>
+        
           <div>
             <style>
             {

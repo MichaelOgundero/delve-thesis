@@ -24,3 +24,17 @@ public interface MovieListRepository extends JpaRepository<MovieList, Long>{
     //Optional<Comment> findByIdAndPostId(Long id, Long postId);
 
  }
+
+     /*@PostMapping("/newMovie")
+    ResponseEntity<MovieList> addMovie(@Valid @RequestBody MovieList movieList){
+        
+        List<String> movieIds = new ArrayList<String>();
+        for(MovieList existingIds: movieListRepository.findAll()){
+            movieIds.add(existingIds.getMovieId());
+        }
+        if(!movieIds.contains(movieList.getMovieId())){
+            movieListRepository.save(movieList);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        }
+        return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    }*/

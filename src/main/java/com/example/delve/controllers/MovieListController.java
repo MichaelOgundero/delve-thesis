@@ -46,12 +46,23 @@ public class MovieListController{
 
 
     @PostMapping("/users/{userId}/movieList")
-    public MovieList createMovieList(@PathVariable  Long userId,
+    public ResponseEntity<?> createMovieList(@PathVariable  Long userId,
                                     @Valid @RequestBody MovieList movieList){
-        return userRepository.findById(userId).map(user -> {    //find user by the id in the userRepository save it to a variable "user"
-            movieList.setUserEntity(user);                      //then set the saved "user" to be the userEntity of the movieList class ur creating, basiccally adding the movie the the movielist of the user
-            return movieListRepository.save(movieList);         //then save the movieList to the repo
-        }).orElseThrow(() -> new ResourceNotFoundException("userID "+ userId + " not found"));
+        
+            List<String> movieIds = new ArrayList<String>();
+            for(MovieList existingIds: movieListRepository.findByUserEntityId(userId)){
+                movieIds.add(existingIds.getMovieId());
+            }
+            if(!movieIds.contains(movieList.getMovieId())){
+                return userRepository.findById(userId).map(user -> {    //find user by the id in the userRepository save it to a variable "user"
+                movieList.setUserEntity(user);                      //then set the saved "user" to be the userEntity of the movieList class ur creating, basiccally adding the movie the the movielist of the user
+                movieListRepository.save(movieList);         //then save the movieList to the repo
+                return ResponseEntity.status(HttpStatus.CREATED).body(movieList);
+            }).orElseThrow(() -> new ResourceNotFoundException("userID "+ userId + " not found"));
+            }
+
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+           
 
     }
 
@@ -75,7 +86,7 @@ public class MovieListController{
                                                  @PathVariable Long movieListId){
         return movieListRepository.findByIdAndUserEntityId(movieListId, userId).map(movie -> {  //find the movie by the userid and the movieId, then delete from the movieList repo
             movieListRepository.delete(movie);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.status(HttpStatus.GONE).build();
             
         }).orElseThrow(() -> new ResourceNotFoundException("movie not found with id " + movieListId + "and postId " + userId));
     }
@@ -100,9 +111,9 @@ public class MovieListController{
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
-    }
+    }*/
 
-    @DeleteMapping("/movieList/{id}")
+    /*@DeleteMapping("/movieList/{id}")
         public ResponseEntity<MovieList> deleteMovie(@PathVariable Long id){
             movieListRepository.deleteById(id);
 
