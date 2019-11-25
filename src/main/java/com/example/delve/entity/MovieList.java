@@ -1,37 +1,18 @@
 package com.example.delve.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.io.Serializable;
-import java.util.Set;
-
-
 @Entity(name = "Movie_List")
 public class MovieList{
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-   
     @NotNull
     private String movieTitle;
 
@@ -44,20 +25,12 @@ public class MovieList{
     private Double movieRating;
     private String movieDescription;
 
-
-
-   
-  
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private UserEntity userEntity;
 
-    //@ManyToOne(fetch = FetchType.LAZY, targetEntity = UserEntity.class)
-    //@JoinColumn(name = "UserIdentityID", nullable = false,referencedColumnName = "id")
-    //@JsonBackReference
-    //private UserEntity userEntity;
 
     public MovieList(){}
 

@@ -6,6 +6,7 @@ import AppMovieDetails from './moviedetails/AppMovieDetails.js'
 import AppSignUp from './signup/AppSignUp.js'
 import AppSignIn from './signin/AppSignIn.js'
 import UserPage from './userpage/UserPage.js'
+import ErrorBoundary from './errorhandling/ErrorBoundary.js'
 
 import { Switch, Route } from 'react-router-dom';
 
@@ -104,13 +105,15 @@ class App extends Component{
     return(
       <div>
          <Switch>
-          <Route exact path='/' component={this.getHome}></Route>
+           <ErrorBoundary>
+           <Route exact path='/' component={this.getHome}></Route>
           <Route exact path='/todays50' component={this.getTodaysFifty}></Route>
           <Route exact path= "/search" component={this.getSearch} ></Route>
           <Route exact path= "/signIn" component={this.getSignIn} ></Route>
           <Route exact path= "/signUp" component = {this.getSignUp}></Route>
           <Route exact path= "/details" component={this.getDetails} ></Route>
           <Route exact path= "/userpage" component={this.getUserPage}></Route>
+          </ErrorBoundary>
         </Switch>
       </div>
     )

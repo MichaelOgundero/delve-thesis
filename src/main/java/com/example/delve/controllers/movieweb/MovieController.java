@@ -43,10 +43,6 @@ public class MovieController {
     LocalDate current = null;
 
     Random random = new Random();
-    /*
-     * int page = random.nextInt((500 - 1) + 1) + 1; int result =
-     * random.nextInt((19-0)+1) + 0;
-     */
     MovieDTO movieDTO = null;
 
     TodaysFiftyDTO genreSection = new TodaysFiftyDTO();
@@ -69,8 +65,6 @@ public class MovieController {
     }
 
     List<Integer> listIds = getGenres();
-    // TodaysFiftyDTO xxx = new TodaysFiftyDTO();
-    // List<Integer> pageMax = xxx.getPageMax((genreIDs[listIds.get(0)]));
 
     @GetMapping("/nowPlayingCarousel")
     public List<NowPlayingCarouselResult> getNowPlayingCarousel() throws InterruptedException {
