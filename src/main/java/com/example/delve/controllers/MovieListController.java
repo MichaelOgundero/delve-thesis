@@ -32,6 +32,22 @@ public class MovieListController{
         return movieListRepository.findByUserEntityId(userId);
     }
 
+    @GetMapping("allmovies/{movieId}")
+    public Collection<MovieList> getMoviesWithId(@PathVariable String movieId){
+        return movieListRepository.findByMovieId(movieId);
+    }
+
+    @GetMapping("users/{userId}/movieList/{movieId}")
+    public ResponseEntity<MovieList> getMovieWithId(@PathVariable Long userId, @PathVariable String movieId) {
+       // return movieListRepository.findByMovieIdAndUserEntityId(movieId, userId);
+
+        return movieListRepository.findByMovieIdAndUserEntityId(movieId, userId).map(movie -> {  //find the movie by the userid and the movieId, then delete from the movieList repo
+        
+            return ResponseEntity.status(HttpStatus.FOUND).body(movie);
+            
+        }).orElseThrow(() -> new ResourceNotFoundException("movie not found with id " + movieId + "and postId " + userId));
+    }
+    
 
     @PostMapping("/users/{userId}/movieList")
     public ResponseEntity<?> createMovieList(@PathVariable  Long userId,

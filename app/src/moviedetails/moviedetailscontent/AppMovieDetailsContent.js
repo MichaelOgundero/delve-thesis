@@ -18,8 +18,11 @@ import { Container, Row,NavLink,
 
   import ReactPlayer from 'react-player';
   import addDetails from '../../images/addDetails.png';
+  
 
   import detailStar from '../../images/detailStar.png'
+  import userStar from '../../images/userStar.png'
+  import yourStar from '../../images/yourStar.png'
 
 
 
@@ -65,7 +68,10 @@ class  AppMovieDetailsContent extends Component{
             similarMovies:[],   //moreDetails
             movieReviews:[],    //reviews
             movieVideos:[] ,     //videos
-            movieAddedAlert: []
+            movieAddedAlert: [],
+            userRatings: [],
+            userId: 0,
+            yourRatings: []
            
           }
           this._isMounted = false;
@@ -76,6 +82,8 @@ class  AppMovieDetailsContent extends Component{
           this.handleSubmit = this.handleSubmit.bind(this);
           this.getMovieId = this.getMovieId.bind(this);
           this.handleAddMovie = this.handleAddMovie.bind(this);
+          this.getUserRatings = this.getUserRatings.bind(this);
+          this.getYourRating = this.getYourRating.bind(this);
     }
 
     getMovieId(val){
@@ -179,20 +187,35 @@ class  AppMovieDetailsContent extends Component{
         //this.props.seeMoreValue
         console.log("this is prop" + this.props.seeMoreValue)
         const movieID = this.props.seeMoreValue
+
+        const username = JSON.parse(localStorage.getItem("user"))
+        const response = await fetch('/api/user/'+username);
+        const body = await response.json();
+
+        this.setState({
+          userId: body.id
+        })
+
+        console.log(this.state.userId)
+
+
    
         Promise.all([
             fetch(`api/detail/${movieID}`),
             fetch(`api/moreDetails/${movieID}`),
             fetch(`api/reviews/${movieID}`),
-            fetch(`api/videos/${movieID}`)
+            fetch(`api/videos/${movieID}`),
+            fetch(`api/allmovies/${movieID}`),
+            fetch(`api/users/${this.state.userId}/movieList/${movieID}`)
 
         ]).
 
-        then(([details,moreDetails, reviews, videos]) => {
-            return Promise.all([details.json(), moreDetails.json(),reviews.json(),videos.json()])
+        then(([details,moreDetails, reviews, videos, userRating, yourRating]) => {
+         
+            return Promise.all([details.json(), moreDetails.json(),reviews.json(),videos.json(), userRating.json(), yourRating.json()])
         }).
         
-        then(([details, moreDetails, reviews, videos])=>{
+        then(([details, moreDetails, reviews, videos, userRating, yourRating])=>{
             this._isMounted && this.setState({
                 movieDetails: details,
                 movieCast: moreDetails[0].castList,
@@ -202,12 +225,45 @@ class  AppMovieDetailsContent extends Component{
                 similarMovies: moreDetails[0].similarResults,
                 movieReviews: reviews,
                 movieVideos: videos,
+                userRatings: userRating,
+                yourRatings: yourRating,
                 isLoading: false
               });
+              console.log(this.state.yourRatings);
         })
-
-     
     
+      }
+
+      getYourRating(){
+        const {yourRatings} = this.state
+    
+            let rating;
+            
+              if(yourRatings.hasOwnProperty('movieRating')){
+                if(yourRatings.movieRating!==null){
+                  rating = yourRatings.movieRating;
+                  return rating*2
+                }
+              }
+            
+        return "N/A"
+      }
+
+      getUserRatings(){
+        const {userRatings} = this.state
+        let value = 0;
+        const movieLength = userRatings.length
+        if(movieLength !== 0){
+          userRatings.forEach(movie => {
+            if(movie.movieRating !==null){
+              value = value + movie.movieRating
+            }
+          });
+          const movieAverage = (value/movieLength)*2;
+          return movieAverage;
+        }
+        return "N/A"
+
       }
 
       getActive(val){
@@ -238,8 +294,7 @@ class  AppMovieDetailsContent extends Component{
                 movieReviews, movieVideos,
                  isLoading, activeTab, movieAddedAlert} = this.state;
                 
-            
-
+           this.getUserRatings()
             
             if(isLoading){
               return(
@@ -437,19 +492,62 @@ class  AppMovieDetailsContent extends Component{
                       {director}
                     </CardSubtitle>
                   </div>
-                  <div style={{display:"inline-block", maxWidth:"100%", maxHeight:"100%", float:"right", marginRight:"7px"}}>
+                </div>
+       
+                <div  style={{maxHeight:"100%", maxWidth:"100%", paddingBottom:"15px"}}>
+
+                  <div style={{display:"inline-block", maxWidth:"100%", maxHeight:"100%", marginRight:"7px"}}>
+                   <div style={{display:"inline-block", maxHeight:"100%", maxWidth:"100%"}}>
+                      <CardSubtitle style={{color:"#FFFFFF", maxWidth:"100%", maxHeight:"100%", marginLeft:"5px",marginTop:"5px", fontSize:"15px",fontWeight:"bold"}}>
+                        Critics Rating:
+                      </CardSubtitle>
+                    </div>
                     <div style={{display:"inline-block", maxHeight:"100%", maxWidth:"100%"}}>
-                      <CardImg src={detailStar} alt="" style={{width:"32px",height:"32px",padding:"0",marginBottom:"11px",background:"#1c1b1b"}}>
+                      <CardImg src={detailStar} alt="" style={{width:"20px",height:"20px",padding:"0",marginBottom:"10px",background:"#1c1b1b"}}>
                       </CardImg>
                     </div>
                     <div style={{display:"inline-block", maxHeight:"100%", maxWidth:"100%"}}>
-                      <CardSubtitle style={{color:"#FFFFFF", maxWidth:"100%", maxHeight:"100%",padding:"0", marginLeft:"2px",background:"#1c1b1b", fontWeight:"bold", fontSize:"20px"}}>
+                      <CardSubtitle style={{color:"#FFFFFF", maxWidth:"100%", maxHeight:"100%",padding:"0", marginLeft:"2px",background:"#1c1b1b", fontWeight:"bold", fontSize:"17px"}}>
                         {movie.score}
                       </CardSubtitle>
                     </div>
                   </div>
+                  <div style={{display:"inline-block", maxWidth:"100%", maxHeight:"100%", marginRight:"7px"}}>
+                    <div style={{display:"inline-block", maxHeight:"100%", maxWidth:"100%"}}>
+                      <CardSubtitle style={{color:"#FFFFFF", maxWidth:"100%", maxHeight:"100%", marginLeft:"5px",marginTop:"5px", fontSize:"15px",fontWeight:"bold"}}>
+                        User Rating:
+                      </CardSubtitle>
+                    </div>
+                    <div style={{display:"inline-block", maxHeight:"100%", maxWidth:"100%"}}>
+                      <CardImg src={userStar} alt="" style={{width:"20px",height:"20px",padding:"0",marginBottom:"10px",background:"#1c1b1b"}}>
+                      </CardImg>
+                    </div>
+                    <div style={{display:"inline-block", maxHeight:"100%", maxWidth:"100%"}}>
+                      <CardSubtitle style={{color:"#FFFFFF", maxWidth:"100%", maxHeight:"100%",padding:"0", marginLeft:"2px",background:"#1c1b1b", fontWeight:"bold", fontSize:"17px"}}>
+                        {this.getUserRatings()}
+                      </CardSubtitle>
+                    </div>
+                  </div>
+                  <div style={{display:"inline-block", maxWidth:"100%", maxHeight:"100%", marginRight:"7px"}}>
+                    <div style={{display:"inline-block", maxHeight:"100%", maxWidth:"100%"}}>
+                      <CardSubtitle style={{color:"#FFFFFF", maxWidth:"100%", maxHeight:"100%", marginLeft:"5px",marginTop:"5px", fontSize:"15px",fontWeight:"bold"}}>
+                        Your Rating:
+                      </CardSubtitle>
+                    </div>
+                    <div style={{display:"inline-block", maxHeight:"100%", maxWidth:"100%"}}>
+                      <CardImg src={yourStar} alt="" style={{width:"20px",height:"20px",padding:"0",marginBottom:"10px",background:"#1c1b1b"}}>
+                      </CardImg>
+                    </div>
+                    <div style={{display:"inline-block", maxHeight:"100%", maxWidth:"100%"}}>
+                      <CardSubtitle style={{color:"#FFFFFF", maxWidth:"100%", maxHeight:"100%",padding:"0", marginLeft:"2px",background:"#1c1b1b", fontWeight:"bold", fontSize:"17px"}}>
+                        {this.getYourRating()}
+                      </CardSubtitle>
+                    </div>
+                  </div>
+                  </div>
 
-                </div>
+
+                
                 <div style={{ maxHeight:"285px", maxWidth:"100%", overflow:"hidden"}}>
                   <div style={{overflow:"hidden", float:"left", maxHeight:"100%", maxWidth:"100%", marginRight:"10px"}}>
                     <CardImg src={posterPathValue} alt="" title={movie.title} style={{height:"278px", width:"185px", maxHeight:"278px", maxWidth:"185px",border:"4px solid black"}}/>

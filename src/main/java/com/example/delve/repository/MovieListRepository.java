@@ -13,7 +13,7 @@ public interface MovieListRepository extends JpaRepository<MovieList, Long>{
 
 	Collection<MovieList> findByUserEntityId(Long userId);
     Optional<MovieList> findByIdAndUserEntityId(Long id, Long userId);
-    
-
+    Collection<MovieList> findByMovieId(String movieId);
+    Optional<MovieList> findByMovieIdAndUserEntityId(String movieId, Long userId);
  }
 
