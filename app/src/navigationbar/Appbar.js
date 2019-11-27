@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 
+import FacebookLogin from 'react-facebook-login'
+
 import AppSignUp from '../signup/AppSignUp.js'
 import AppSignIn from '../signin/AppSignIn.js'
 import cinemaChair from '../images/collageMovies2.jpg';
@@ -39,7 +41,8 @@ import {
   emptyUser = {
     username: "",
     email: "",
-    password: ""
+    password: "",
+    profilePicture:null
 }
   constructor(props) {
     super(props);
@@ -60,6 +63,7 @@ import {
       passwordRptVal: "",
       signUpAlert:"",
       signInAlert:"",
+      isLoggedIn: false
      
     };
 
@@ -78,6 +82,9 @@ import {
 
     this.toggleSignIn = this.toggleSignIn.bind(this)
     this.toggleSignUp = this.toggleSignUp.bind(this)
+
+    this.componentClicked = this.componentClicked.bind(this)
+    this.responseFacebook = this.responseFacebook.bind(this)
 
     this._isMounted = false;
 
@@ -271,6 +278,33 @@ import {
     });
   }
 
+  componentClicked(){
+    console.log("clicked")
+  }
+  async responseFacebook(response){
+    const{user} = this.state
+    console.log(response)
+
+    user.username = response.name
+    user.email = response.email
+    user.password = "password"
+    user.profilePicture = response.picture.data.url
+
+    this.setState({
+      isLoggedIn: true
+    })
+
+    await fetch('api/user', {
+      method: "POST",
+      headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: JSON.stringify(user)
+  })
+
+
+  }
 
   render() {
     console.log(this.state.usernames)
@@ -280,7 +314,22 @@ import {
     //this.setUsername();
     console.log(username)
 
+    
+
     //localStorage.setItem("currentUsername", JSON.stringify(""))
+
+    let fbLogin
+    if(this.state.isLoggedIn){
+      localStorage.setItem("user", JSON.stringify(this.state.user.username))
+    }else{
+      fbLogin = (  <FacebookLogin
+        appId="734552237042758"
+        autoLoad={true}
+        fields="name,email,picture"
+        onClick={this.componentClicked}
+        callback={this.responseFacebook} />)
+    }
+
 
     if(localStorage.getItem("user")!== null){
       return(
@@ -437,15 +486,7 @@ import {
                             </div>
                             
                             <div style={{marginTop:"155px", marginLeft:"10px", marginRight:"10px"}}>
-                                <div style={{display:"inline-block"}}>
-                                    <p style={{color:"white", fontWeight:"bold", fontSize:"15px"}}>Or Login with</p>
-                                </div>
-                                <div style={{display:"inline-block", background:"white", padding:"0", margin:"0", marginLeft:"15px"}}>
-                                    <img src={facebookIcon} style={{height:"50px", width:"50px"}}></img>
-                                </div>
-                                <div style={{display:"inline-block", background:"white", padding:"0", margin:"0", marginLeft:"15px"}}>
-                                    <img src={googleIcon} style={{height:"50px", width:"50px"}}></img>
-                                </div>
+                                {fbLogin}
                             </div>
                         </div>
                         <div style={{position: "absolute",display:"inline-block", width:"300px", height:"550px",marginLeft:"10px", marginTop:"25px", background:"#1c1b1b"}}>

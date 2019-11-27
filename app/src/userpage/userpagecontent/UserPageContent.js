@@ -8,6 +8,7 @@ import noPoster from '../../images/imageUnavailable.png';
 import loading from '../../images/theFlashLoading.gif';
 import rateStar from '../../images/rateStar.png';
 import detailStar from '../../images/detailStar.png'
+import noProfilePic from '../../images/noProfilePic.png'
 
 import { Container, Row,NavLink,
     Col,Card, CardImg, 
@@ -29,7 +30,8 @@ class UserPageContent extends Component{
             movieDescription: "",
             movieRating: 1,
             userId: 0,
-            movieId: 0
+            movieId: 0,
+            profilePic: ""
         }
         this._isMounted = false;
         this.toggle = this.toggle.bind(this);
@@ -59,11 +61,20 @@ class UserPageContent extends Component{
         const username = JSON.parse(localStorage.getItem("user"))
         const response = await fetch('/api/user/'+username);
         const body = await response.json();
-        //console.log(body.id);
+        console.log(body.profilePicture);
 
-        this.setState({
-            userId: body.id
-        })
+        if(body.profilePicture === null){
+            this.setState({
+                profilePic: noProfilePic
+            })
+        }else{
+            this.setState({
+                userId: body.id,
+                profilePic: body.profilePicture
+            })
+        }
+
+      
 
         const movieListResponse = await fetch(`api/users/${this.state.userId}/movies`)
         const movieListBody = await movieListResponse.json()
@@ -71,7 +82,7 @@ class UserPageContent extends Component{
         this.setState({
             userMovies: movieListBody
         })
-
+        console.log(this.state.profilePic)
     }
 
     toggle(){
@@ -288,7 +299,9 @@ class UserPageContent extends Component{
                     <div className="backgroundUpcoming" style={{maxHeight:"100%"}}>
                         <div style={{maxHeight:"100%", maxWidth:"100%", background:"#1c1b1b"}}>
                         <div style={{maxHeight:"100%", maxWidth:"100%"}}>
-                        <CardTitle style={{color:"#FFFFFF", maxWidth:"100%", maxHeight:"100%", background:"#1c1b1b", fontWeight:"bold", fontSize:"40px"}}>
+                        <CardImg src={this.state.profilePic} alt="Card image cap" style={{display:"inline-block",border:"4px solid black", height:"50px", width:"50px",maxHeight:"50px", maxWidth:"50px"}} />
+
+                        <CardTitle style={{display:"inline-block",color:"#FFFFFF", maxWidth:"100%", maxHeight:"100%", background:"#1c1b1b", fontWeight:"bold", fontSize:"40px"}}>
                             Hi, {JSON.parse(localStorage.getItem("user"))}
                         </CardTitle>
                         </div>

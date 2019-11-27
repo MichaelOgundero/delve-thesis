@@ -7,6 +7,7 @@
     "react": "^16.10.2",
     "react-cookie": "3.0.4",
     "react-dom": "^16.10.2",
+    "react-facebook-login": "^4.1.1",
     "react-multi-carousel": "^2.2.10",
     "react-player": "^1.13.0",
     "react-router-dom": "^4.3.1",

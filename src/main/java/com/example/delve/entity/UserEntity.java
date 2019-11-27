@@ -27,6 +27,8 @@ public class UserEntity{
 
     @NotNull
     private String password;
+
+    private String profilePicture = null;
     
     public UserEntity(){}
 
