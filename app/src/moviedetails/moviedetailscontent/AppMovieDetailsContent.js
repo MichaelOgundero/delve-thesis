@@ -188,13 +188,15 @@ class  AppMovieDetailsContent extends Component{
         console.log("this is prop" + this.props.seeMoreValue)
         const movieID = this.props.seeMoreValue
 
-        const username = JSON.parse(localStorage.getItem("user"))
-        const response = await fetch('/api/user/'+username);
-        const body = await response.json();
+        if(JSON.parse(localStorage.getItem("user"))!==null){
+          const username = JSON.parse(localStorage.getItem("user"))
+          const response = await fetch('/api/user/'+username);
+          const body = await response.json();
+          this.setState({
+            userId: body.id
+          })
+        }
 
-        this.setState({
-          userId: body.id
-        })
 
         console.log(this.state.userId)
 
@@ -391,7 +393,7 @@ class  AppMovieDetailsContent extends Component{
               function convertDate(date){
                 const year = date.substring(0,4);
                 let month = date.substring(5,7);
-                const day = date.substring(9,10);
+                const day = date.substring(8,10);
                 const dateConverted = ""
                 if(month === "01"){
                   month = "January"
@@ -896,10 +898,50 @@ class  AppMovieDetailsContent extends Component{
                                       <CardSubtitle style={{display:"inline-block", position: 'absolute', top: '15px', left: '15px', color:"#FFFFFF", fontSize:"32px"}}>{movieName} Images</CardSubtitle>
                                       <button className="close"  style={{display:"inline-block", position: 'absolute', top: '15px', right: '15px', }} onClick={()=>{this.toggleImg()}}><span style={{color:"#FFFFFF"}}>&times;</span></button>
                                     </div>
+        if(movieBackdrops.length===0){
+            card.push(
+              <div style={{paddingTop:"10px"}} >
+                <CardSubtitle style={{color:"#FFFFFF", fontWeight:"bold", fontSize:"20px", fontStyle:"italic"}}>No Images available</CardSubtitle>
+              </div>
+            )
+        }else{
+        if(movieBackdrops.length<4){
+          for(let i=0;i<movieBackdrops.length;i++){
+         
+            card.push(
+            
+  
+              <div style={{paddingTop:"10px"}} key={i}>
+                
+                  <CardImg onClick={()=>{this.getActive(i)}} style={{cursor:"pointer",maxHeight:"104px", maxWidth:"185px",height:"104px", width:"185px",border:"2px solid black", paddingLeft:"5px", paddingRight:"5px"}} src={`http://image.tmdb.org/t/p/original${movieBackdrops[i].file_path}`} alt="Card image cap"/>
+                  
+                  <div >
+              
+                    <Modal isOpen={modal} toggle={this.toggleImg} external={externalCloseBtn} style={{ position:"relative", top:"20%"}} size="lg">
+                    
+                      <ModalBody style={{maxHeight:"100%", maxWidth:"100%",height:"100%", width:"100%", margin:"0", padding:"0", boxSizing:"border-box"}}>
+                      <CardImg  style={{maxHeight:"100%", maxWidth:"100%",height:"100%", width:"100%", margin:"0", padding:"0", boxSizing:"border-box"}} src={imageModal}/>
+  
+                      </ModalBody>
+                    </Modal>
+                  </div>
+              
+              </div>
+            
+             
+  
+            )
+          }
+
+          return                             <CardDeck style={{ maxHeight:"100%", maxWidth:"100%", margin:"auto"}}>
+                                              {card}
+                                              </CardDeck>
+        }            
         for(let i=0;i<movieBackdrops.length;i++){
          
           card.push(
-            
+          
+
             <div style={{paddingTop:"10px"}} key={i}>
               
                 <CardImg onClick={()=>{this.getActive(i)}} style={{cursor:"pointer",maxHeight:"104px", maxWidth:"185px",height:"104px", width:"185px",border:"2px solid black", paddingLeft:"5px", paddingRight:"5px"}} src={`http://image.tmdb.org/t/p/original${movieBackdrops[i].file_path}`} alt="Card image cap"/>
@@ -916,10 +958,14 @@ class  AppMovieDetailsContent extends Component{
                 </div>
             
             </div>
+          
+           
 
           )
-        }
-          return card
+        }}
+          return             <Carousel  centerMode={true} arrows={true}  infinite={true} responsive={responsive} autoPlay={this.props.deviceType !== "mobile" ? true : false}  autoPlaySpeed={3500} autoPlay={autoPlay}>
+                              {card}
+                              </Carousel>
       }
 
       const Videos =()=>{
@@ -928,6 +974,16 @@ class  AppMovieDetailsContent extends Component{
                                   <CardSubtitle style={{display:"inline-block", position: 'absolute', top: '15px', left: '15px', color:"#FFFFFF", fontSize:"32px"}}>{movieName} Videos</CardSubtitle>
                                   <button className="close"  style={{display:"inline-block", position: 'absolute', top: '15px', right: '15px', }} onClick={()=>{this.toggleVid()}}><span style={{color:"#FFFFFF"}}>&times;</span></button>
                                 </div>
+
+        if(movieVideos.length===0){
+          card.push(
+            <div style={{paddingTop:"10px"}} >
+             <CardSubtitle style={{color:"#FFFFFF", fontWeight:"bold", fontSize:"20px", fontStyle:"italic"}}>No videos available</CardSubtitle>
+
+            </div>
+          )
+        }else{
+
         for(let i=0;i<movieVideos.length;i++){
           let ytKey = movieVideos[i].key;
          
@@ -935,7 +991,7 @@ class  AppMovieDetailsContent extends Component{
             
             <div style={{paddingTop:"10px"}} key={i}>
               
-              <div  className="player-wrapper" style={{overflow:"hidden", maxHeight:"104px", maxWidth:"185px", height:"104px", width:"185px"}}>
+              <div  className="player-wrapper" style={{overflow:"hidden", maxHeight:"132px", maxWidth:"235px", height:"132px", width:"235px"}}>
                     <ReactPlayer
                       url= {`https://www.youtube.com/watch?v=${ytKey}`}
                       class="react-player"
@@ -943,7 +999,7 @@ class  AppMovieDetailsContent extends Component{
                       width="100%"
                       height = "100%"
                       light = {true}  //auto play
-                      style={{border:"2px solid black", paddingLeft:"5px", paddingRight:"5px"}}
+                      style={{ paddingLeft:"5px", paddingRight:"5px"}}
                       onReady={()=>{this.getActiveVideo(i)}}
                     />
               </div>  
@@ -976,6 +1032,7 @@ class  AppMovieDetailsContent extends Component{
             </div>
           )
         }
+      }
           return card
         
       }
@@ -1143,11 +1200,10 @@ class  AppMovieDetailsContent extends Component{
                         </div>
                         <div style={{maxHeight:"100%", maxWidth:"94.9%", marginTop:"10px",background:"#1c1b1b", marginLeft:"3%"}}>
                           <div  style={{background:"#1c1b1b", maxHeight:"100%", maxWidth:"100%", margin:"auto"}}> 
-                            <Carousel  centerMode={true} arrows={true}  infinite={true} responsive={responsive} autoPlay={this.props.deviceType !== "mobile" ? true : false}  autoPlaySpeed={3500} autoPlay={autoPlay}>
                          
                               {Stills()}
                             
-                            </Carousel>
+                            
                           </div>
                         </div>
                       </div>
@@ -1161,11 +1217,9 @@ class  AppMovieDetailsContent extends Component{
                         </div>
                         <div style={{maxHeight:"100%", maxWidth:"94.9%", marginTop:"10px",background:"#1c1b1b", marginLeft:"3%"}}>
                           <div  style={{background:"#1c1b1b", maxHeight:"100%", maxWidth:"100%", margin:"auto"}}> 
-                            <Carousel  centerMode={true} arrows={true}  infinite={true} responsive={responsive} autoPlay={this.props.deviceType !== "mobile" ? true : false}  autoPlaySpeed={3250} autoPlay={autoPlayVid}>
-                         
+                            <CardDeck style={{ maxHeight:"100%", maxWidth:"100%", margin:"auto"}}>
                               {Videos()}
-                            
-                            </Carousel>
+                            </CardDeck>                         
                           </div>
                         </div>
                       </div>

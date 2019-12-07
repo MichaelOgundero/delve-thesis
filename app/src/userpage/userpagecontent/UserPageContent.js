@@ -1,4 +1,7 @@
 import React,  {Component, useState} from 'react';
+
+
+
 import { NavLink as Link} from 'react-router-dom';
 
 import './UserPageContent.css'
@@ -16,6 +19,7 @@ import { Container, Row,NavLink,
     CardTitle,CardSubtitle, Button, Modal 
     ,Form, FormGroup, Label, Input, FormText,ModalBody} from 'reactstrap';
 
+let movieId;
 class UserPageContent extends Component{
 
     constructor(props){
@@ -44,7 +48,26 @@ class UserPageContent extends Component{
         this.handleRating = this.handleRating.bind(this)
         this.getMovieId = this.getMovieId.bind(this);
         this.handleRateMovie = this.handleRateMovie.bind(this);
+
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.getMovieId = this.getMovieId.bind(this);
     }
+
+    getMovieID(val){
+        movieId =val
+        
+        console.log(movieId)
+       this.handleSubmit()
+      }
+      
+      handleSubmit(){
+        
+        this.props.handleSeeMore(movieId)
+    
+      console.log("movie id sent"+ movieId)
+      
+    
+      }
 
     componentDidMount(){
         this._isMounted  = true;
@@ -65,7 +88,8 @@ class UserPageContent extends Component{
 
         if(body.profilePicture === null){
             this.setState({
-                profilePic: noProfilePic
+                profilePic: noProfilePic,
+                userId: body.id
             })
         }else{
             this.setState({
@@ -211,14 +235,18 @@ class UserPageContent extends Component{
                             <CardImg style={{maxHeight:"138px", maxWidth:"92px",height:"138px", width:"92px", border:"4px solid black"}} src={`${poster}`} alt="Card image cap"></CardImg>
                           </td>
                           <td style={{ width:"400px", maxWidth:"400px", display:"table-cell", verticalAlign:"middle"}}>
-                            <CardSubtitle style={{color:"#FFFFFF", fontSize:"16px"}}>{`${userMovies[i].movieTitle}`}</CardSubtitle>
+                            <CardSubtitle style={{color:"#FFFFFF", fontSize:"16px", fontWeight:"bold"}}>{`${userMovies[i].movieTitle}`}</CardSubtitle>
                           </td>
                           <td style={{ width:"100px",maxWidth:"100px", display:"table-cell", verticalAlign:"middle"}}>
                             {rating}
                           </td>
                           <td  style={{ width:"300px",maxWidth:"300px", display:"table-cell", verticalAlign:"middle"}}>
                             <div style={{ }}>
-                                <Button size="sm" color="warning" style={{display:"inline-block", marginRight:"5px"}}><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={`${see}`} alt=""></img></span>See More</Button>
+                            <NavLink tag={Link} exact to="/details" style={{display:"inline-block", height:"100%", margin:"0", padding:"0"}}>
+                                <div style={{  display:"inline-block"}}>        
+                                <Button size="sm" onClick={()=>{this.getMovieID(userMovies[i].movieId)}} color="warning" style={{display:"inline-block", marginRight:"5px"}}><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"2px", paddingRight:"2px"}} src={`${see}`} alt=""></img></span>See More</Button>
+                                </div>
+                            </NavLink> 
                                 <Button size="sm" onClick={()=>{this.getActive(i); this.getMovieId(userMovies[i].id)}} color="warning" style={{display:"inline-block", marginLeft:"5px"}}><span> <img max-width="15px" max-height="15px" style={{paddingBottom:"5px", paddingRight:"2px"}} src={`${rateStar}`} alt=""></img></span>Rate Movie</Button>
                             </div>
                           </td>
@@ -299,9 +327,9 @@ class UserPageContent extends Component{
                     <div className="backgroundUpcoming" style={{maxHeight:"100%"}}>
                         <div style={{maxHeight:"100%", maxWidth:"100%", background:"#1c1b1b"}}>
                         <div style={{maxHeight:"100%", maxWidth:"100%"}}>
-                        <CardImg src={this.state.profilePic} alt="Card image cap" style={{display:"inline-block",border:"4px solid black", height:"50px", width:"50px",maxHeight:"50px", maxWidth:"50px"}} />
+                        <CardImg src={this.state.profilePic} alt="Card image cap" style={{display:"inline-block",border:"4px solid black", height:"50px", width:"50px",maxHeight:"50px", maxWidth:"50px", marginBottom:"20px"}} />
 
-                        <CardTitle style={{display:"inline-block",color:"#FFFFFF", maxWidth:"100%", maxHeight:"100%", background:"#1c1b1b", fontWeight:"bold", fontSize:"40px"}}>
+                        <CardTitle style={{display:"inline-block",color:"#FFFFFF", maxWidth:"100%", maxHeight:"100%", background:"#1c1b1b", fontWeight:"bold", fontSize:"40px", marginLeft:"5px"}}>
                             Hi, {JSON.parse(localStorage.getItem("user"))}
                         </CardTitle>
                         </div>
@@ -324,6 +352,7 @@ class UserPageContent extends Component{
                       </div>
                     </div>
                   </Container>
+
             </div>
         )
     }

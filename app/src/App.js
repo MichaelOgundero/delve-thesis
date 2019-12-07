@@ -92,7 +92,7 @@ class App extends Component{
 
   getUserPage(){
     return(
-      <UserPage getSearchValue={this.getSearchValue}/>
+      <UserPage getSearchValue={this.getSearchValue} getSeeMoreValue={this.getSeeMoreValue}/>
     )
   }
   

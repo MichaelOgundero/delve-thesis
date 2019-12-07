@@ -321,6 +321,7 @@ import {
     let fbLogin
     if(this.state.isLoggedIn){
       localStorage.setItem("user", JSON.stringify(this.state.user.username))
+
     }else{
       fbLogin = (  <FacebookLogin
         appId="734552237042758"
@@ -563,18 +564,6 @@ import {
                                         <Button color="warning" size="lg" type="submit">Register</Button>
                                     </div>
                                 </Form>
-                            </div>
-                            
-                            <div style={{marginTop:"50px", marginLeft:"10px", marginRight:"10px"}}>
-                                <div style={{display:"inline-block"}}>
-                                    <p style={{color:"white", fontWeight:"bold", fontSize:"15px"}}>Or Login with</p>
-                                </div>
-                                <div style={{display:"inline-block", background:"white", padding:"0", margin:"0", marginLeft:"15px"}}>
-                                    <img src={facebookIcon} style={{height:"50px", width:"50px"}}></img>
-                                </div>
-                                <div style={{display:"inline-block", background:"white", padding:"0", margin:"0", marginLeft:"15px"}}>
-                                    <img src={googleIcon} style={{height:"50px", width:"50px"}}></img>
-                                </div>
                             </div>
 
 
