@@ -296,6 +296,7 @@ class AppTodaysFiftyContent extends Component{
       if(localStorage.getItem("currentDate")===null){
         localStorage.setItem("currentDate", JSON.stringify(todaysDate))
       }*/
+      
       if(todaysDate === JSON.parse(localStorage.getItem("currentDate"))){
         if(localStorage.getItem("dbGenreOne")===null){
 
