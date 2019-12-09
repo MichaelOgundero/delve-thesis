@@ -1,5 +1,5 @@
 import React,  {Component, useState} from 'react';
-import { NavLink as Link} from 'react-router-dom';
+import { NavLink as Link, withRouter } from 'react-router-dom';
 import classnames from 'classnames';
 
 import './AppMovieDetailsContent.css';
@@ -186,6 +186,9 @@ class  AppMovieDetailsContent extends Component{
         //420809 malfic
         //this.props.seeMoreValue
         console.log("this is prop" + this.props.seeMoreValue)
+        if(this.props.seeMoreValue === null || this.props.seeMoreValue===undefined||this.props.seeMoreValue===""){
+          this.props.history.push("/")
+        }
         const movieID = this.props.seeMoreValue
 
         if(JSON.parse(localStorage.getItem("user"))!==null){
@@ -1248,4 +1251,4 @@ class  AppMovieDetailsContent extends Component{
 
 }
 
-export default AppMovieDetailsContent;
+export default withRouter(AppMovieDetailsContent);
