@@ -11,7 +11,7 @@
     "react-multi-carousel": "^2.2.10",
     "react-player": "^1.13.0",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "3.2.0",
+    "react-scripts": "3.4.4",
     "reactstrap": "6.5.0",
     "redux": "^4.0.4",
     "video-react": "^0.14.1"
